@@ -1,0 +1,85 @@
+<project name="" default="all" >
+    <import file="${development.base}/base-build.xml" />
+    <property file="${development.base}/build.properties" />
+
+    <target name="refresh.jboss" >
+        <fail unless="jboss.domain.base.dir" message="refresh.jboss:  need to pass 'jboss.domain.base.dir' property" />
+        <fail unless="domain.config.file" message="refresh.jboss:  need to pass 'domain.config.file' property" />
+        <echo message="***** refresh.jboss :  will now call the following target :  local.stop.master, clone.jboss, and local.start.master" />
+        <antcall target="local.stop.master" />
+        <antcall target="clone.jboss" >
+            <param name="jboss.domain.base.dir" value="${jboss.domain.base.dir}"/>
+        </antcall>
+        <delete dir="${project.module.path}" failonerror="false" />
+        <mkdir dir="${project.module.path}" />
+        <copy file="${development.base}/base/src/main/resources/jboss/layers.conf" todir="${jboss.home}/modules" overwrite="true" />
+        <delete dir="${brick1.path}" />
+        <antcall target="local.start.master" >
+            <param name="jboss.domain.base.dir" value="${jboss.domain.base.dir}"/>
+            <param name="domain.config.file" value="${domain.config.file}"/>
+        </antcall>
+        <sleep seconds="${master.sleep.sec.after.start}" />
+        <antcall target="cli.batch">
+                <param name="cli.source.dir" value="${development.base}/base/src/main/resources/jboss/"/>
+                <param name="cli.to.filter.and.execute" value="jboss-config.cli"/>
+        </antcall>
+    </target>
+
+    <target name="checkServersAndProjectLib">
+        <available file="${jboss.home}/jboss-modules.jar" property="defaultServerExists" />
+        <fail unless="defaultServerExists" message="${jboss.home}/jboss-modules.jar doesn't exist! .... please fix your $JBOSS_HOME environment variable!!" />
+        <condition property="projectLibNotExist">
+            <not>
+                <available file="${project.lib}" />
+            </not>
+        </condition>
+        <condition property="projectLibExists">
+                <available file="${project.lib}" />
+        </condition>
+    </target>
+
+    <!-- create a clone of the JBoss EAP 'domain' config and name it the value of ${jboss.domain.base.dir} -->
+    <target name="clone.jboss" >
+        <fail unless="jboss.domain.base.dir" message="clone.jboss:  need to pass 'jboss.domain.base.dir' property" />
+        <if>
+            <not><available file="${jboss.home}/domain/configuration/domain.xml" /></not>
+            <then>
+                <mkdir dir="${install.home}/lib" />
+                <get src="${eap6.download.url}" dest="${install.home}/lib/"  skipexisting="true" />
+                <unzip src="${install.home}/lib/${eap6.name}" dest="${jboss.home}/.." />
+            </then>
+        </if>
+
+        <delete dir="${jboss.home}/${jboss.domain.base.dir}" />
+        <copy overwrite="true" todir="${jboss.home}/${jboss.domain.base.dir}">
+            <fileset dir="${jboss.home}/domain" />
+        </copy>
+        <antcall target="filter">
+            <param name="source.dir" value="${development.base}/base/src/main/resources/jboss"/>
+            <param name="file.name" value="host.xml"/>
+            <param name="dest.dir" value="${jboss.home}/${jboss.domain.base.dir}/configuration"/>
+        </antcall>
+    </target>
+
+    <!--
+        - assumes the following directory       :   ${basedir}/src/main/resources/hornetq
+        - with the following CLI batch files    :   hornetq-config-down.cli
+                                                    hornetq-config-up.cli
+    -->
+    <target name="hornetq-config" >
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="${basedir}/src/main/resources/hornetq/"/>
+            <param name="cli.to.filter.and.execute" value="hornetq-config-down.cli"/>
+            <param name="management.port" value="${management.port}"/>
+            <param name="cli.fail.on.error" value="false"/>
+        </antcall>
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="${basedir}/src/main/resources/hornetq/"/>
+            <param name="cli.to.filter.and.execute" value="hornetq-config-up.cli"/>
+            <param name="management.port" value="${management.port}"/>
+            <param name="cli.fail.on.error" value="true"/>
+        </antcall>
+    </target>
+
+
+</project>

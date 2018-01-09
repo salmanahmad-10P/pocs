@@ -1,0 +1,38 @@
+<project name="annotation_visibility" default="deploy" basedir=".">
+
+    <property environment="ENV"/>
+    <property name="development.base" value="${ENV.JBOSS_PROJECTS}/pocs" />
+    <import file="${development.base}/build.xml" />
+
+    <target name="deploy" description="" >
+
+        <!-- 1)  maven compile and build all sub-projects -->
+        <exec executable="mvn" failonerror="true" dir="." >
+            <arg value="clean" />
+            <arg value="install"/>
+            <arg value="-Dmaven.test.skip=true"/>
+            <arg value="-P${maven.profile}"/>
+        </exec>
+
+        <!-- 2)  refresh jboss -->
+        <antcall target="refresh.jboss" />
+
+
+        <!-- 3)  copy all module.xml files to $JBOSS_HOME/modules -->
+        <antcall target="filter">
+            <param name="source.dir" value="conf/modules"/>
+            <param name="dest.dir" value="${jboss.home}/modules"/>
+        </antcall>
+
+        <!-- 4)  deploy project's static libraries as JBoss Modules -->
+        <copy file="domain/target/domain-1.0-SNAPSHOT.jar" todir="${project.module.path}/com/redhat/gpe/domain/main" overwrite="true" />
+
+        <!-- 5)  deploy EJB singleton -->
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="bean/conf"/>
+            <param name="cli.to.filter.and.execute" value="project-config.cli"/>
+            <param name="cli.fail.on.error" value="true"/>
+        </antcall>
+    </target>
+
+</project>

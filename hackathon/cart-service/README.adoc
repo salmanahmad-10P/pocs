@@ -1,0 +1,114 @@
+Spring Boot Lab for GPTE Modern App Dev - Microservices development with RHOAR course
+
+== Technologies
+
+=== Service Implementation
+
+. *RestTemplate*
++
+Spring client utiity (included in: org.springframework:spring-web) used to invoke remote RESTful APIs.
+
+=== Testing
+. *WireMock*
++
+Allows for instantiating a mock RESTful endpoint (ie:  cataloge service endpoint) during JUnit testing
+
+. *Mockito*
++
+Allows for instantiating mock beans and implementing functions of those mock beans.
+Used initially in this project when ShoppingCartServiceImpl class is instantiated directly and Spring injection is not available.
+
+. *ReflectionTestUtils*
++
+Spring test utility that has ability to set fields on objects that would normally be set by Spring injection (ie: catalog.service.url in CatalogServiceImpl)
+
+== Documentation
+
+. link:https://projects.spring.io/spring-boot/[Spring Boot home page]
+
+. link:https://github.com/spring-guides[Spring Guides]
+
+. link:https://spring.io/guides/gs/rest-service/[Spring RESTful Service Guide]
+
+. link:https://spring.io/guides/gs/testing-web/[Spring Web Testing]
+
+. link:https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-testing.html[SpringBoot Testing]
+
+. link:https://maven.fabric8.io/[Fabric8 Maven Plugin]
+
+== Procedure
+
+=== Local
+
+. Build 
++
+-----
+$ mvn clean package
+-----
+
+. Execute 1 test function locally:
++
+-----
+$ mvn clean test \
+      "-Dcatalog_service_url=http://0.0.0.0:8888" \
+      "-DITEM_ID=444435" \
+      "-DCATALOG_MOCK_SERVICE_PORT=8888" \
+      "-Dtest=ShoppingCartServiceImplTest#removeSomeFromCartTest"
+-----
+
+=== OCP
+
+. Login into OCP with correct user:
++
+-----
+$ oc login -u user3
+-----
+
+. Set a shell environment variable to your OCP GUID: 
++
+-----
+$ export GUID=5091
+-----
+
+. Create a configmap to set the value to the following env var:  catalog_service_url
++
+-----
+$ oc create configmap cart-config \
+     --from-literal=catalog_service_url="http://catalog-service-catalog-service.apps.$GUID.openshift.opentlc.com"
+-----
+
+. Build and deploy to OCP
++
+-----
+$ mvn clean package -Popenshift fabric8:deploy -DskipTests
+-----
+
+==== Manual Test
+
+. Cart Service sanity check:
++
+-----
+$ curl -v -X GET http://cart-service-slc-cart-service.apps.$GUID.openshift.opentlc.com/cart/sanityCheck
+----- 
+
+. Add item to new cart:
++
+-----
+$ curl -v -X POST http://cart-service-slc-cart-service.apps.$GUID.openshift.opentlc.com/cart/cart/newcart/444435/3
+-----
+
+. Delete item qty from existing cart:
++
+-----
+$ curl -v -X DELETE http://cart-service-slc-cart-service.apps.$GUID.openshift.opentlc.com/cart/wkwer/444435/2
+-----
+
+== Appendix
+
+=== Tricks
+
+. View details of _spring-boot-maven-plugin_:
++
+-----
+$ mvn help:describe -Dplugin=org.springframework.boot:spring-boot-maven-plugin -Ddetail
+-----

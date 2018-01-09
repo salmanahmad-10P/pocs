@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="JBOSS_HOME/modules/org/codehaus/jackson/jackson-mapper-asl/main/jackson-mapper-asl-1.9.2-redhat-2.jar"/>
+	<classpathentry kind="var" path="JBOSS_HOME/modules/org/codehaus/jackson/jackson-core-asl/main/jackson-core-asl-1.9.2-redhat-2.jar"/>
+	<classpathentry kind="var" path="JBOSS_HOME"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>

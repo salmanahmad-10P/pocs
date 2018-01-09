@@ -1,0 +1,23 @@
+if (outcome != success) of /profile=full/subsystem=messaging/hornetq-server=default/jms-queue=OrderQueue/:read-resource
+
+    # add queue references to actual destinations already configured in ha server group
+
+    # Order Queue
+    /profile=full/subsystem=messaging/hornetq-server=default/jms-queue=OrderQueue/:add(entries=["queue/OrderQueue","java:jboss/exported/jms/OrderQueue"],durable=true)
+
+    # Shipping Queue
+    /profile=full/subsystem=messaging/hornetq-server=default/jms-queue=ShippingQueue/:add(entries=["queue/ShippingQueue","java:jboss/exported/jms/ShippingQueue"],durable=true)
+
+    # Filling Stock Queue
+    /profile=full/subsystem=messaging/hornetq-server=default/jms-queue=FillingStockQueue/:add(entries=["queue/FillingStockQueue","java:jboss/exported/jms/FillingStockQueue"],durable=true)
+end-if
+
+
+
+if (outcome == success) of /deployment=gpe-jca-outbound-hornetq.jar:read-resource
+    undeploy ${project.name}.jar --all-relevant-server-groups
+end-if
+
+batch
+    deploy target/${project.name}.jar --name=${project.name}.jar --server-groups=${sy.core.group}
+run-batch

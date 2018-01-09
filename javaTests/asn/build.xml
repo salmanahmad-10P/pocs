@@ -1,0 +1,78 @@
+<!--
+ * 
+ * Copyright (c) 2001 ebXMLsoft Inc.  All rights reserved.
+ *
+-->
+
+<!--
+
+Build file for `ASN XML Schema`
+
+-->
+
+<project name="asn" default="asn-jar" basedir=".">
+
+   <!-- ***************************************************************** -->
+   <!-- INITIALIZATION AND CLEANUP                                        -->
+   <!-- ***************************************************************** -->
+
+
+   <!-- Initialization needed for any target -->
+
+   <target name="init">
+      <property name="castor.dir" value="/opt/castor-1.0M2" />
+      <property name="jdk.dir" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home" />
+      <property name="regexp.dir" value="/opt/jakarta-regexp-1.4" />
+      <property name="src.dir" value="java" />
+      <property name="lib.dir" value="lib" />
+      <property name="asn.dir" value="." />
+   </target>
+
+
+   <!-- Removes all generated files and directories -->
+
+   <target name="clean" depends="init">
+      <deltree dir="${src.dir}" />
+      <deltree dir="${lib.dir}" />
+   </target>
+
+   <!-- Prepares any other build target by creating the expected directory
+        structure. -->
+
+   <target name="prepare" depends="init">
+      <tstamp/>
+      <mkdir dir="${src.dir}" />
+      <mkdir dir="${src.dir}/sample" /> 
+      <mkdir dir="${lib.dir}" />
+   </target>
+
+   <target name="copy" depends="prepare">
+      <copy file="${asn.dir}/database.xml" todir="${src.dir}/sample" />
+      <copy file="${asn.dir}/asn.xml" todir="${src.dir}/sample" />
+      <copy file="${asn.dir}/asn.dtd" todir="${src.dir}/sample" />
+      <copy file="${asn.dir}/asn.xsd" todir="${asn.dir}/schema" />
+   </target>
+
+
+   <!-- ***************************************************************** -->
+   <!--   Generate Java Classes from XML Schema                           -->
+   <!-- ***************************************************************** -->
+
+   <target name="asn-schema" depends="prepare,copy">
+      <java classname="org.exolab.castor.builder.SourceGenerator">
+         <arg line=" -i schema/asn.xsd -f -types j2 -dest java -package asn" />
+      </java>
+   </target>
+
+   <target name="asn-classes" depends="asn-schema">
+      <javac srcdir="${src.dir}/asn" destdir="${src.dir}"
+         includes="*.java"
+         classpath="${castor.dir}/*.jar;${jdk.dir}/tools.jar;${regexp.dir}/jakarta-regexp-1.4.jar" />
+   </target>
+
+   <target name="asn-jar" depends="asn-classes">
+      <jar jarfile="${lib.dir}/asn.jar" basedir="${src.dir}" />
+   </target>  
+
+</project>
+

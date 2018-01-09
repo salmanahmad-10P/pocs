@@ -1,0 +1,42 @@
+<project name="gpe-jca-outbound-hornetq" default="all" >
+
+    <property environment="ENV"/>
+    <property file="build.properties" />
+    <import file="${development.base}/build.xml" />
+
+    <target name="test" >
+        <exec executable="mvn" failonerror="true" dir="." >
+            <arg value="test"/>
+            <arg value="exec:java"/>
+            <arg value="-Dexec.args='new'" />
+            <arg value="-s" />
+            <arg value="${maven.settings.file}" />
+        </exec>
+    </target>
+
+    <target name="build" >
+        <exec executable="mvn" failonerror="true" dir="." >
+            <arg value="clean" />
+            <arg value="install" />
+            <arg value="-Dmaven.test.skip=true" />
+            <arg value="-s" />
+            <arg value="${maven.settings.file}" />
+        </exec>
+    </target>
+
+
+    <target name="all" >
+        <antcall target="build" />
+        <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
+            <arg value="--connect"/>
+            <arg value="--controller=${os.hostname}:${management.port}"/>
+            <arg value="/server-group=sy-core-group/:restart-servers"/>
+        </exec>
+        <math result="org.switchyard.component.resteasy.standalone.port" operand1="8080" operation="+" operand2="${sy.core.base.port.offset}" datatype="int" />
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="conf/switchyard"/>
+            <param name="cli.to.filter.and.execute" value="project.cli"/>
+        </antcall>
+    </target>
+
+</project>

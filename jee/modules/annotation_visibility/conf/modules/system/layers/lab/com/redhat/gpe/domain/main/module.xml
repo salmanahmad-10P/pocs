@@ -1,0 +1,13 @@
+<module xmlns="urn:jboss:module:1.1" name="com.redhat.gpe.domain">
+
+    <resources>
+        <resource-root path="domain-1.0-SNAPSHOT.jar"/>
+    </resources>
+
+    <dependencies>
+
+        <!-- JPA annotations exist in this module's resource, so need dependency on this peristence API module -->
+        <module name="javax.persistence.api" />
+
+    </dependencies>
+</module>

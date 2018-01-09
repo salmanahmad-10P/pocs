@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>ExtJS XML Test</title>
+        <link rel="stylesheet" type="text/css" href="/opt/ext-3.2.0/resources/css/ext-all.css" />
+        <link rel="stylesheet" type="text/css" href="/opt/ext-3.2.0/resources/css/xtheme-gray.css" />
+        <script type="text/javascript" language="javascript" src="/opt/ext-3.2.0/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" language="javascript" src="/opt/ext-3.2.0/ext-all-debug.js"></script>
+        <script type="text/javascript">Ext.BLANK_IMAGE_URL = '/opt/ext-3.2.0/resources/images/default/s.gif';</script>
+        <script type="application/javascript">
+            Ext.onReady(function(){
+                Ext.Ajax.request({
+                    url: '',
+                    //url: 'K02.14.xsd',
+                    scope:  this,
+                    headers: {
+                        'Accept': 'application/xml',
+                        'Accept-Encoding': 'gzip'
+                    },
+                    success :   function(response) {
+                        console.log("loadSchema() success! msgType = "+msgType);
+                    },
+                    failure :   function(response) {
+                        console.log("loadSchema() failure! response = "+response.statusText);
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <p>
+        <div id='update-target'>
+            <a href="#">Click here to load addresses</a>
+            <ol></ol>
+        </div>
+    </p>
+</body>
+</html>

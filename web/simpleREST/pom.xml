@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.redhat.gpte</groupId>
+  <artifactId>simpleREST</artifactId>
+  <packaging>war</packaging>
+  <version>1.0</version>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>javax.enterprise</groupId>
+      <artifactId>cdi-api</artifactId>
+      <version>1.0.0.SP4-redhat-6</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.ejb</groupId>
+      <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+      <version>1.0.2.Final-redhat-3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.spec.javax.ws.rs</groupId>
+      <artifactId>jboss-jaxrs-api_1.1_spec</artifactId>
+      <version>1.0.1.Final-redhat-3</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>redhat-techpreview-all-repository</id>
+      <name>Red Hat Tech Preview repository (all)</name>
+      <url>http://maven.repository.redhat.com/techpreview/all/</url>
+    </repository>
+  </repositories>
+
+</project>

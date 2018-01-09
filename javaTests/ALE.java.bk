@@ -1,0 +1,118 @@
+package com.wavechain.ale;
+
+import	java.io.*;
+import	java.util.*;
+
+import	javax.naming.InitialContext;
+
+import	org.apache.log4j.Logger;
+import	org.w3c.dom.Document;
+
+import	com.wavechain.ale.exception.*;
+import	com.wavechain.interrogatorIO.*;
+
+public class ALE
+{ 
+	private static ALE ale;
+	private static HashMap physicalReaderHash = null;
+
+	static
+	{
+		Properties props = null;
+		BufferedReader bReader = null;
+		
+		try
+		{
+			props = System.getProperties();
+			String wavechainPath = (String)props.get("jboss.server.home.dir");
+			File file = new File(wavechainPath+"/deploy/wavechain.ear", "physical_readers.properties");
+			bReader = new BufferedReader(new FileReader(file));
+			physicalReaderHash = new HashMap();
+			String line = null;
+			while((line = bReader.readLine()) != null)
+			{
+				if(line.startsWith("#"))
+					continue;
+				System.out.println("ALE physicalReader attributes = "+line);
+				StringTokenizer sTokenizer = new StringTokenizer(line);
+				int x = 0;
+				String interrogatorId = "";
+				String[] pReaderAttributes = new String[3];
+				while(sTokenizer.hasMoreTokens())
+				{
+					String token = sTokenizer.nextToken();
+					if(x == 0)
+						interrogatorId = token;
+					else
+						pReaderAttributes[x - 1] = token;
+					x++;
+				}
+				physicalReaderHash.put(interrogatorId, pReaderAttributes);
+			}
+		}
+		catch(Exception x)
+		{
+			x.printStackTrace();
+		}	
+	}
+
+	public static ALE getALE()
+	{
+		if(ale == null)
+			ale = new ALE();	
+		return ale;
+	}
+
+	private ALE()
+	{
+		log = Logger.getLogger(this.getClass());
+		specHash = new HashMap();
+		interrogatorIOHash = new HashMap();
+		log.debug("Inside Constructor");
+	}
+
+
+	private static boolean ioLoad(String interrogatorId)
+	{
+		AleSLSBRemote aleSLSB  = null;
+		try
+		{
+			//InitialContext jndiContext = new InitialContext();
+			//String interrogatorDriver = (String)jndiContext.lookup("java:comp/env/"+interrogatorId);
+			String[] pReaderAttributes = (String[])physicalReaderHash.get(interrogatorId);
+			if(pReaderAttributes == null)
+			{
+				log.error("ALE.ioLoad() No interrogator registered with interrogatorId = "+ interrogatorId);
+				throw new ImplementationException("No interrogator registered with interrogatorId = "+ interrogatorId);
+			}
+			String pReaderIPAddress = pReaderAttributes[0];
+			String pReaderPort = pReaderAttributes[1];
+			String interrogatorDriver = pReaderAttributes[2];
+			
+			log.debug("ioLoad() interrogatorId = "+interrogatorId + " interrogatorDriver = "+interrogatorDriver);
+			Class interrogatorClass = Class.forName(interrogatorDriver);
+			Class[] classArray = new Class[3];
+			classArray[0] = String.class;
+			classArray[1] = String.class;
+			classArray[2] = String.class;
+			java.lang.reflect.Constructor ioConstructor = interrogatorClass.getConstructor(classArray);
+
+			Object[] parameterArray = new String[3];
+			parameterArray[0] = interrogatorId;
+			parameterArray[1] = pReaderIPAddress;
+			parameterArray[2] = pReaderPort;
+			//IInterrogatorIO interrogatorIOThread = (IInterrogatorIO)ioConstructor.newInstance(parameterArray);
+			Thread interrogatorIOThread = (Thread)ioConstructor.newInstance(parameterArray);
+
+			interrogatorIOHash.put(interrogatorId, interrogatorIOThread);
+
+			interrogatorIOThread.start();
+		}
+		catch(Exception x)
+		{
+				x.printStackTrace();
+				return false;
+		}
+		return true;
+	}
+}

@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.redhat.gpe.pocs.soa.cxf.dynamicClient</groupId>
+    <artifactId>dynamicClient</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>com.redhat.gpe.pocs.soa.cxf.dynamicClient.client</groupId>
+  <artifactId>client</artifactId>
+
+  <!-- ****  CHANGE ME ***** -->
+  <properties>
+    <interface_reference>AuditReview</interface_reference>
+    <operation_reference>reviewQuote</operation_reference>
+    <wsdl_location>http://localhost:8080/auditReview/AuditReview?wsdl</wsdl_location>
+
+    <!-- ensure the following matches the value of 'targetNamespace' in Jax-WS service -->
+    <namespace>urn:com.redhat.gpe.auditReview:1.0</namespace>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.16</version>
+        <configuration>
+          <systemPropertyVariables>
+            <interface_reference>${interface_reference}</interface_reference>
+            <operation_reference>${operation_reference}</operation_reference>
+            <wsdl_location>${wsdl_location}</wsdl_location>
+            <namespace>${namespace}</namespace>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <dependencies>
+
+    <dependency>
+        <groupId>com.redhat.gpe.pocs.soa.cxf.dynamicClient.common</groupId>
+        <artifactId>common</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <!-- JaxWS dependencies -->
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      <version>${version.cxf}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-databinding-jaxb</artifactId>
+      <version>${version.cxf}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http</artifactId>
+      <scope>runtime</scope>
+      <version>${version.cxf}</version>
+    </dependency>
+    <dependency>
+      <groupId>wsdl4j</groupId>
+      <artifactId>wsdl4j</artifactId>
+      <scope>runtime</scope>
+      <version>${version.wsdl4j}</version>
+    </dependency>
+
+
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>test</scope>
+      <version>1.0.9</version>
+    </dependency>
+ </dependencies>
+
+</project>

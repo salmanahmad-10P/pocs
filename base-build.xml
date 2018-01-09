@@ -1,0 +1,362 @@
+<project name="base-build" basedir=".">
+
+    <!--
+        REQUIRED properties to leverage targets in this file :
+            1)  jboss.home
+            2)  development.base    :   absolute path to directory where this base-build.xml is found
+    -->
+
+    <property environment="ENV"/>
+    <property file="${development.base}/build.properties" />
+
+    <!-- now using for the use of 'var' tasks in subprojects where MUTABLE properties would be nice -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="${development.base}/lib/ant/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+
+
+    <path id="initial.classpath" >
+        <fileset dir="${temp.pfp.lib.dir}" />
+        <fileset dir="${temp.pfp.services.dir}" >
+            <include name="processFlow*.jar" />
+        </fileset>
+        <fileset dir="${jboss.home}/modules" >
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${pfp.module.path}" >
+            <include name="**/*.jar" />
+        </fileset>
+        <pathelement location="${build.dir}" />
+        <fileset dir="${development.base}/lib" />
+    </path>
+
+    <!--
+          parameters to pass to this target:
+            1) project.path.property        :   optional
+    -->
+    <target name="setClasspath">
+        <!-- check if project.path.property is set and if not then set to empty -->
+        <echo message="setClasspath project.path.property = ${project.path.property} " />
+        <condition property="project.path.is.set" else="false"><isset property="project.path.property" /></condition>
+        <if>
+            <equals arg1="${project.path.is.set}" arg2="false" />
+            <then><var name="project.path.property" value="${development.base}/lib/ant" /></then>
+        </if>
+        <path id="project.classpath" ><fileset dir="${project.path.property}" /></path>
+        <path id="supported.classpath">
+            <path refid="initial.classpath" />
+            <path refid="project.classpath" />
+        </path>
+        <if>
+            <equals arg1="${org.jboss.processFlow.provision.switchyard}" arg2="true" />
+            <then>
+                <path id="classpath">
+                <path refid="supported.classpath" />
+                <fileset dir="${sy.module.path}" ><include name="**/*.jar" /></fileset></path>
+            </then>
+            <else><path id="classpath"><path refid="supported.classpath" /></path></else>
+        </if>
+    </target>
+
+    <!-- http://pub.admc.com/howtos/junit4x/ant-chapt.html -->
+    <target name="setTestClasspath" depends="setClasspath" >
+        <if>
+            <available file="${junit.lib.path}" />
+            <then>
+                <path id="test.classpath">
+                    <path refid="classpath" />
+                </path>
+            </then>
+            <else>
+                <fail message="${junit.lib.path} not found" />
+            </else>
+        </if>
+    </target>
+
+
+
+    <target name="pfp.print.classpath" description="" depends="setClasspath" >
+        <pathconvert pathsep="${line.separator}|   |-- "
+             property="echo.classpath"
+             refid="classpath">
+        </pathconvert>
+        <echo message="classpath = ${echo.classpath}" />
+    </target>
+
+    <!--
+        purpose:  compile java source and create jar archive
+          - filters and replaces all variables from files found in src/main/resources  (recursively)
+          - places those filtered copies into root directory of jar archive
+        usage
+          parameters to pass to this target:
+            1) jar.name
+            2) generate.java.doc (optional: defaults to false)
+            3) include.resources (optional: defaults to true)
+            4) project.path.property (optional: defaults to empty)
+            4) src.path (optional: defaults to src/main/java)
+    -->
+    <target name="jar" depends="setClasspath">
+        <fail unless="jar.name" message="jar:  need to pass 'jar.name' property" />
+        <mkdir dir="${build.dir}/META-INF" />
+        <if><not><isset property="src.path"/></not>
+        <then><property name="src.path" value="src/main/java" /></then></if>
+        <javac debug="true" srcdir="${src.path}" destdir="${build.dir}" >
+            <classpath refid="classpath" />
+        </javac>
+        <if>
+            <available file="src/main/resources" />
+            <then>
+                <if>
+                    <not><equals arg1="${include.resources}" arg2="false" /></not>
+                    <then>
+                        <antcall target="filter">
+                            <param name="source.dir" value="src/main/resources"/>
+                            <param name="dest.dir" value="${build.dir}"/>
+                        </antcall>
+                    </then>
+                </if>
+            </then>
+        </if>
+        <jar jarfile="${build.dir}/${jar.name}.jar" >
+            <fileset dir="${build.dir}" />
+            <manifest>
+                <attribute name="Built-By" value="${os.user}"/>
+                <attribute name="Implementation-Vendor" value="${vendor.name}"/>
+            </manifest>
+        </jar>
+        <if>
+            <equals arg1="${generate.java.doc}" arg2="true" />
+            <then>
+                <javadoc sourcepath="src/main/java" destdir="${build.dir}" >
+                    <classpath refid="classpath" />
+                </javadoc>
+                <jar jarfile="${build.dir}/${jar.name}-javadoc.jar" basedir="${build.dir}" includes="**/*.html, **/*.css, **/*.gif" />
+            </then>
+        </if>
+    </target>
+
+    <!--
+        purpose:  compile java source and create war archive
+          - filters and replaces all variables from files found in src/main/webapp  (recursively)
+          - places those filtered copies into root directory of war archive
+        usage
+          parameters to pass to this target:
+            1) war.name
+            2) project.path.property (optional: defaults to empty)
+            3) lib.path
+
+        note:  jboss-deployment-structure.xml belongs directly in WEB-INF
+    -->
+    <target name="war" depends="setClasspath">
+        <fail unless="war.name" message="war:  need to pass 'war.name' property" />
+        <mkdir dir="${build.dir}/webapp/WEB-INF/classes" />
+        <if><not><isset property="lib.path"/></not>
+        <then><property name="lib.path" value="disregard" /></then></if>
+        <copy todir="${build.dir}/webapp/WEB-INF/lib" failonerror="false" >
+            <fileset dir="${lib.path}" />
+        </copy>
+        <antcall target="filter">
+            <param name="source.dir" value="src/main/webapp"/>
+            <param name="dest.dir" value="${build.dir}/webapp"/>
+        </antcall>
+        <antcall target="filter">
+            <param name="source.dir" value="src/main/resources"/>
+            <param name="dest.dir" value="${build.dir}/webapp/WEB-INF/classes"/>
+        </antcall>
+        <javac debug="true" srcdir="src/main/java" destdir="${build.dir}/webapp/WEB-INF/classes" >
+            <classpath refid="classpath" />
+        </javac>
+        <jar jarfile="${build.dir}/${war.name}.war" >
+            <fileset dir="${build.dir}/webapp" />
+            <manifest>
+                <attribute name="Built-By" value="${os.user}"/>
+                <attribute name="Implementation-Vendor" value="${vendor.name}"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+    <!--
+        purpose:  execute a single cli command on a running EAP 6 server
+        pass following parameters to this target :
+            1)  cli.source.dir
+            2)  cli.to.filter.and.execute
+            3)  management.port (optional: default = 9999)
+            4)  cli.fail.on.error  (optional; default = true)
+    -->
+    <target name="cli.command" depends="" >
+        <fail unless="cli.command" message="cli.command:  need to pass 'cli.command' property" />
+        <if><not><isset property="server.ip.address"/></not>
+        <then><property name="server.ip.address" value="${os.hostname}" /></then></if>
+        <if><not><isset property="management.port"/></not>
+        <then><property name="management.port" value="9999" /></then></if>
+        <if><not><isset property="cli.fail.on.error"/></not>
+        <then><property name="cli.fail.on.error" value="true" /></then></if>
+        <if><not><isset property="jbossCliXmx"/></not>
+        <then><property name="jbossCliXmx" value="128m" /></then></if>
+        <exec executable="${development.base}/base/bin/local.jboss.domain.sh" failonerror="${cli.fail.on.error}" >
+            <arg value="executeCli"/>
+            <arg value="-jbossHome=${jboss.home}"/>
+            <arg value="-jbossCliXmx=${jbossCliXmx}" />
+            <arg value="-hostName=${server.ip.address}" />
+            <arg value="-cliPort=${management.port}"/>
+            <arg value="-cliCommand=${cli.command} "/>
+        </exec>
+    </target>
+
+
+    <!--
+        purpose:  filter substition variables in a cli batch script and execute against a running EAP 6 server
+        pass following parameters to this target :
+            1)  cli.source.dir                  :   mandatory
+            2)  cli.to.filter.and.execute       :   mandatory
+            3)  management.port                 :   optional; default = 9999
+            4)  cli.fail.on.error               :   optional; default = true
+            5)  dest.dir                        :   optional; default = ${temp.dir}
+            6)  server.ip.address               :   optional: default = ${os.hostname}
+    -->
+    <target name="cli.batch" depends="" >
+        <fail unless="cli.source.dir" message="cli.batch:  need to pass 'cli.source.dir' property" />
+        <fail unless="cli.to.filter.and.execute" message="cli.batch:  need to pass 'cli.to.filter.and.execute' property" />
+        <if><not><isset property="server.ip.address"/></not>
+        <then><property name="server.ip.address" value="${os.hostname}" /></then></if>
+        <if><not><isset property="management.port"/></not>
+        <then><property name="management.port" value="9999" /></then></if>
+        <if><not><isset property="cli.fail.on.error"/></not>
+        <then><property name="cli.fail.on.error" value="true" /></then></if>
+        <if><not><isset property="jbossCliXmx"/></not>
+        <then><property name="jbossCliXmx" value="${jboss.cli.Xmx}" /></then></if>
+        <if><not><isset property="dest.dir"/></not>
+        <then><property name="dest.dir" value="${temp.dir}" /></then></if>
+        <antcall target="filter">
+            <param name="source.dir" value="${cli.source.dir}"/>
+            <param name="file.name" value="${cli.to.filter.and.execute}"/>
+            <param name="dest.dir" value="${dest.dir}"/>
+        </antcall>
+        <echo message="***** cli.batch :  about to execute following batch script = ${dest.dir}/${cli.to.filter.and.execute} : cli.fail.on.error = ${cli.fail.on.error} : jbossCliXmx = ${jbossCliXmx}"/>
+        <exec executable="${development.base}/base/bin/local.jboss.domain.sh" failonerror="${cli.fail.on.error}" >
+            <arg value="executeCli"/>
+            <arg value="-jbossHome=${jboss.home}"/>
+            <arg value="-hostName=${server.ip.address}" />
+            <arg value="-jbossCliXmx=${jbossCliXmx}" />
+            <arg value="-cliPort=${management.port}"/>
+            <arg value="-cliFile=${dest.dir}/${cli.to.filter.and.execute}"/>
+        </exec>
+    </target>
+
+    <target name="local.print.eap.cli" depends="" description="">
+        <echo message="cli command = ${jboss.home}/bin/jboss-cli.sh --connect --controller=${os.hostname}:${management.port}" />
+    </target>
+
+
+    <target name="local.eap.cli.gui" depends="" description="">
+        <if><not><isset property="server.ip.address"/></not>
+        <then><property name="server.ip.address" value="${os.hostname}" /></then></if>
+        <if><not><isset property="management.port"/></not>
+        <then><property name="management.port" value="9999" /></then></if>
+        <exec spawn="true" executable="${jboss.home}/bin/jboss-cli.sh">
+            <arg value="--connect"/>
+            <arg value="--controller=${server.ip.address}:${management.port}"/>
+            <arg value="--gui"/>
+        </exec>
+    </target>
+
+    <target name="local.bounce.lab" description="">
+        <if><not><equals arg1="group.stop" arg2="false" /></not><then>
+            <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
+                <arg value="--connect"/>
+                <arg value="--controller=${os.hostname}:${management.port}"/>
+                <arg value="/server-group=ha.group/:stop-servers"/>
+            </exec>
+        </then></if>
+        <exec executable="${jboss.home}/bin/jboss-cli.sh" failonerror="${cli.fail.on.error}">
+            <arg value="--connect"/>
+            <arg value="--controller=${os.hostname}:${management.port}"/>
+            <arg value="/server-group=${lab.core.group}/:start-servers"/>
+        </exec>
+    </target>
+
+    <target name="local.bounce.all.servers" description="">
+        <if>
+            <not><isset property="management.port"/></not>
+            <then><property name="management.port" value="9999" /></then>
+        </if>
+        <antcall target="local.stop.master"  />
+        <antcall target="local.start.master" />
+        <antcall target="local.bounce.lab" />
+    </target>
+    <target name="local.stop.master" description="default behavior is to shutdown all jboss servers via management port of 9999" >
+        <exec executable="bash" failonerror="true" dir="." >
+           <arg value="${development.base}/base/bin/local.jboss.domain.sh"/>
+           <arg value="stop"/>
+           <arg value="-hostName=${os.hostname}"/>
+           <arg value="-cliPort=${management.port}"/>
+           <arg value="-node=master"/>
+           <arg value="-jbossHome=${jboss.home}"/>
+        </exec>
+        <exec executable="bash" failonerror="true" dir="." >
+           <arg value="${development.base}/base/bin/local.jboss.domain.sh"/>
+           <arg value="killJbossProcesses"/>
+        </exec>
+    </target>
+    <target name="local.start.master">
+        <exec executable="bash" failonerror="true" dir="." >
+           <arg value="${development.base}/base/bin/local.jboss.domain.sh"/>
+           <arg value="start"/>
+           <arg value="-jbossDomainBaseDir=${jboss.domain.base.dir}"/>
+           <arg value="-domainConfig=${domain.config.file}"/>
+           <arg value="-sleepSec=${master.sleep.sec.after.start}"/>
+           <arg value="-hostName=${os.hostname}"/>
+           <arg value="-jbossHome=${jboss.home}"/>
+        </exec>
+    </target>
+
+
+
+    <!--
+        pass following parameters to this target :
+        1) source.dir
+        2) file.name (optional)
+        3) dest.dir
+    -->
+    <!--
+        - using depends because with antcall :  The called target(s) are run in a new project; 
+        - be aware that this means properties, references, etc. set by called targets will not persist back to the calling project.
+    -->
+    <target name="filter">
+        <fail unless="source.dir" message="filter:  need to pass 'source.dir' property" />
+        <fail unless="dest.dir" message="filter:  need to pass 'dest.dir' property" />
+        <!--echo message="filter:  source.dir = ${source.dir} :  dest.dir = ${dest.dir}" / -->
+        <if>
+            <isset property="file.name"/>
+            <then>
+                <copy file="${source.dir}/${file.name}" toDir="${dest.dir}" overwrite="true" preservelastmodified="true" verbose="false">
+                    <filterchain>
+                        <expandproperties/>
+                    </filterchain>
+                </copy>
+            </then>
+            <else>
+                <copy toDir="${dest.dir}" overwrite="true" verbose="false" preservelastmodified="true">
+                    <fileset dir="${source.dir}" />
+                    <filterchain>
+                        <expandproperties/>
+                    </filterchain>
+                </copy>
+            </else>
+        </if>
+    </target>
+
+    <target name="clean" >
+        <exec executable="mvn" failonerror="true" dir="." >
+            <arg value="clean" />
+            <arg value="-s" />
+            <arg value="${maven.settings.file}" />
+            <arg value="-P${maven.profile}"/>
+        </exec>
+    </target>
+
+
+</project>

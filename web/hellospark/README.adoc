@@ -1,0 +1,26 @@
+= Simple Hello RESTful Service
+
+== Build and Run
+
+-----
+$ mvn clean package
+$ mvn exec:java -Dexec.mainClass="org.acme.App" &
+-----
+
+The latter command from above blocks and listens for incoming requests on localhost:4567.
+Java process is executed in background.
+
+== Test locally
+
+-----
+$ curl localhost:4567/hello
+-----
+
+== Expose to the internet
+
+. Install _ngrok_ and ensure the _ngrok_ utility in your $PATH.
+. execute: 
++
+-----
+$ ngrok http 4567
+-----

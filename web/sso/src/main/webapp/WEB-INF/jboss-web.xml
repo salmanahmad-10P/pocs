@@ -1,0 +1,6 @@
+<jboss-web>
+  <security-domain>other</security-domain>
+  <!--valve>
+    <class-name>org.jboss.web.tomcat.service.sso.ClusteredSingleSignOn</class-name>
+  </valve -->
+</jboss-web>

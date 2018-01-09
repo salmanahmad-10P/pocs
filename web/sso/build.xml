@@ -1,0 +1,33 @@
+<project name="sso" default="deploy" basedir=".">
+
+    <property environment="ENV"/>
+    <property name="development.base" value="${ENV.JBOSS_PROJECTS}/pocs" />
+    <import file="${development.base}/build.xml" />
+
+    <target name="deploy" description="" >
+
+        <!-- 1)  maven compile and build all sub-projects -->
+        <exec executable="mvn" failonerror="true" dir="." >
+            <arg value="clean" />
+            <arg value="install"/>
+            <arg value="-Dmaven.test.skip=true"/>
+            <arg value="-P${maven.profile}"/>
+        </exec>
+
+        <!-- 2)  refresh jboss -->
+        <antcall target="refresh.jboss" />
+
+        <!-- 3)  copy application-users.properties  to jboss 
+            includes user/passwd of:   admin/ratwater
+        -->
+        <copy file="conf/application-users.properties" todir="${jboss.home}/domain-lab/configuration" />
+
+        <!-- 5)  deploy EJB singleton -->
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="conf"/>
+            <param name="cli.to.filter.and.execute" value="project-config.cli"/>
+            <param name="cli.fail.on.error" value="true"/>
+        </antcall>
+    </target>
+
+</project>

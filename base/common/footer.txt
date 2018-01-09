@@ -1,0 +1,3 @@
+:data-uri:
+
+image::../common/images/rhfooterBLDW.png[width=597,height=77,link="http://people.redhat.com/althomas/brms/bldwCourseMaterial.html",align="center"]

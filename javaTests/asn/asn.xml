@@ -1,0 +1,117 @@
+<html>
+<head>
+   <title>asn.xml</title>
+</head>
+<body>
+
+<xmp>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * 
+ * Copyright (c) 2001 ebXMLsoft Inc.  All rights reserved.
+ *
+-->
+
+<!-- Created by ebXMLsoft Inc.
+     A simplified Advance Shipping Notice XML sample
+-->
+
+<!DOCTYPE AdvanceShippingNotice SYSTEM "asn.dtd">
+
+<AdvanceShippigNotice id="A1">
+   <ClientId>ABC</ClientId>
+   <EstimatedDeliveryTime>
+      <DateTime timeZone="GMT+1">2000-12-04T12:00:00</DateTime>
+   </EstimatedDeliveryTime>
+   <BuyerOrderId>123</BuyerOrderId>
+   <BuyerId>1122</BuyerId>
+   <FromLocation id="20">
+      <Name>ABC</Name>
+	<Address street="1215 First Street West" city="Toronto" 
+         state="Ontario" postalCode="1155" country="Canada" />
+      <TelephoneNumber areaCode="333" countryCode="3425" number="222-8899" />
+   </FromLocation>
+   <ToLocation id="50">
+      <Name>DEF</Name>
+	<Address street="109 Front Drive" city="Montreal" 
+         state="Quebec" postalCode="1523" country="Canada"/>
+      <TelephoneNumber areaCode="123" countryCode="4567" number="111-4456" />
+   </ToLocation>
+   <Container type="AABB" id="1528">
+      <Quantity unitOfMeasure="ShippingBox">1</Quantity>
+	<GrossWeight unitOfMeasure="GRAMS">300</GrossWeight>
+	<Length unitOfMeasure="cm">400</Length> 
+	<Height unitOfMeasure="cm">200</Height>
+	<Width unitOfMeasure="cm">100</Width>
+	<Product id="1122">
+         <Description>Product A</Description>
+         <Quantity unitOfMeasure="EACH">10</Quantity>
+	   <GrossWeight unitOfMeasure="GRAMS">100</GrossWeight>
+	   <Length unitOfMeasure="mm">50</Length> 
+	   <Height unitOfMeasure="mm">15</Height>
+	   <Width unitOfMeasure="mm">25</Width>
+      </Product>
+	<Product id="3323">
+         <Description>Product G</Description>
+         <Quantity unitOfMeasure="EACH">10</Quantity>
+	   <GrossWeight unitOfMeasure="GRAMS">120</GrossWeight>
+	   <Length unitOfMeasure="mm">80</Length> 
+	   <Height unitOfMeasure="mm">15</Height>
+	   <Width unitOfMeasure="mm">35</Width>
+      </Product>
+      <Product id="2125">
+         <Description>Product Z</Description>
+         <Quantity unitOfMeasure="EACH">12</Quantity>
+	   <GrossWeight unitOfMeasure="GRAMS">40</GrossWeight>
+	   <Length unitOfMeasure="mm">60</Length> 
+	   <Height unitOfMeasure="mm">35</Height>
+	   <Width unitOfMeasure="mm">25</Width>
+      </Product>
+   </Container>
+   <Container type="BCDT" id="2438">
+	<Quantity unitOfMeasure="ShippingBox">1</Quantity>
+	<GrossWeight unitOfMeasure="KILOGRAMS">15</GrossWeight>
+	<Length unitOfMeasure="cm">350</Length> 
+	<Height unitOfMeasure="cm">200</Height>
+	<Width unitOfMeasure="cm">100</Width>
+	<Product id="3476">
+         <Description>Product B2</Description>
+         <Quantity unitOfMeasure="EACH">10</Quantity>
+	   <GrossWeight unitOfMeasure="KILOGRAMS">2</GrossWeight>
+	   <Length unitOfMeasure="cm">55</Length> 
+	   <Height unitOfMeasure="cm">20</Height>
+	   <Width unitOfMeasure="cm">20</Width>
+      </Product>
+	<Product id="3765">
+         <Description>Product V3</Description>
+         <Quantity unitOfMeasure="EACH">15</Quantity>
+	   <GrossWeight unitOfMeasure="KILOGRAMS">5</GrossWeight>
+	   <Length unitOfMeasure="cm">70</Length> 
+	   <Height unitOfMeasure="cm">20</Height>
+	   <Width unitOfMeasure="cm">30</Width>
+      </Product>
+      <Product id="4870">
+         <Description>Product Y7</Description>
+         <Quantity unitOfMeasure="EACH">20</Quantity>
+	   <GrossWeight unitOfMeasure="KILOGRAMS">4</GrossWeight>
+	   <Length unitOfMeasure="cm">90</Length> 
+	   <Height unitOfMeasure="cm">25</Height>
+	   <Width unitOfMeasure="cm">25</Width>
+      </Product>
+      <Product id="4890">
+         <Description>Product Z5</Description>
+         <Quantity unitOfMeasure="EACH">10</Quantity>
+	   <GrossWeight unitOfMeasure="KILOGRAMS">4</GrossWeight>
+	   <Length unitOfMeasure="cm">60</Length> 
+	   <Height unitOfMeasure="cm">35</Height>
+	   <Width unitOfMeasure="cm">20</Width>
+      </Product>
+   </Container>
+</AdvanceShippigNotice>
+
+</xmp>
+
+</body>
+</html>

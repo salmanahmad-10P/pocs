@@ -1,0 +1,26 @@
+<!--
+    TCP based transport
+    FILE_PING based member discovery
+    Protocol stack matches that found in eap6.3.1
+
+    sample execution:
+        java -cp $JBOSS_HOME_DIR/eap/jboss-eap-6.3/modules/system/layers/base/org/jgroups/main/jgroups-3.2.13.Final-redhat-1.jar -Djava.net.preferIPv4Stack=true org.jgroups.demos.Draw -props https://raw.githubusercontent.com/jbride/pocs/master/jgroups/conf/eap-file-ping.xml
+
+-->
+<config xmlns="urn:org:jgroups"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:org:jgroups http://www.jgroups.org/schema/JGroups-3.1.xsd">
+    <TCP bind_port="7600"/>
+    <FILE_PING location="/tmp/jgroups" />
+    <MERGE2/>
+    <FD_SOCK/>
+    <FD/>
+    <VERIFY_SUSPECT/>
+    <pbcast.NAKACK/>
+    <UNICAST2/>
+    <pbcast.STABLE/>
+    <pbcast.GMS/>
+    <MFC/>
+    <FRAG2/>
+    <RSVP/>
+</config>

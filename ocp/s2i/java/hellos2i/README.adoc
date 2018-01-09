@@ -1,0 +1,35 @@
+. Create hellworld maven project
++
+-----
+mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DgroupId=org.acme -DartifactId=hellos2i -Dversion=1.0
+-----
+
+. Test the maven project (optional)
+.. Build and package the maven project
++
+-----
+mvn clean package
+-----
+.. Run Helloworld appa
++
+-----
+java -cp target/hellos2i-1.0.jar org.acme.App
+-----
+
+. Create a Docker image using OSE S2I build workflow
++
+-----
+s2i build . fabric8/java-main java-s2i-helloworld -e "JAVA_MAIN=org.acme.App"
+-----
+
+. Verify new target image exists in your local Docker registry
++
+-----
+docker images | grep java-s2i-helloworld
+-----
+
+. Run the new HelloWorld app
++
+-----
+docker run java-s2i-helloworld
+-----

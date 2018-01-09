@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.redhat.gpe.pocs</groupId>
+  <artifactId>replacer_plugin_test</artifactId>
+  <version>1.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <variable1>werwerwe</variable1>
+    <variable2>dfgdfgdf</variable2>
+  </properties>
+
+
+  <dependencies>
+      <dependency>
+            <groupId>com.google.code.maven-replacer-plugin</groupId>
+            <artifactId>replacer</artifactId>
+            <version>1.5.3</version>
+      </dependency>
+  </dependencies>
+
+  <build>
+      <plugins>
+        <plugin>
+            <groupId>com.google.code.maven-replacer-plugin</groupId>
+            <artifactId>replacer</artifactId>
+            <version>1.5.3</version>
+           <executions>
+               <execution>
+                   <phase>prepare-package</phase>
+                   <goals>
+                       <goal>replace</goal>
+                   </goals>                   
+               </execution>
+           </executions>
+           <configuration>
+               <ignoreMissingFile>false</ignoreMissingFile>
+               <file>src/main/resources/jboss-mod.cli</file>
+               <outputFile>target/jboss-mod.cli</outputFile>
+               <regex>false</regex>
+               <replacements>
+                   <replacement>
+                       <token>variable1</token>
+                       <value>werwer</value>
+                   </replacement>         
+                   <replacement>
+                       <token>variable2</token>
+                       <value>${variable2}</value>
+                   </replacement>         
+               </replacements>
+           </configuration>
+        </plugin>
+      </plugins>
+  </build>
+
+</project>

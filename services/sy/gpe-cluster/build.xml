@@ -1,0 +1,34 @@
+<project name="gpe-cluster" default="all" >
+
+    <property environment="ENV"/>
+    <property file="build.properties" />
+    <import file="${development.base}/build.xml" />
+
+    <target name="jmsTest" depends="setClasspath" description="">
+        <antcall target="testPrep" />
+        <java fork="yes" classname="org.jboss.lab.JMSTestClient" failonerror="true">
+            <sysproperty key="log4j.configuration" value="file:${development.base}/src/test/resources/log4j.xml" />
+            <sysproperty key="java.util.logging.config.file" value="${development.base}/src/test/resources/hornetq.client.logging.properties" />
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+
+    <target name="build" >
+        <exec executable="mvn" failonerror="true" dir="." >
+            <arg value="clean" />
+            <arg value="install" />
+            <arg value="-Dmaven.test.skip=true" />
+            <arg value="-s" />
+            <arg value="${maven.settings.file}" />
+        </exec>
+    </target>
+
+    <target name="all" >
+        <antcall target="build" />
+        <antcall target="cli.batch">
+            <param name="cli.source.dir" value="conf/switchyard"/>
+            <param name="cli.to.filter.and.execute" value="project.cli"/>
+        </antcall>
+    </target>
+
+</project>

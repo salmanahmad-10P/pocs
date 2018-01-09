@@ -1,0 +1,1 @@
+../../../adoc_tools/bin/adoc_build.sh

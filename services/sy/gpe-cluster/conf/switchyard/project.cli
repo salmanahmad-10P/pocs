@@ -1,0 +1,19 @@
+if (outcome == success) of /deployment=gpe-switchyard-quickstart-demo-cluster-credit-B.jar:read-resource
+    undeploy gpe-switchyard-quickstart-demo-cluster-credit-B.jar --all-relevant-server-groups
+end-if
+if (outcome == success) of /deployment=gpe-switchyard-quickstart-demo-cluster-credit-C.jar:read-resource
+    undeploy gpe-switchyard-quickstart-demo-cluster-credit-C.jar --all-relevant-server-groups
+end-if
+if (outcome == success) of /deployment=gpe-switchyard-quickstart-demo-cluster-dealer.jar:read-resource
+    undeploy gpe-switchyard-quickstart-demo-cluster-dealer.jar --all-relevant-server-groups
+end-if
+
+#batch
+    
+    # Deploy Credit Service to node2 and node3
+    deploy credit/target/gpe-switchyard-quickstart-demo-cluster-credit.jar --name=gpe-switchyard-quickstart-demo-cluster-credit-B.jar --server-groups=sy-Credit-A
+    deploy credit/target/gpe-switchyard-quickstart-demo-cluster-credit.jar --name=gpe-switchyard-quickstart-demo-cluster-credit-C.jar --server-groups=sy-Credit-B
+
+    # Deploy Dealer Service to node1
+    deploy dealer/target/gpe-switchyard-quickstart-demo-cluster-dealer.jar --name=gpe-switchyard-quickstart-demo-cluster-dealer.jar --server-groups=sy-Dealer
+#run-batch

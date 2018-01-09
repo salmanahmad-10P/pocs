@@ -1,0 +1,17 @@
+if (outcome == success) of /deployment=beanService.jar:read-resource
+    undeploy beanService.jar --all-relevant-server-groups
+end-if
+
+batch
+    # deploy EJB service
+    deploy bean/target/bean-1.0-SNAPSHOT.jar --name=beanService.jar --server-groups=${lab.core.group}
+
+    /host=master/server-config=${organization.name}-0/:add(auto-start=false,group=${lab.core.group})
+run-batch
+
+batch
+/host=master/server-config=${organization.name}-0/:write-attribute(name=socket-binding-port-offset,value=${lab.core.port.offset})
+/host=master/server-config=${organization.name}-0/:start(server=${organization.name},blocking=true)
+run-batch
+
+

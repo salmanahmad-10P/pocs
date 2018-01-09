@@ -1,0 +1,12 @@
+if (outcome == success) of /deployment=${project.name}.jar:read-resource
+    undeploy ${project.name}.jar --all-relevant-server-groups
+end-if
+
+if (outcome == success) of /server-group=${sy.core.group}/system-property=org.switchyard.component.resteasy.standalone.port:read-resource
+    /server-group=${sy.core.group}/system-property=org.switchyard.component.resteasy.standalone.port:remove
+end-if
+
+batch
+    /server-group=${sy.core.group}/system-property=org.switchyard.component.resteasy.standalone.port/:add(value=${org.switchyard.component.resteasy.standalone.port},boot-time=true)
+    deploy target/${project.name}.jar --name=${project.name}.jar --server-groups=${sy.core.group}
+run-batch

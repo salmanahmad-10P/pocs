@@ -1,0 +1,21 @@
+if (outcome != success) of /profile=full-ha/subsystem=messaging/hornetq-server=default/jms-queue=OrderQueue/:read-resource
+
+    # Order Queue
+    /profile=full-ha/subsystem=messaging/hornetq-server=default/jms-queue=OrderQueue/:add(entries=["queue/OrderQueue","java:jboss/exported/jms/OrderQueue"],durable=true)
+    /profile=full-ha/subsystem=messaging/hornetq-server=default/address-setting=jms.queue.OrderQueue/:add(address-full-policy=PAGE,dead-letter-address=jms.queue.DLQ,last-value-queue=false,max-size-bytes=10485760,page-size-bytes=1048576,send-to-dla-on-no-route=false,redistribution-delay=0)
+    /profile=full-ha-backup/subsystem=messaging/hornetq-server=default/jms-queue=OrderQueue/:add(entries=["queue/OrderQueue","java:jboss/exported/jms/OrderQueue"],durable=true)
+    /profile=full-ha-backup/subsystem=messaging/hornetq-server=default/address-setting=jms.queue.OrderQueue/:add(address-full-policy=PAGE,dead-letter-address=jms.queue.DLQ,last-value-queue=false,max-size-bytes=10485760,page-size-bytes=1048576,send-to-dla-on-no-route=false,redistribution-delay=0)
+
+    # Shipping Queue
+    /profile=full-ha/subsystem=messaging/hornetq-server=default/jms-queue=ShippingQueue/:add(entries=["queue/ShippingQueue","java:jboss/exported/jms/ShippingQueue"],durable=true)
+    /profile=full-ha/subsystem=messaging/hornetq-server=default/address-setting=jms.queue.ShippingQueue/:add(address-full-policy=PAGE,dead-letter-address=jms.queue.DLQ,last-value-queue=false,max-size-bytes=10485760,page-size-bytes=1048576,send-to-dla-on-no-route=false,redistribution-delay=0)
+    /profile=full-ha-backup/subsystem=messaging/hornetq-server=default/jms-queue=ShippingQueue/:add(entries=["queue/ShippingQueue","java:jboss/exported/jms/ShippingQueue"],durable=true)
+    /profile=full-ha-backup/subsystem=messaging/hornetq-server=default/address-setting=jms.queue.ShippingQueue/:add(address-full-policy=PAGE,dead-letter-address=jms.queue.DLQ,last-value-queue=false,max-size-bytes=10485760,page-size-bytes=1048576,send-to-dla-on-no-route=false,redistribution-delay=0)
+
+    # Filling Stock Queue
+    /profile=full-ha/subsystem=messaging/hornetq-server=default/jms-queue=FillingStockQueue/:add(entries=["queue/FillingStockQueue","java:jboss/exported/jms/FillingStockQueue"],durable=true)
+    /profile=full-ha/subsystem=messaging/hornetq-server=default/address-setting=jms.queue.FillingStockQueue/:add(address-full-policy=PAGE,dead-letter-address=jms.queue.DLQ,last-value-queue=false,max-size-bytes=10485760,page-size-bytes=1048576,send-to-dla-on-no-route=false,redistribution-delay=0)
+    /profile=full-ha-backup/subsystem=messaging/hornetq-server=default/jms-queue=FillingStockQueue/:add(entries=["queue/FillingStockQueue","java:jboss/exported/jms/FillingStockQueue"],durable=true)
+    /profile=full-ha-backup/subsystem=messaging/hornetq-server=default/address-setting=jms.queue.FillingStockQueue/:add(address-full-policy=PAGE,dead-letter-address=jms.queue.DLQ,last-value-queue=false,max-size-bytes=10485760,page-size-bytes=1048576,send-to-dla-on-no-route=false,redistribution-delay=0)
+
+end-if

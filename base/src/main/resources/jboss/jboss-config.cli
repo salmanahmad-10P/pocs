@@ -1,0 +1,12 @@
+batch
+# trace level logging of org.jboss.modules module
+#/profile=full-ha/subsystem=logging/logger=org.jboss.modules/:add(category=org.jboss.modules,level=TRACE,use-parent-handlers=true)
+
+/profile=full-ha/subsystem=datasources/data-source=ExampleDS/:disable
+/profile=full-ha/subsystem=datasources/data-source=ExampleDS/:remove
+/profile=full-ha/subsystem=ejb3/:write-attribute(name=enable-statistics,value=true)
+
+/profile=full-ha/subsystem=logging/periodic-rotating-file-handler=FILE/:write-attribute(name=level,value=TRACE)
+
+/server-group=${lab.core.group}/:add(profile=full-ha,socket-binding-group=full-ha-sockets)
+run-batch

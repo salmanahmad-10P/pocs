@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>JQuery XML Test</title>
+        <script type="text/javascript" src="/opt/jquery/1.4.2/jquery-1.4.2.js"></script>
+        <script type="application/javascript">
+            $(function() {
+                $('#update-target a').click(function() {
+                    $.ajax({
+                        type: "GET",
+                         url: "http://localhost:8080/vmf-service/rest/vmf/schemas/VERSION_6017B/K02.14",
+                         //url: 'test.xml',
+                         dataType: "xml",
+                         success: function(xml) {
+                         /*
+                            $(xml).find('label').each(function(){
+                                var id_text = $(this).attr('id')
+                                var name_text = $(this).find('name').text()
+
+                                $('<li></li>')
+                                    .html(name_text + ' (' + id_text + ')')
+                                    .appendTo('#update-target ol');
+                            });
+                            */
+                            console.log("success() xml = "+xml);
+                            if($(xml).find('#_1').length) {
+                                console.log("success() attr = "+$(xml).find('#_1').attr('added'));
+                            } else {
+                                console.log("success() no dice");
+                            }
+                        },
+                        error: function(xmlHttpRequest, textStatus, errorThrown) {
+                            console.log("xmlHttpRequest = "+xmlHttpRequest+" : textStatus = "+textStatus+ " : errorThrown = "+errorThrown);
+                        }
+                    });
+                });
+            }); //close $(
+        </script>
+    </head>
+    <body>
+        <p>
+        <div id='update-target'>
+            <a href="#">Click here to load addresses</a>
+            <ol></ol>
+        </div>
+    </p>
+</body>
+</html>

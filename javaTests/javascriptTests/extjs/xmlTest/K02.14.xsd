@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE map [ <!ELEMENT map (entry*) >  <!ELEMENT entry EMPTY >  <!ATTLIST entry key ID #REQUIRED value CDATA "mydefault"> ]> 
+<map>
+    <entry key="key1" value="value1"/>
+    <entry key="key2" />
+</map> 

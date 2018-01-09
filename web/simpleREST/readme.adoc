@@ -1,0 +1,52 @@
+:numbered:
+
+= SimpleREST Test
+
+.Goals
+. Demonstrate simple JAX-RS web app
+. Demonstrate use of `Per-deployment Logging` of an application that is writing exclusively to:  System.out.println
+
+== Pre-reqs:
+
+. Workstation configured with JDK 8, maven 3.3.* and Red Hat JBoss EAP 7.*
+. Familiarity with JBoss EAP Logging Subsystem
+
+== Procedure
+
+. Inspect source code and configuration files of this project. In particular, make note of the following:
+.. `SimpleREST.java` : JAX-RS web application
+.. `logging.properties` : property file that enables `Per-deployment Logging` when deployed to JBoss EAP 7.
+
+. From the root directory of this project, execute:
++
+-----
+mvn clean package
+-----
+
+. Deploy to JBoss EAP 7
++
+-----
+target/simpleREST-1.0.war $JBOSS_7_HOME/standalone/deployments/
+----- 
+
+. Make note of new log file written to local filesystem:
++
+-----
+ls -l /tmp/gpte_app_specific.log
+-----
+
+. Invoke the RESTful web service:
++
+-----
+curl -X GET -HAccept:text/plain localhost:8080/simpleREST/rs/sanityCheck
+-----
+
+. Review the entries made to the application specific log file:
++
+-----
+cat /tmp/gpte_app_specific.log 
+
+13:28:38,508 INFO  org.jboss.stdio.AbstractLoggingWriter.write(71) [stdout] good to go
+-----
+
+

@@ -1,0 +1,32 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:com.redhat.gpe.auditReview:1.0">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:reviewQuote>
+         <!--Optional:-->
+         <arg0>
+            <!--Optional:-->
+            <driver>
+               <!--Optional:-->
+               <age>?</age>
+               <!--Optional:-->
+               <creditScore>?</creditScore>
+               <!--Optional:-->
+               <dlNumber>?</dlNumber>
+               <!--Optional:-->
+               <driverName>?</driverName>
+               <!--Optional:-->
+               <numberOfAccidents>?</numberOfAccidents>
+               <!--Optional:-->
+               <numberOfTickets>?</numberOfTickets>
+               <!--Optional:-->
+               <ssn>?</ssn>
+            </driver>
+            <!--Optional:-->
+            <policyType>?</policyType>
+            <price>?</price>
+            <priceDiscount>?</priceDiscount>
+            <vehicleYear>?</vehicleYear>
+         </arg0>
+      </urn:reviewQuote>
+   </soapenv:Body>
+</soapenv:Envelope>
