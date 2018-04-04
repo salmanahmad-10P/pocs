@@ -50,6 +50,7 @@ syncBackupFromLocal() {
                --include=.electrum \
                --include=.thunderbird \
                --include=.rhtoken.json \
+               --include=.ApacheDirectoryStudio \
                --exclude=.* \
                --exclude=**/*.txt \
                --exclude=Downloads \
