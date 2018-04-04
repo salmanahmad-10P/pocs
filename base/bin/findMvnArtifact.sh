@@ -22,4 +22,10 @@ for repo in `echo $repos`; do
               -Dtransitive=false \
               -DrepoUrl=$repo \
               -Dartifact=$artifact
+    if [ $? == 0 ];
+    then
+        echo -en "\n\nArtifact found in $repo\n\n" >&2;
+        exit 0;
+    fi
+
 done
