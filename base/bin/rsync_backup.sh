@@ -51,6 +51,7 @@ syncBackupFromLocal() {
                --include=.thunderbird \
                --include=.rhtoken.json \
                --include=.ApacheDirectoryStudio \
+               --include=.ocp_details_rc \
                --exclude=.* \
                --exclude=**/*.txt \
                --exclude=Downloads \
