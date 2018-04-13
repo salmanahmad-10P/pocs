@@ -63,11 +63,16 @@ function add_nexus3_redhat_repos() {
   add_nexus3_repo redhat-ga https://maven.repository.redhat.com/ga/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
   add_nexus3_repo redhat-ea https://maven.repository.redhat.com/earlyaccess/all/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
   add_nexus3_repo redhat-techpreview https://maven.repository.redhat.com/techpreview/all $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
-  add_nexus3_repo jboss-ce https://repository.jboss.org/nexus/content/groups/public/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus3_repo jboss https://repository.jboss.org/nexus/content/groups/public/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus3_repo repo-jboss https://repository.jboss.org/nexus/content/repositories/public/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus3_repo public-jboss https://repository.jboss.org/nexus/content/groups/public-jboss/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus3_repo ea-jboss https://repository.jboss.org/nexus/content/groups/ea-jboss/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus3_repo fuse-releases https://repository.jboss.org/nexus/content/repositories/fs-releases/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus3_repo fuse-public https://repository.jboss.org/nexus/content/repositories/fs-public/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
   add_nexus3_repo brew-root http://download-ipv4.eng.brq.redhat.com/brewroot/repos/jb-common-build/latest/maven/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 
   add_nexus3_repo maven2 https://repo.maven.apache.org/maven2 $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 
 
-  add_nexus3_group_repo redhat-ga,redhat-ea,redhat-techpreview,jboss-ce,brew-root,maven2,maven-central,maven-releases,maven-snapshots maven-all-public $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+  add_nexus3_group_repo redhat-ga,redhat-ea,redhat-techpreview,jboss,repo-jboss,public-jboss,ea-jboss,fuse-releases,fuse-public,brew-root,maven2,maven-central,maven-releases,maven-snapshots maven-all-public $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 }
