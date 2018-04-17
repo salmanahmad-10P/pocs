@@ -1,17 +1,22 @@
-FROM fedora:26
+FROM fedora:27
 
 # Build:
-#   docker build --rm -t fedoratools:1.0 .
-#   docker tag fedoratools:1.0 docker.io/rhtgptetraining/fedoratools:1.0
+#   docker build --rm -t fedoratools:2.0 .
+#   docker tag fedoratools:2.0 docker.io/rhtgptetraining/fedoratools:2.0
+
+# Docker push (on F27):
+# Make sure the following is the *first* entry in the docker daemon (by updating /etc/sysconfig/docker):  --add-registry docker.io
+# docker login docker.io -u rhtgptetraining
+# docker push docker.io/rhtgptetraining/fedoratools:2.0
 
 # Execution: docker
-#   docker run --rm fedoratools:1.0 
+#   docker run --rm fedoratools:2.0 
 
 # Execution: OpenShift
-#   oc run ftools --image=docker.io/rhtgptetraining/fedoratools:1.0
+#   oc run ftools --image=docker.io/rhtgptetraining/fedoratools:2.0
 
 # Executes a command in a new layer and creates a new image
-RUN dnf install -y net-tools lsof bind-utils nmap-ncat curl wget && yum clean all
+RUN dnf install -y net-tools lsof bind-utils nmap-ncat curl wget git && yum clean all
 
 ADD loop.sh /usr/bin/loop.sh
 
