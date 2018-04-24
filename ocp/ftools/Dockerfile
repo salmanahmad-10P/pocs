@@ -9,6 +9,9 @@ FROM fedora:27
 # docker login docker.io -u rhtgptetraining
 # docker push docker.io/rhtgptetraining/fedoratools:2.0
 
+# View details of the image in the remote docker registry
+# skopeo inspect docker://docker.io/rhtgptetraining/fedoratools:2.0
+
 # Execution: docker
 #   docker run --rm fedoratools:2.0 
 
