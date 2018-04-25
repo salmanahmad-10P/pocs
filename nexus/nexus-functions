@@ -76,3 +76,23 @@ function add_nexus3_redhat_repos() {
 
   add_nexus3_group_repo redhat-ga,redhat-ea,redhat-techpreview,jboss,repo-jboss,public-jboss,ea-jboss,fuse-releases,fuse-public,brew-root,maven2,maven-central,maven-releases,maven-snapshots maven-rht $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 }
+
+# source /tmp/nexus-functions; add_nexus3_docker_repo docker 5000 admin admin123 http://localhost:8081
+function add_nexus3_docker_repo() {
+  local _REPO_ID=$1
+  local _REPO_PORT=$2
+  local _NEXUS_USER=$3
+  local _NEXUS_PWD=$4
+  local _NEXUS_URL=$5
+
+  read -r -d '' _REPO_JSON << EOM
+{
+  "name": "$_REPO_ID",
+  "type": "groovy",
+  "content": "repository.createDockerHosted('$_REPO_ID',$_REPO_PORT,null)"
+}
+EOM
+
+  curl -v -H "Accept: application/json" -H "Content-Type: application/json" -d "$_REPO_JSON" -u "$_NEXUS_USER:$_NEXUS_PWD" "${_NEXUS_URL}/service/rest/v1/script/"
+  curl -v -X POST -H "Content-Type: text/plain" -u "$_NEXUS_USER:$_NEXUS_PWD" "${_NEXUS_URL}/service/rest/v1/script/$_REPO_ID/run"
+}
