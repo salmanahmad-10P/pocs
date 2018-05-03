@@ -1,0 +1,9 @@
+---
+
+- name: oc test
+  shell: |
+      oc get project
+
+- name: oc test impersonate system admin
+  shell: |
+      oc get nodes --as=system:admin
