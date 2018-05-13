@@ -14,7 +14,7 @@ done
 function help() {
     echo -en "\n\nOPTIONS:";
     echo -en "\n\t--OCP_DETAILS_FILE=*     OPTIONAL: path to ocp details file(defult = $HOME/.ocp_details_rc))"
-    echo -en "\n\t-h                        this help manual\n\n"
+    echo -en "\n\t-h                       this help manual\n\n"
 }
 
 function read_ocp_details() {
@@ -41,13 +41,27 @@ function prompt_user() {
     echo -en "\nSelect a GUID from the following list: $GUIDS\n\n"
     read GUID
 
-    echo "The value is : $GUID"
+    # oc cluster up won't ever use OCP admin user since current convention is to use oc cluster up with root OS user
+    # access to oc cluster as system:admin user subsequently occurs leveraging:  /root/.kubeconfig
+    if [ "localhost" != $GUID ]; then
+        echo -en "\nUse OCP admin user (n/y) ?\n\n"
+        read USE_OCP_ADMIN_USER
+    fi
+
 }
 
 function ocp_login() {
-    command="oc login https://master.$GUID.openshift.opentlc.com -u $OCP_USERNAME"
-    if [ -n "$OCP_PASSWORD" ]; then
-        command="$command -p $OCP_PASSWORD"
+
+    if [ "y" == "$USE_OCP_ADMIN_USER" ]; then
+        OCP_USERNAME=$ADMIN_OCP_USERNAME
+        OCP_PASSWORD=$ADMIN_OCP_PASSWORD
+    fi
+
+    command="oc login https://master.$GUID.openshift.opentlc.com -u $OCP_USERNAME -p $OCP_PASSWORD"
+
+    # Customize for: oc cluster up
+    if [ $GUID == "localhost" ]; then
+        command="oc login https://localhost:8443 -u developer -p developer"
     fi
 
     echo -en "\n\nUsing command: $command\n\n"

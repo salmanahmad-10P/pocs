@@ -4,6 +4,11 @@
 ###    JA Bride , 29 Nov 2010                ###
 ### ======================================== ###
 
+# rsync to droid
+# - install sshdroid app on phone
+# - (phone):  mkdir /sdcard/audio/
+# - (laptop): rsync -trv --delete --progress -e 'ssh -p 2222' /u02/audio/default/ root@192.168.0.128:/sdcard/audio/default
+
 PHOTOS_HOME=/u02/photos
 AUDIO_HOME=/u02/audio
 CUSTOMERS_HOME=/u02/customers
@@ -206,6 +211,7 @@ _TestSSH() {
         }
     }
 }
+
 
 #_TestSSH jbride 5
 
