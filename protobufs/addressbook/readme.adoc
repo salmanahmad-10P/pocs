@@ -1,0 +1,42 @@
+. Ensure protoc is installed and on path
+. Ensure protobuf-devel package is installed (it includes timestamp.proto)
+
+. Initial maven project generation:
++
+-----
+mvn archetype:generate \
+>     -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.1 \
+>     -DgroupId=org.acme.proto3 -DartifactId=addressbook -Dversion=1.0 
+-----
+
+. Clone protobuf source code with java examples:
++
+-----
+git clone https://github.com/google/protobuf
+-----
+
+. Copy AddPerson.java, ListPeople.java and addressbook.proto to new org.acme.proto3 project
+
+
+== Use protoc directly
+. Generate java source from *.proto:
++
+-----
+protoc --java_out=src/main/java src/main/proto/addressbook.proto
+-----
+
+. Compile all source
++
+-----
+mvn clean package
+-----
+
+== Use protobuf maven plugin
+
+== Run 
+
+-----
+mvn exec:java -Dexec.mainClass=org.acme.proto3.AddPerson -Dexec.args="target/addressbook.txt"
+
+mvn exec:java -Dexec.mainClass=org.acme.proto3.ListPeople -Dexec.args="target/addressbook.txt"
+-----
