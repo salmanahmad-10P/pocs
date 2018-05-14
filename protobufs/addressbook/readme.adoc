@@ -15,8 +15,8 @@ mvn archetype:generate \
 git clone https://github.com/google/protobuf
 -----
 
-. Copy AddPerson.java, ListPeople.java and addressbook.proto to new org.acme.proto3 project
-
+. Copy AddPerson.java, ListPeople.java to:   src/main/java/org/acme/proto3
+. Copy addressbook.proto to:   src/main/proto
 
 == Use protoc directly
 . Generate java source from *.proto:
