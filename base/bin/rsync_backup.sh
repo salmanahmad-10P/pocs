@@ -4,11 +4,6 @@
 ###    JA Bride , 29 Nov 2010                ###
 ### ======================================== ###
 
-# rsync to droid
-# - install sshdroid app on phone
-# - (phone):  mkdir /sdcard/audio/
-# - (laptop): rsync -trv --delete --progress -e 'ssh -p 2222' /u02/audio/default/ root@192.168.0.128:/sdcard/audio/default
-
 PHOTOS_HOME=/u02/photos
 AUDIO_HOME=/u02/audio
 CUSTOMERS_HOME=/u02/customers
@@ -17,6 +12,7 @@ VIDEO_HOME=/u02/video
 DOWNLOADS_HOME=/u02/downloads
 VIRTUAL_MACHINES=/u02/virtual_machines
 RECORDINGS=/u02/redhat/recordings
+THUNDERBIRD_HOME=/u02/thunderbird
 
 REMOTE_USER=jbride
 REMOTE_IP=localhost
@@ -37,11 +33,12 @@ syncLocalFromBackup() {
     rsync -trv $RSYNC_PATH/photos /u02
     rsync -trv $RSYNC_PATH/audio /u02
     rsync -trv $RSYNC_PATH/oldSoftware /u02
+    rsync -trv $RSYNC_PATH/thunderbird /u02
 }
 
 syncBackupFromLocal() {
-    echo -en "\n\n***** now synching in : $RSYNC_PATH with $HOME"    
     cd $HOME    
+    echo " ***** now synching in : $RSYNC_PATH with $HOME"    
 #   rsync -trv --delete . \
     rsync -trv . \
                --include=.bashrc \
@@ -55,8 +52,8 @@ syncBackupFromLocal() {
                --include=.electrum \
                --include=.thunderbird \
                --include=.rhtoken.json \
-               --include=.ApacheDirectoryStudio \
-               --include=.ocp_details_rc \
+               --include=.config/Slack \
+               --include=.config/Atom \
                --exclude=.* \
                --exclude=**/*.txt \
                --exclude=Downloads \
@@ -67,64 +64,58 @@ syncBackupFromLocal() {
         exit 1;    
     fi    
         
-    echo -en "\n\n***** now synching in : $PHOTOS_HOME at :  $RSYNC_PATH"    
     cd $PHOTOS_HOME    
-    if [ $? -ne 0 ];then    
-        exit 1;    
-    fi    
+    echo " ***** now synching in : $PHOTOS_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/photos    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
     fi
     
-    echo -en "\n\n ***** now synching in : $AUDIO_HOME at :  $RSYNC_PATH"    
     cd $AUDIO_HOME    
-    if [ $? -ne 0 ];then    
-        exit 1;    
-    fi    
+    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/audio    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
     fi    
         
-    echo -en "\n\n***** now synching in : $OLD_SOFTWARE_HOME at :  $RSYNC_PATH"    
     cd $OLD_SOFTWARE_HOME    
-    if [ $? -ne 0 ];then    
-        exit 1;    
-    fi    
+    echo " ***** now synching in : $OLD_SOFTWARE_HOME at :  $RSYNC_PATH"    
     rsync -trv --delete . --exclude=.* $RSYNC_PATH/oldSoftware    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
     fi 
    
-    echo -en "\n\n***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
-    cd $RECORDINGS
-    if [ $? -ne 0 ];then    
-        exit 1;    
-    fi    
-    rsync -trv . --exclude=* $RSYNC_PATH/recordings    
-    rsyncReturnCode=$?    
-    if [ $rsyncReturnCode -ne 0 ];then    
-        exit 1;    
-    fi 
-   
-    echo -en "\n\n***** now synching in : $VIDEO_HOME at :  $RSYNC_PATH"    
     cd $VIDEO_HOME    
-    if [ $? -ne 0 ];then    
-        exit 1;    
-    fi    
+    echo " ***** now synching in : $VIDEO_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/video    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
     fi    
 
+    cd $THUNDERBIRD_HOME    
+    echo " ***** now synching in : $THUNDERBIRD_HOME at :  $RSYNC_PATH"    
+    rsync -trv . --exclude=.* $RSYNC_PATH/thunderbird   
+    rsyncReturnCode=$?    
+    if [ $rsyncReturnCode -ne 0 ];then    
+        exit 1;    
+    fi    
 
-    #echo "\n\n***** now synching in : $CUSTOMERS_HOME at :  $RSYNC_PATH"    
+    #cd $RECORDINGS
+    #echo " ***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
+    #rsync -trv --delete . --exclude=.* $RSYNC_PATH/recordings    
+    #rsync -trv . --exclude=* $RSYNC_PATH/recordings    
+    rsyncReturnCode=$?    
+    #if [ $rsyncReturnCode -ne 0 ];then    
+    #    exit 1;    
+    #fi 
+   
+
     #cd $CUSTOMERS_HOME    
+    #echo " ***** now synching in : $CUSTOMERS_HOME at :  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* --exclude=hp/sdm/jboss $RSYNC_PATH/customers    
     #rsyncReturnCode=$?    
     #if [ $rsyncReturnCode -ne 0 ];then    
@@ -132,16 +123,16 @@ syncBackupFromLocal() {
     #fi    
 
         
-    #echo -ne "\n\n ***** now synching in : $DOWNLOADS_HOME at :  $RSYNC_PATH"    
     #cd $DOWNLOADS_HOME    
+    #echo " ***** now synching in : $DOWNLOADS_HOME at :  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* $RSYNC_PATH/downloads    
     #rsyncReturnCode=$?    
     #if [ $rsyncReturnCode -ne 0 ];then    
     #    exit 1;    
     #fi    
 
-    #echo -en "\n\n***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
     #cd $VIRTUAL_MACHINES   
+    #echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* --exclude=docker* $RSYNC_PATH/virtual_machines    
     #rsyncReturnCode=$?    
     #if [ $rsyncReturnCode -ne 0 ];then    
@@ -211,7 +202,6 @@ _TestSSH() {
         }
     }
 }
-
 
 #_TestSSH jbride 5
 
