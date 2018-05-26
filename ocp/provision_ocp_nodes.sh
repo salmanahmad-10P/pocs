@@ -22,6 +22,8 @@
 
 base_image_name=rhel7_base_sparse
 net_domain=jbridethinkpad.com
+dns2=75.75.75.75
+dns3=75.75.75.76
 image_path=/u02/vm
 node_memory=6144
 node_cpus=2
@@ -49,7 +51,7 @@ provision() {
   for node in master1 infra1 node1 node2 node3; do
     if [ "$node" = "master1" ] || [ "$node" = "infra1" ];then
         memory=2048
-        cpus=1
+        cpus=2
     else
         memory=$node_memory
         cpus=$node_cpus
@@ -75,18 +77,43 @@ provision() {
 
     # 3) Restart VM
     virsh start ocp.$node
-    echo "mac address for $node = `virsh dumpxml ocp.$node | grep 'mac address'`"
+    echo "provision() mac address for $node = `virsh dumpxml ocp.$node | grep 'mac address'`"
     
   done;
   
 }
 
+post() {
+  for node in master1 infra1 node1 node2 node3; do
+    echo "post() node = $node";
+    ssh root@$node.$net_domain "yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct atomic-openshift-utils"
+    ssh root@$node.$net_domain "systemctl enable docker.service"
+    ssh root@$node.$net_domain "systemctl restart docker.service"
+
+    # TO-DO: dnsmasq from libvirtd should provide this
+    ssh root@$node.$net_domain "echo nameserver $dns2 >> /etc/resolv.conf"
+    ssh root@$node.$net_domain "echo nameserver $dns3 >> /etc/resolv.conf"
+  done
+}
+
+all() {
+  setup;
+  provision;
+  post;
+}
+
+me=`whoami`
+if [ $me != root ]; then
+  echo "must run as root";
+  exit 1;
+fi
+
 case "$1" in
-    setup|provision)
+    setup|provision|post|all)
         $1
         ;;
     *)
-    echo 1>&2 $"Usage: $0 {setup|provision}"
+    echo 1>&2 $"Usage: $0 {setup|provision|post|all}"
     exit 1
 esac
 
