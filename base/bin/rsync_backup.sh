@@ -61,6 +61,11 @@ syncBackupFromLocal() {
                --exclude=**/*.txt \
                --exclude=Downloads \
                --exclude=lab \
+               --exclude=Music \
+               --exclude=Public \
+               --exclude=Templates \
+               --exclude=Videos \
+               --exclude=Documents \
                $RSYNC_PATH/jbride    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
