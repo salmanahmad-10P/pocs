@@ -49,6 +49,7 @@ syncBackupFromLocal() {
                --include=.m2/*.xml \
                --include=.ethereum/keystore \
                --include=.gnupg \
+               --include=.xscreensaver \
                --include=.electrum \
                --include=.thunderbird \
                --include=.rhtoken.json \
