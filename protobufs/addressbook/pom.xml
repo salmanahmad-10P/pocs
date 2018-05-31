@@ -16,7 +16,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <maven.compiler.target>1.8</maven.compiler.target>
     <protobuf.plugin.version>0.5.0</protobuf.plugin.version>
     <protobuf.java.version>3.5.1</protobuf.java.version>
-    <grpc.version>1.11.0</grpc.version>
   </properties>
 
   <dependencies>
@@ -46,7 +45,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
           <artifactId>protobuf-maven-plugin</artifactId>
           <version>${protobuf.plugin.version}</version>
           <configuration>
-            <!-- outputDirectory defaults to target/generated-sources.  target/generated-sources get's added to path of java source to build in the compile phase -->
+            <!-- outputDirectory defaults to target/generated-sources.  target/generated-sources gets added to path of java source to build in the compile phase -->
             <protocExecutable>/usr/bin/protoc</protocExecutable>
           </configuration>
           <executions>

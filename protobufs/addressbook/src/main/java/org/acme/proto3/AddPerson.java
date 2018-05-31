@@ -9,9 +9,10 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 class AddPerson {
+
   // This function fills in a Person message based on user input.
-  static Person PromptForAddress(BufferedReader stdin,
-                                 PrintStream stdout) throws IOException {
+  public static Person PromptForAddress(BufferedReader stdin, PrintStream stdout) throws IOException {
+
     Person.Builder person = Person.newBuilder();
 
     stdout.println("Enter person ID: ");
@@ -54,6 +55,7 @@ class AddPerson {
     return person.build();
   }
 
+
   // Main function:  Reads the entire address book from a file,
   //   adds one person based on user input, then writes it back out to the same
   //   file.
@@ -79,8 +81,7 @@ class AddPerson {
 
     // Add an address.
     addressBook.addPeople(
-      PromptForAddress(new BufferedReader(new InputStreamReader(System.in)),
-                       System.out));
+      PromptForAddress(new BufferedReader(new InputStreamReader(System.in)), System.out));
 
     // Write the new address book back to disk.
     FileOutputStream output = new FileOutputStream(args[0]);
@@ -90,4 +91,5 @@ class AddPerson {
       output.close();
     }
   }
+
 }

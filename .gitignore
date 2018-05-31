@@ -1,3 +1,6 @@
 target
 .settings/
 **/*.class
+.classpath
+.settings
+.project
