@@ -70,7 +70,7 @@ syncBackupFromLocal() {
         exit 1;    
     fi    
         
-    cd $PHOTOS_HOME    
+    mkdir -p $PHOTOS_HOME; cd $PHOTOS_HOME    
     echo " ***** now synching in : $PHOTOS_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/photos    
     rsyncReturnCode=$?    
@@ -78,7 +78,7 @@ syncBackupFromLocal() {
         exit 1;    
     fi
     
-    cd $AUDIO_HOME    
+    mkdir -p $AUDIO_HOME; cd $AUDIO_HOME    
     echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/audio    
     rsyncReturnCode=$?    
@@ -86,7 +86,7 @@ syncBackupFromLocal() {
         exit 1;    
     fi    
         
-    cd $OLD_SOFTWARE_HOME    
+    mkdir -p $OLD_SOFTWARE_HOME; cd $OLD_SOFTWARE_HOME    
     echo " ***** now synching in : $OLD_SOFTWARE_HOME at :  $RSYNC_PATH"    
     rsync -trv --delete . --exclude=.* $RSYNC_PATH/oldSoftware    
     rsyncReturnCode=$?    
@@ -94,7 +94,7 @@ syncBackupFromLocal() {
         exit 1;    
     fi 
    
-    cd $VIDEO_HOME    
+    mkdir -p $VIDEO_HOME; cd $VIDEO_HOME    
     echo " ***** now synching in : $VIDEO_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/video    
     rsyncReturnCode=$?    
@@ -102,7 +102,7 @@ syncBackupFromLocal() {
         exit 1;    
     fi    
 
-    cd $THUNDERBIRD_HOME    
+    mkdir -p $THUNDERBIRD_HOME; cd $THUNDERBIRD_HOME    
     echo " ***** now synching in : $THUNDERBIRD_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/thunderbird   
     rsyncReturnCode=$?    
@@ -110,7 +110,7 @@ syncBackupFromLocal() {
         exit 1;    
     fi    
 
-    #cd $RECORDINGS
+    #mkdir -p $RECORDINGS; cd $RECORDINGS
     #echo " ***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* $RSYNC_PATH/recordings    
     #rsync -trv . --exclude=* $RSYNC_PATH/recordings    
@@ -120,7 +120,7 @@ syncBackupFromLocal() {
     #fi 
    
 
-    #cd $CUSTOMERS_HOME    
+    #mkdir -p $CUSTOMERS_HOME; cd $CUSTOMERS_HOME    
     #echo " ***** now synching in : $CUSTOMERS_HOME at :  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* --exclude=hp/sdm/jboss $RSYNC_PATH/customers    
     #rsyncReturnCode=$?    
@@ -129,7 +129,7 @@ syncBackupFromLocal() {
     #fi    
 
         
-    #cd $DOWNLOADS_HOME    
+    #mkdir -p $DOWNLOADS_HOME; cd $DOWNLOADS_HOME    
     #echo " ***** now synching in : $DOWNLOADS_HOME at :  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* $RSYNC_PATH/downloads    
     #rsyncReturnCode=$?    
@@ -137,7 +137,7 @@ syncBackupFromLocal() {
     #    exit 1;    
     #fi    
 
-    #cd $VIRTUAL_MACHINES   
+    #mkidr -p $VIRTUAL_HOMES; cd $VIRTUAL_MACHINES   
     #echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* --exclude=docker* $RSYNC_PATH/virtual_machines    
     #rsyncReturnCode=$?    

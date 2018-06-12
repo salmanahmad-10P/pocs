@@ -66,8 +66,19 @@ function ocp_login() {
 
     echo -en "\n\nUsing command: $command\n\n"
     eval $command
+    if [ $? -ne 0 ];then
+        exit 1;
+    fi
 }
+
+function ocp_wildcard_domain_env_var() {
+    export OCP_WILDCARD_DOMAIN=apps.$GUID.openshift.opentlc.com
+    echo -en "\n\n\nNOTE: execute the following to modify OCP_WILDCARD_DOMAIN env var: export OCP_WILDCARD_DOMAIN=apps.$GUID.openshift.opentlc.com\n\n"
+
+}
+
 
 read_ocp_details
 prompt_user
 ocp_login
+ocp_wildcard_domain_env_var
