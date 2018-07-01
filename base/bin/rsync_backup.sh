@@ -10,7 +10,7 @@ CUSTOMERS_HOME=/u02/customers
 OLD_SOFTWARE_HOME=/u02/oldSoftware
 VIDEO_HOME=/u02/video
 DOWNLOADS_HOME=/u02/downloads
-VIRTUAL_MACHINES=/u02/virtual_machines
+VIRTUAL_MACHINES=/u02/vm
 RECORDINGS=/u02/redhat/recordings
 THUNDERBIRD_HOME=/u02/thunderbird
 
@@ -39,20 +39,14 @@ syncLocalFromBackup() {
 syncBackupFromLocal() {
     cd $HOME    
     echo " ***** now synching in : $RSYNC_PATH with $HOME"    
-#   rsync -trv --delete . \
-    rsync -trv . \
-               --include=.bashrc \
-               --include=.vimrc \
-               --include=.gitconfig \
+#    rsync -trv . \
+    rsync -trv --delete . \
                --include=./My\ Kindle\ Content \
                --include=.ssh \
-               --include=.m2/*.xml \
                --include=.ethereum/keystore \
                --include=.gnupg \
-               --include=.xscreensaver \
                --include=.electrum \
                --include=.thunderbird \
-               --include=.rhtoken.json \
                --include=.config/Slack \
                --include=.config/Atom \
                --exclude=.* \
@@ -137,7 +131,7 @@ syncBackupFromLocal() {
     #    exit 1;    
     #fi    
 
-    #mkidr -p $VIRTUAL_HOMES; cd $VIRTUAL_MACHINES   
+    #mkidr -p $VIRTUAL_MACHINES; cd $VIRTUAL_MACHINES   
     #echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* --exclude=docker* $RSYNC_PATH/virtual_machines    
     #rsyncReturnCode=$?    
