@@ -61,7 +61,7 @@ function ocp_login() {
 
     # Customize for: oc cluster up
     if [ $GUID == "localhost" ]; then
-        command="oc login https://localhost:8443 -u developer -p developer"
+        command="oc login https://localhost:8443 -u user1 -p anypasswd"
     fi
 
     echo -en "\n\nUsing command: $command\n\n"
