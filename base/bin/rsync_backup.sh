@@ -177,7 +177,7 @@ syncLocalFromDroid() {
     fi
 }
 
-syncRemoteFromHome() {
+createTarBundles() {
   cd /tmp
   file_name=home_`date +%s`.tar
   #tar -cvf $file_name --exclude=$HOME/.cache --exclude=$HOME/.m2 $HOME
@@ -206,11 +206,11 @@ _TestSSH() {
 #_TestSSH jbride 5
 
 case "$1" in
-    syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|syncRemoteFromHome|syncBackupFromLocal)
+    syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupFromLocal)
         $1
         ;;
     *)
-    echo 1>&2 $"Usage: $0 {syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|syncRemoteFromHome|syncBackupFromLocal}"
+    echo 1>&2 $"Usage: $0 {syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupFromLocal}"
     exit 1
 esac
 

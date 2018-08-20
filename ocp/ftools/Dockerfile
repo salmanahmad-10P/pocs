@@ -4,10 +4,10 @@ FROM fedora:27
 #   docker build --rm -t fedoratools:2.4 .
 #   docker tag fedoratools:2.4 docker.io/rhtgptetraining/fedoratools:2.4
 
-# Docker push (on F27):
-# Make sure the following is the *first* entry in the docker daemon (by updating /etc/sysconfig/docker):  --add-registry docker.io
-# docker login docker.io -u rhtgptetraining
-# docker push docker.io/rhtgptetraining/fedoratools:2.4
+# Docker push (on F28):
+#   Make sure the following is the *first* entry in the docker daemon (by updating /etc/sysconfig/docker):  --add-registry docker.io
+#   docker login docker.io -u rhtgptetraining
+#   docker push docker.io/rhtgptetraining/fedoratools:2.4
 
 # View details of the image in the remote docker registry
 # skopeo inspect docker://docker.io/rhtgptetraining/fedoratools:2.4

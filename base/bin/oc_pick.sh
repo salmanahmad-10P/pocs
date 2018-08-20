@@ -73,7 +73,15 @@ function ocp_login() {
 
 function ocp_wildcard_domain_env_var() {
     export OCP_WILDCARD_DOMAIN=apps.$GUID.openshift.opentlc.com
-    echo -en "\n\n\nNOTE: execute the following to modify OCP_WILDCARD_DOMAIN env var: export OCP_WILDCARD_DOMAIN=apps.$GUID.openshift.opentlc.com\n\n"
+    export REGION=`oc whoami --show-server | cut -d'.' -f 2`
+    export OCP_DOMAIN=$REGION.openshift.opentlc.com
+
+    echo -en "\n\n\nNOTE: execute the following to set appropriate env vars:\n\n\
+export REGION=$REGION\n\
+export OCP_DOMAIN=$REGION.openshift.opentlc.com\n\
+export OCP_WILDCARD_DOMAIN=apps.$OCP_DOMAIN\n\
+export OCP_USERNAME=$OCP_USERNAME 
+\n   "
 
 }
 
