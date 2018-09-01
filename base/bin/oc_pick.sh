@@ -61,7 +61,7 @@ function ocp_login() {
 
     # Customize for: oc cluster up
     if [ $GUID == "localhost" ]; then
-        command="oc login https://localhost:8443 -u user1 -p anypasswd"
+        command="oc login https://$HOSTNAME:8443 -u $OCP_USERNAME -p $OCP_PASSWORD"
     fi
 
     echo -en "\n\nUsing command: $command\n\n"
@@ -72,13 +72,17 @@ function ocp_login() {
 }
 
 function ocp_wildcard_domain_env_var() {
-    export OCP_WILDCARD_DOMAIN=apps.$GUID.openshift.opentlc.com
     export REGION=`oc whoami --show-server | cut -d'.' -f 2`
-    export OCP_DOMAIN=$REGION.openshift.opentlc.com
+    if [ $GUID == "localhost" ]; then
+        export OCP_DOMAIN=`echo $HOSTNAME | cut -d'.' -f 2,3,4`
+    else
+        export OCP_DOMAIN=$REGION.openshift.opentlc.com
+    fi
 
+    export OCP_WILDCARD_DOMAIN=apps.$OCP_DOMAIN
     echo -en "\n\n\nNOTE: execute the following to set appropriate env vars:\n\n\
 export REGION=$REGION\n\
-export OCP_DOMAIN=$REGION.openshift.opentlc.com\n\
+export OCP_DOMAIN=$OCP_DOMAIN\n\
 export OCP_WILDCARD_DOMAIN=apps.$OCP_DOMAIN\n\
 export OCP_USERNAME=$OCP_USERNAME 
 \n   "
