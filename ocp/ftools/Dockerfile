@@ -16,7 +16,12 @@ FROM fedora:27
 #   docker run --rm fedoratools:2.4
 
 # Execution: OpenShift
-#   oc run ftools --image=docker.io/rhtgptetraining/fedoratools:2.4
+#   oc run ftools --image=docker.io/rhtgptetraining/fedoratools:2.4         :   creates a DC
+#   oc create -f ftools-deploy.yml                                          :   creates a deployment
+
+# Execution: Istio enabled
+#   istioctl kube-inject -f ftools-deploy.yml > $HOME/lab/ftools-istio.yml
+#   oc create -f $HOME/lab/ftools-istio.yml
 
 # Executes a command in a new layer and creates a new image
 RUN dnf install -y iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git && dnf clean all

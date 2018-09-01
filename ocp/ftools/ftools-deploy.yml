@@ -1,0 +1,42 @@
+# Execution: Istio enabled
+#   istioctl kube-inject -f ftools-deploy.yml > $HOME/lab/ftools-istio.yml
+#   oc create -f $HOME/lab/ftools-istio.yml
+#   oc patch deploy/ftools --patch '{"spec":{"template":{"spec":{"containers":[{"name":"istio-proxy", "resources": {   "limits":{"cpu": "500m","memory": "128Mi"},"requests":{"cpu":"50m","memory":"32Mi"}   }}]}}}}'
+#   oc patch deploy/ftools --patch '{"spec":{"template":{"spec":{"initContainers":[{"name":"istio-init", "resources": {   "limits":{"cpu": "500m","memory": "128Mi"},"requests":{"cpu":"50m","memory":"32Mi"}   }}]}}}}'
+#   oc rollout resume deploy ftools
+
+
+apiVersion: extensions/v1beta1 
+kind: Deployment
+metadata:
+  name: ftools
+  labels:
+    app: ftools
+spec:
+  paused: true
+  replicas: 1
+  strategy:
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 1800
+      updatePeriodSeconds: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        deployment: ftools
+    spec:
+      containers:
+      - env: 
+        image: docker.io/rhtgptetraining/fedoratools:2.4
+        imagePullPolicy: IfNotPresent
+        name: apicast-production
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 256m
+            memory: 64Mi
