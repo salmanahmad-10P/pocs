@@ -74,16 +74,15 @@ function ocp_login() {
 function ocp_wildcard_domain_env_var() {
     export REGION=`oc whoami --show-server | cut -d'.' -f 2`
     if [ $GUID == "localhost" ]; then
-        export OCP_DOMAIN=`echo $HOSTNAME | cut -d'.' -f 2,3,4`
+        export SUB_DOMAIN=`echo $HOSTNAME | cut -d'.' -f 2,3,4`
     else
-        export OCP_DOMAIN=$REGION.openshift.opentlc.com
+        export SUB_DOMAIN=$REGION.openshift.opentlc.com
     fi
 
-    export OCP_WILDCARD_DOMAIN=apps.$OCP_DOMAIN
     echo -en "\n\n\nNOTE: execute the following to set appropriate env vars:\n\n\
 export REGION=$REGION\n\
-export OCP_DOMAIN=$OCP_DOMAIN\n\
-export OCP_WILDCARD_DOMAIN=apps.$OCP_DOMAIN\n\
+export SUB_DOMAIN=$SUB_DOMAIN\n\
+export OCP_WILDCARD_DOMAIN=apps.$SUB_DOMAIN\n\
 export OCP_USERNAME=$OCP_USERNAME 
 \n   "
 

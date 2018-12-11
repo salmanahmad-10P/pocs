@@ -20,8 +20,10 @@ RSYNC_PATH="/run/media/jbride/_u03"
 
 # simple-mtpfs $HOME/phone
 # sudo umount $HOME/phone
-RSYNC_DROID_PATH="$HOME/phone/"
-LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/moto2017
+# RSYNC_DROID_PATH="$HOME/phone/"
+# LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/moto2017
+
+RSYNC_DROID_PATH=/run/media/jbride/9016-4EF8
 
 syncLocalFromBackup() {
     cd $HOME
@@ -142,8 +144,40 @@ syncBackupFromLocal() {
 
 syncDroidFromLocal() {
     cd $AUDIO_HOME/default    
-    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/Music/default"    
-    rsync -trv --delete . $RSYNC_DROID_PATH/Music/default 
+    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/default"    
+    rsync -trv --delete . $RSYNC_DROID_PATH/audio/default 
+    rsyncReturnCode=$?    
+    if [ $rsyncReturnCode -ne 0 ];then    
+        exit 1;    
+    fi    
+
+    cd $AUDIO_HOME/boomChakalaka    
+    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/boomChakalaka"    
+    rsync -trv --delete . $RSYNC_DROID_PATH/audio/boomChakalaka 
+    rsyncReturnCode=$?    
+    if [ $rsyncReturnCode -ne 0 ];then    
+        exit 1;    
+    fi    
+
+    cd $AUDIO_HOME/christmas    
+    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/christmas"    
+    rsync -trv --delete . $RSYNC_DROID_PATH/audio/christmas 
+    rsyncReturnCode=$?    
+    if [ $rsyncReturnCode -ne 0 ];then    
+        exit 1;    
+    fi    
+
+    cd $AUDIO_HOME/lounge    
+    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/lounge"    
+    rsync -trv --delete . $RSYNC_DROID_PATH/audio/lounge
+    rsyncReturnCode=$?    
+    if [ $rsyncReturnCode -ne 0 ];then    
+        exit 1;    
+    fi    
+
+    cd $AUDIO_HOME/faith    
+    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/faith"    
+    rsync -trv --delete . $RSYNC_DROID_PATH/audio/faith
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    

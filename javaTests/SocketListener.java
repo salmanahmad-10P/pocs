@@ -5,10 +5,10 @@ public class SocketListener {
     public static void main(String[] args) {
         byte[] inboundBuffer = new byte[512];
         try {
-            int port = 1313;
-            InetAddress remoteAddress = InetAddress.getByName(args[0]);
-            ServerSocket ss = new ServerSocket(port, 0, remoteAddress);
-            System.out.println("Now Listening on Port " + port);
+            InetAddress bindAddress = InetAddress.getByName(args[0]);
+            int port = Integer.parseInt(args[1]);
+            ServerSocket ss = new ServerSocket(port, 0, bindAddress);
+            System.out.println("Now Listening on Port " + bindAddress+":"+port);
             Socket client = ss.accept();
             System.out.println("Client just aquired socket");
             InputStream in = client.getInputStream();
