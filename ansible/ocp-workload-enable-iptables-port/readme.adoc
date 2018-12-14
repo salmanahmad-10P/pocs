@@ -1,0 +1,33 @@
+= ocp-workload-enable-iptables-port
+
+Purpose is to simply enable a port in firewall of an oc cluster up VM.
+Could be used to facilitate OCP _node port_ functionality.
+
+== smoke test
+
+. Create playbook
++
+-----
+ROLE_PATH=`pwd`
+
+echo "
+- hosts: all
+  roles:
+    - $ROLE_PATH
+" > /tmp/ocp-workload-enable-iptables-port.yaml
+-----
+
+. Create hosts file
++
+-----
+echo "
+[remote]
+clientvm.7575.openshift.opentlc.com  ansible_become_user=root ansible_become=yes ansible_become_method=sudo ansible_ssh_user=jbride-redhat.com
+" > hosts
+-----
+
+. Execution
++
+-----
+ansible-playbook -i hosts /tmp/ocp-workload-enable-iptables-port.yaml
+-----

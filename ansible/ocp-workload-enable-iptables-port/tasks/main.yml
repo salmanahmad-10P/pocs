@@ -1,0 +1,11 @@
+---
+
+
+- name: "Following ports are being enabled   {{port}}"
+  iptables:
+    action: insert
+    protocol: tcp
+    destination_port: "{{port}}"
+    state: present
+    chain: INPUT
+    jump: ACCEPT

@@ -1,0 +1,2 @@
+[remote]
+clientvm.7575.openshift.opentlc.com  ansible_ssh_user=jbride-redhat.com ansible_become_user=root ansible_become=yes ansible_become_method=sudo
