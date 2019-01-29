@@ -1,4 +1,4 @@
 . oc login https://master.dev39.openshift.opentlc.com
 . git clone https://github.com/jbride/pocs.git
 . cd pocs/ansible/hello_oc
-. ansible-playbook -v hello_oc.yml
+. ansible-playbook -i "localhost," -c local -v hello_oc.yml

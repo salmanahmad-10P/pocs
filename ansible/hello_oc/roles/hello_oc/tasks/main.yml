@@ -4,6 +4,15 @@
   shell: |
       oc get project
 
+- name: set fact test
+  shell: |
+    oc whoami --show-server
+  register: ocp_master_url
+
+- debug:
+    msg: "ocp_master_url = {{ ocp_master_url.stdout }}"
+
 - name: oc test impersonate system admin
   shell: |
       oc get nodes --as=system:admin
+
