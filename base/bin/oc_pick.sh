@@ -41,9 +41,12 @@ function prompt_user() {
     echo -en "\nSelect a GUID from the following list: $GUIDS\n\n"
     read GUID
 
+    echo -en "\nRavello environment (n/y) ?\n\n"
+    read IS_RAVELLO
+
     # oc cluster up won't ever use OCP admin user since current convention is to use oc cluster up with root OS user
     # access to oc cluster as system:admin user subsequently occurs leveraging:  /root/.kubeconfig
-    if [ "localhost" != $GUID ]; then
+    if [[ ( "localhost" != "$GUID" && "$IS_RAVELLO" != "y" ) ]]; then
         echo -en "\nUse OCP admin user (n/y) ?\n\n"
         read USE_OCP_ADMIN_USER
     fi
@@ -64,6 +67,10 @@ function ocp_login() {
         command="oc login https://$HOSTNAME:8443 -u $OCP_USERNAME -p $OCP_PASSWORD"
     fi
 
+    if [ $IS_RAVELLO == "y" ]; then
+        command="oc login https://master00-$GUID.generic.opentlc.com -u $RAVELLO_ADMIN_OCP_USERNAME -p $RAVELLO_ADMIN_OCP_PASSWORD"
+    fi
+
     echo -en "\n\nUsing command: $command\n\n"
     eval $command
     if [ $? -ne 0 ];then
@@ -75,17 +82,21 @@ function ocp_wildcard_domain_env_var() {
     export REGION=`oc whoami --show-server | cut -d'.' -f 2`
     if [ $GUID == "localhost" ]; then
         export SUB_DOMAIN=`echo $HOSTNAME | cut -d'.' -f 2,3,4`
+        export OCP_WILDCARD_DOMAIN=apps.$SUB_DOMAIN
+    elif [ $IS_RAVELLO == "y" ]; then
+        export SUB_DOMAIN=$GUID.generic.opentlc.com
+        export OCP_WILDCARD_DOMAIN=apps-$SUB_DOMAIN
     else
         export SUB_DOMAIN=$REGION.openshift.opentlc.com
+        export OCP_WILDCARD_DOMAIN=apps.$SUB_DOMAIN
     fi
 
     echo -en "\n\n\nNOTE: execute the following to set appropriate env vars:\n\n\
 export REGION=$REGION\n\
 export SUB_DOMAIN=$SUB_DOMAIN\n\
-export OCP_WILDCARD_DOMAIN=apps.$SUB_DOMAIN\n\
+export OCP_WILDCARD_DOMAIN=$OCP_WILDCARD_DOMAIN\n\
 export OCP_USERNAME=$OCP_USERNAME 
 \n   "
-
 }
 
 
