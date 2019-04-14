@@ -86,6 +86,7 @@ function ocp_wildcard_domain_env_var() {
     elif [ $IS_RAVELLO == "y" ]; then
         export SUB_DOMAIN=$GUID.generic.opentlc.com
         export OCP_WILDCARD_DOMAIN=apps-$SUB_DOMAIN
+        echo -en "\n\nNOTE: execute the following to ssh into lab environment:  ssh <opentlc-userId>@workstation-$GUID.rhpds.opentlc.com\n"
     else
         export SUB_DOMAIN=$REGION.openshift.opentlc.com
         export OCP_WILDCARD_DOMAIN=apps.$SUB_DOMAIN

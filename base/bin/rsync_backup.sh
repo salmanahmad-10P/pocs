@@ -16,7 +16,8 @@ THUNDERBIRD_HOME=/u02/thunderbird
 
 REMOTE_USER=jbride
 REMOTE_IP=localhost
-RSYNC_PATH="/run/media/jbride/_u03"
+#RSYNC_PATH="/run/media/jbride/_u03"
+RSYNC_PATH="/external"
 
 # simple-mtpfs $HOME/phone
 # sudo umount $HOME/phone
@@ -30,15 +31,14 @@ syncLocalFromBackup() {
     echo " ***** now synching in : $HOME from $RSYNC_PATH" 
     rsync   -trv \
             --include=* \
-            $RSYNC_PATH/jbride /home   
+            $RSYNC_PATH/jbride /u02
 
     rsync -trv $RSYNC_PATH/photos /u02
     rsync -trv $RSYNC_PATH/audio /u02
     rsync -trv $RSYNC_PATH/oldSoftware /u02
-    rsync -trv $RSYNC_PATH/thunderbird /u02
 }
 
-syncBackupFromLocal() {
+syncBackupJbrideFromLocal() {
     cd $HOME    
     echo " ***** now synching in : $RSYNC_PATH with $HOME"    
 #    rsync -trv . \
@@ -55,6 +55,7 @@ syncBackupFromLocal() {
                --exclude=**/*.txt \
                --exclude=Downloads \
                --exclude=lab \
+               --exclude=provisioning_output \
                --exclude=Music \
                --exclude=Public \
                --exclude=Templates \
@@ -64,8 +65,14 @@ syncBackupFromLocal() {
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
-    fi    
+    fi   
+} 
         
+
+syncAllBackupFromLocal() {
+
+    syncBackupJbrideFromLocal
+
     mkdir -p $PHOTOS_HOME; cd $PHOTOS_HOME    
     echo " ***** now synching in : $PHOTOS_HOME at :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/photos    
@@ -98,13 +105,13 @@ syncBackupFromLocal() {
         exit 1;    
     fi    
 
-    mkdir -p $THUNDERBIRD_HOME; cd $THUNDERBIRD_HOME    
-    echo " ***** now synching in : $THUNDERBIRD_HOME at :  $RSYNC_PATH"    
-    rsync -trv . --exclude=.* $RSYNC_PATH/thunderbird   
-    rsyncReturnCode=$?    
-    if [ $rsyncReturnCode -ne 0 ];then    
-        exit 1;    
-    fi    
+    #mkdir -p $THUNDERBIRD_HOME; cd $THUNDERBIRD_HOME    
+    #echo " ***** now synching in : $THUNDERBIRD_HOME at :  $RSYNC_PATH"    
+    #rsync -trv . --exclude=.* $RSYNC_PATH/thunderbird   
+    #rsyncReturnCode=$?    
+    #if [ $rsyncReturnCode -ne 0 ];then    
+    #    exit 1;    
+    #fi    
 
     #mkdir -p $RECORDINGS; cd $RECORDINGS
     #echo " ***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
@@ -240,11 +247,11 @@ _TestSSH() {
 #_TestSSH jbride 5
 
 case "$1" in
-    syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupFromLocal)
+    syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupJbrideFromLocal|syncBackupFromLocal)
         $1
         ;;
     *)
-    echo 1>&2 $"Usage: $0 {syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupFromLocal}"
+    echo 1>&2 $"Usage: $0 {syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupJbrideFromLocal|syncBackupFromLocal}"
     exit 1
 esac
 
