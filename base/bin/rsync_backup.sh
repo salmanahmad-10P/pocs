@@ -56,6 +56,7 @@ syncBackupJbrideFromLocal() {
                --exclude=Downloads \
                --exclude=lab \
                --exclude=provisioning_output \
+               --exclude=bin \
                --exclude=Music \
                --exclude=Public \
                --exclude=Templates \
