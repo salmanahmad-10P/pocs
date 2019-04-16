@@ -16,3 +16,7 @@
   shell: |
       oc get nodes --as=system:admin
 
+- name: pad numbers
+  set_fact:
+    item: "1"
+- debug: msg={{ 'Item\:\ %02d'|format(item|int) }}
