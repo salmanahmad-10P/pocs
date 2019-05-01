@@ -1,0 +1,24 @@
+= quarkus helloworld
+
+== procedure
+
+-----
+$ mvn help:describe -Dplugin=io.quarkus:quarkus-maven-plugin -Ddetail
+
+$ mvn io.quarkus:quarkus-maven-plugin:create \
+      -DclassName="com.ratwater.jbride.HelloResource" \
+      -Dpath=/hello \
+      -DprojectGroupId=com.ratwater.jbride \
+      -DprojectArtifactId=helloworld \
+      -DprojectVersion=1.0-SNAPSHOT \
+      -Dproject=helloworld
+
+Edit pom.xml
+
+$ mvn io.quarkus:quarkus-maven-plugin:build
+
+$ java -jar target/helloworld-1.0-SNAPSHOT-runner.jar
+
+$ curl localhost:8080/hello
+
+-----
