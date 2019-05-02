@@ -22,5 +22,6 @@ $ java -jar target/helloworld-1.0-SNAPSHOT-runner.jar
 $ curl localhost:8080/hello
 
 $ mvn io.quarkus:quarkus-maven-plugin:list-extensions
+$ mvn io.quarkus:quarkus-maven-plugin:add-extension -Dextensions=""
 
 -----

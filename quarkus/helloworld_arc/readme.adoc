@@ -9,4 +9,7 @@ mvn io.quarkus:quarkus-maven-plugin:create \
       -DprojectGroupId=com.ratwater.jbride \
       -DprojectArtifactId=helloworld_arc \
       -Dproject=helloworld_arc
+
+cat src/main/docker/Dockerfile.native
+ps -eo vsz,rss,args | grep quarkus
 -----
