@@ -1,0 +1,12 @@
+= helloworld-arc
+
+-----
+mvn io.quarkus:quarkus-maven-plugin:create \
+      -Dextensions="io.quarkus:quarkus-arc" \
+      -DclassName="com.ratwater.jbride.HelloResource" \
+      -Dpath=/hello \
+      -DprojectVersion=1.0-SNAPSHOT \
+      -DprojectGroupId=com.ratwater.jbride \
+      -DprojectArtifactId=helloworld_arc \
+      -Dproject=helloworld_arc
+-----
