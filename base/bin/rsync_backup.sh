@@ -90,6 +90,14 @@ syncAllBackupFromLocal() {
         exit 1;    
     fi    
         
+    mkdir -p $VIDEO_HOME; cd $VIDEO_HOME    
+    echo " ***** now synching in : $VIDEO_HOME at :  $RSYNC_PATH"    
+    rsync -trv . --exclude=.* $RSYNC_PATH/video    
+    rsyncReturnCode=$?    
+    if [ $rsyncReturnCode -ne 0 ];then    
+        exit 1;    
+    fi    
+
     mkdir -p $OLD_SOFTWARE_HOME; cd $OLD_SOFTWARE_HOME    
     echo " ***** now synching in : $OLD_SOFTWARE_HOME at :  $RSYNC_PATH"    
     rsync -trv --delete . --exclude=.* $RSYNC_PATH/oldSoftware    
@@ -98,13 +106,6 @@ syncAllBackupFromLocal() {
         exit 1;    
     fi 
    
-    mkdir -p $VIDEO_HOME; cd $VIDEO_HOME    
-    echo " ***** now synching in : $VIDEO_HOME at :  $RSYNC_PATH"    
-    rsync -trv . --exclude=.* $RSYNC_PATH/video    
-    rsyncReturnCode=$?    
-    if [ $rsyncReturnCode -ne 0 ];then    
-        exit 1;    
-    fi    
 
     #mkdir -p $THUNDERBIRD_HOME; cd $THUNDERBIRD_HOME    
     #echo " ***** now synching in : $THUNDERBIRD_HOME at :  $RSYNC_PATH"    
@@ -248,11 +249,11 @@ _TestSSH() {
 #_TestSSH jbride 5
 
 case "$1" in
-    syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupJbrideFromLocal|syncBackupFromLocal)
+    syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupJbrideFromLocal|syncAllBackupFromLocal)
         $1
         ;;
     *)
-    echo 1>&2 $"Usage: $0 {syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupJbrideFromLocal|syncBackupFromLocal}"
+    echo 1>&2 $"Usage: $0 {syncDroidFromLocal|syncLocalFromDroid|syncLocalFromBackup|createTarBundles|syncBackupJbrideFromLocal|syncAllBackupFromLocal}"
     exit 1
 esac
 
