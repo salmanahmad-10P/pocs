@@ -1,0 +1,10 @@
+= GraalVM ocp_pick 
+
+== procedure
+
+-----
+$ mvn clean package
+$ java -jar target/ocp_pick-1.0.jar
+$ ./target/ocp_pick
+
+-----
