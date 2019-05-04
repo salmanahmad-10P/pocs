@@ -81,6 +81,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <configuration>
               <imageName>ocp_pick</imageName>
               <skip>${native.skip}</skip>
+
+              <!-- as per: https://royvanrijn.com/blog/2018/09/part-2-native-microservice-in-graalvm/#results-->
+              <buildArgs>-H:IncludeResources=.*.properties|.*META-INF/persistence.xml|.*.xsd</buildArgs>
+
             </configuration>
           </execution>
         </executions>
