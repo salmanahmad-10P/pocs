@@ -1,36 +1,38 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ratwater.jbride</groupId>
   <artifactId>ocp_pick</artifactId>
   <version>1.0</version>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.sourceEncoding>
+    UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.jar.plugin.version>2.4</maven.jar.plugin.version>
     <graal.version>1.0.0-rc16</graal.version>
+    <native.skip>false</native.skip>
   </properties>
   <dependencyManagement>
-    <dependencies>
-    </dependencies>
+    <dependencies></dependencies>
   </dependencyManagement>
   <dependencies>
     <dependency>
-        <groupId>org.yaml</groupId>
-        <artifactId>snakeyaml</artifactId>
-        <version>1.23</version>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>1.23</version>
     </dependency>
     <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.7.25</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.25</version>
     </dependency>
     <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.8.1</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.8.1</version>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>
@@ -42,7 +44,6 @@
       <artifactId>plexus-utils</artifactId>
       <version>1.1</version>
     </dependency>
-
   </dependencies>
   <build>
     <plugins>
@@ -59,6 +60,7 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+
                   <mainClass>com.ratwater.jbride.OCPick</mainClass>
                 </transformer>
               </transformers>
@@ -67,21 +69,41 @@
         </executions>
       </plugin>
       <plugin>
-    <groupId>com.oracle.substratevm</groupId>
-    <artifactId>native-image-maven-plugin</artifactId>
-    <version>${graal.version}</version>
-    <executions>
-        <execution>
+        <groupId>com.oracle.substratevm</groupId>
+        <artifactId>native-image-maven-plugin</artifactId>
+        <version>${graal.version}</version>
+        <executions>
+          <execution>
             <goals>
-                <goal>native-image</goal>
+              <goal>native-image</goal>
             </goals>
             <phase>package</phase>
             <configuration>
               <imageName>ocp_pick</imageName>
+              <skip>${native.skip}</skip>
             </configuration>
-        </execution>
-    </executions>
-</plugin>
-        </plugins>
-    </build>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <configuration>
+              <tasks>
+                <replace token="project.version"
+                value="${project.version}" dir="target/classes">
+                  <include name="application.properties" />
+                </replace>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
