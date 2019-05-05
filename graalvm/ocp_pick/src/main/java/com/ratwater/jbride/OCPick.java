@@ -154,9 +154,26 @@ public class OCPick {
 
     private static void login(String guid) {
         OCPENV ocpEnv = envMap.get(guid);
-        StringBuilder lCommand = new StringBuilder("oc login https://master."+guid+"."+ocpEnv.getSubdomainBase());
-        lCommand.append(" -u "+ ocpEnv.getUserId());
-        lCommand.append(" -p "+ ocpEnv.getUserPasswd());
+        StringBuilder lCommand = new StringBuilder("oc login https://");
+
+        // 1)  Determine URL to OCP Master
+        if(ocpEnv.getType().equals(OCPENV.AWS)){
+            lCommand.append("master."+guid+"."+ocpEnv.getSubdomainBase());
+        } else if(ocpEnv.getType().equals(OCPENV.RAVELLO)){
+            lCommand.append(OCPENV.RAVELLO_MASTER_PREFIX+guid+"."+ocpEnv.getSubdomainBase());
+        } else {
+            throw new RuntimeException("Unknown OCP environment type: "+ocpEnv.getType());
+        }
+
+
+        // 2)  Add userId and passwd
+        if(ocpEnv.isLoginAsAdmin()){
+            lCommand.append(" -u "+ ocpEnv.getAdminUserId());
+            lCommand.append(" -p "+ ocpEnv.getAdminPasswd());
+        }else {
+            lCommand.append(" -u "+ ocpEnv.getUserId());
+            lCommand.append(" -p "+ ocpEnv.getUserPasswd());
+        }
         log.info("\nlogin command = "+lCommand);
 
         InputStream iStream = null;

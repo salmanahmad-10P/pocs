@@ -8,8 +8,8 @@
 #   loginAsAdmin:   boolean;  optional;   default value = false
 #   userId:         String;   optional;   will be used if loginAsAdmin == false
 #   userPasswd:     String;   optional;   will be used if loginAsAdmin == false
-#   adminUser:      String;   optional;   will be used if loginAsAdmin == true;   default value = opentlc-mgr
-#   nonAdminUser:   String;   optional;   will be used if loginAsAdmin == true;
+#   adminUserId:    String;   optional;   will be used if loginAsAdmin == true;   default value = opentlc-mgr
+#   adminPasswd:    String;   optional;   will be used if loginAsAdmin == true;
 
 ocpEnvs:
 
@@ -21,8 +21,17 @@ ocpEnvs:
 
 - guid: 1234 
   type: aws
-  adminUser: gpte-mgr
-  nonAdminUser: ocp1
+  loginAsAdmin: true
+  adminUserId: gpte-mgr
+  adminPasswd: 'xxxx'
+  userId: ocp1
+  userPasswd: 'xxxx'
 
 - guid: 5678
   type: ravello
+  subdomainBase: "generic.opentlc.com"
+  loginAsAdmin: true
+  adminUserId: opentlc-mgr
+  adminPasswd: 'xxxx'
+  userId: user1
+  userPasswd: 'xxxx'
