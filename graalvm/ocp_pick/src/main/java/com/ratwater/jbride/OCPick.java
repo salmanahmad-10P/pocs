@@ -22,13 +22,14 @@ public class OCPick {
     private static Logger log = LoggerFactory.getLogger("OCPick");
     private static final String YAML_CONFIG_PATH_ENV = "YAML_CONFIG_PATH_ENV";
     private static final String YAML_CONFIG_PATH_ARG = "--config_path=";
-    private static final String DEFAULT_CONFIG_FILE_NAME = "ocp_env_details.yaml";
+    private static final String DEFAULT_CONFIG_FILE_NAME = ".ocp_env_details.yaml";
     private static final String APP_VERSION = "app_version";
     private static String version = "0.0";
     private static Properties appProps = null;
     private static String yamlConfigPath = null;
 
     public static void main(String args[]) {
+        testOC();
         readAppProps();
         // dumpSysProperties();
         if ((appProps != null) && (!StringUtils.isEmpty((String) appProps.get(APP_VERSION)))) {
@@ -38,6 +39,26 @@ public class OCPick {
         determineVariables(args);
         readAndValidateYaml();
 
+    }
+    private static void testOC() {
+        
+        InputStream iStream = null;
+        try {
+            Process p = Runtime.getRuntime().exec("oc version");
+            iStream = p.getInputStream();
+            String commandOutput = IOUtil.toString(iStream);
+        
+            log.info("testOC() commandOutput = "+commandOutput);
+        } catch (IOException e) {
+           throw new RuntimeException(e);
+        } finally {
+            if(iStream != null)
+                try {
+                    iStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
     }
 
     private static void determineVariables(String args[]) {
@@ -69,14 +90,15 @@ public class OCPick {
 
         FileInputStream yamlReader = null;
         Map<String, Map<String, Object>> yamlValues = null;
+        Object tempYaml;
         try {
             yamlReader = new FileInputStream(yamlFile);
             Yaml yamlObj = new Yaml();
-            Object temp = yamlObj.load(yamlReader);
-              if(! (temp instanceof Map))
+              tempYaml = yamlObj.loadAll(yamlReader);
+              if(! (tempYaml instanceof Map))
                 throw new RuntimeException("readAndValidateYaml() The following is not properly configured yaml: "+yamlConfigPath);
 
-            yamlValues = (Map<String, Map<String, Object>>)temp;
+            yamlValues = (Map<String, Map<String, Object>>)tempYaml;
         }catch(IOException x) {
           throw new RuntimeException(x);
         } finally {
@@ -90,13 +112,18 @@ public class OCPick {
         for( Entry<String, Map<String, Object>> yamlEntry : yamlValues.entrySet()) {
           String yamlKey = yamlEntry.getKey();
           sBuilder.append("\n"+yamlKey);
-          Map<String, Object> subValues = yamlEntry.getValue();
-          for(Entry<String, Object> subValue : subValues.entrySet()) {
-             String subVK = subValue.getKey();
-             String subVV = (String)subValue.getValue();
-             sBuilder.append("\n\t"+subVK+ ":"+ subVV);
+          tempYaml = yamlEntry.getValue();
+          if(tempYaml instanceof String) {
+              sBuilder.append(" : "+(String)tempYaml);
+          }else {
+              Map<String, Object> subValues = (Map<String, Object>)tempYaml;
+              for(Entry<String, Object> subValue : subValues.entrySet()) {
+                 String subVK = subValue.getKey();
+                 String subVV = (String)subValue.getValue();
+                 sBuilder.append("\n\t"+subVK+ " : "+ subVV);
+              }
+            }
           }
-        }
         log.info(sBuilder.toString());
         
 

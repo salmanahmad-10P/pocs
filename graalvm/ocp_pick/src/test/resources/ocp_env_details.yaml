@@ -1,0 +1,18 @@
+- 
+  type: aws
+  guid: na311
+  login_as_admin: false
+- 
+  type: aws
+  guid: 2345
+  login_as_admin: true
+- 
+  type: aws
+  guid: 1234 
+  login_as_admin: true
+  admin_user: gpte-mgr
+  non_admin_user: ocp1
+- 
+  type: ravello
+  guid: 2345
+    
