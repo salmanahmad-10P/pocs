@@ -1,3 +1,14 @@
+# OCP Environments 
+#   Populate as needed as per every potential environment you may want to connect to at different times
+#   Every environment consists of the following variales:
+#
+#   guid:           String; required; no default value
+#   type:           String; default value = "aws"; alternatives are: ravello
+#   loginAsAdmin:   boolean; default value = false
+#   adminUser:      String; default value = opentlc-mgr
+#   nonAdminUser:   String; default value = user1
+#   subdomainBase:  String; default value = openshift.opentlc.com
+
 ocpEnvs:
 
 - guid: na311
