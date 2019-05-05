@@ -32,6 +32,7 @@ public class OCPick {
         determineVariables(args);
         readAndValidateYaml();
         String guid = promptForGuid();
+        login(guid);
     }
 
     private static void testOC() {
@@ -47,11 +48,7 @@ public class OCPick {
             throw new RuntimeException(e);
         } finally {
             if (iStream != null)
-                try {
-                    iStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                try { iStream.close();  } catch (IOException e) { e.printStackTrace(); }
         }
     }
 
@@ -153,5 +150,28 @@ public class OCPick {
             e.printStackTrace();
         }
         return guid;
+    }
+
+    private static void login(String guid) {
+        OCPENV ocpEnv = envMap.get(guid);
+        StringBuilder lCommand = new StringBuilder("oc login https://master."+guid+"."+ocpEnv.getSubdomainBase());
+        lCommand.append(" -u "+ ocpEnv.getUserId());
+        lCommand.append(" -p "+ ocpEnv.getUserPasswd());
+        log.info("\nlogin command = "+lCommand);
+
+        InputStream iStream = null;
+        try {
+            Process p = Runtime.getRuntime().exec(lCommand.toString());
+            iStream = p.getInputStream();
+            String commandOutput = IOUtil.toString(iStream);
+
+            log.info("\n login Successful; response = " + commandOutput);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (iStream != null)
+                try { iStream.close();  } catch (IOException e) { e.printStackTrace(); }
+        }
+
     }
 }

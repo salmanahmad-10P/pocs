@@ -8,6 +8,8 @@ public class OCPENV {
     private String adminUser = "opentlc-mgr";
     private String nonAdminUser = "user1";
     private String subdomainBase = "openshift.opentlc.com";
+    private String userId = null;
+    private String userPasswd = null;
 
     public String getType() {
         return type;
@@ -46,9 +48,23 @@ public class OCPENV {
         this.subdomainBase = sb;
     }
 
+    public String getUserId() {
+		return userId;
+    }
+    public void setUserId(String x) {
+		userId = x;
+	}
+	public String getUserPasswd() {
+		return userPasswd;
+    }
+    public void setUserPasswd(String x) {
+		userPasswd = x;
+	}
+
     public String toString() {
         return "OCPEnv [guid=" + guid + ", adminUser=" + adminUser + ", loginAsAdmin=" + loginAsAdmin
                 + ", nonAdminUser=" + nonAdminUser + ", type=" + type + ", subdomainBase=" +subdomainBase + "]";
     }
+
     
 }
