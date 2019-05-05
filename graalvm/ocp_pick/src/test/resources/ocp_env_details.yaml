@@ -1,18 +1,13 @@
-- 
+ocpEnvs:
+
+- guid: na311
   type: aws
-  guid: na311
-  login_as_admin: false
-- 
+  loginAsAdmin: false
+
+- guid: 1234 
   type: aws
-  guid: 2345
-  login_as_admin: true
-- 
-  type: aws
-  guid: 1234 
-  login_as_admin: true
-  admin_user: gpte-mgr
-  non_admin_user: ocp1
-- 
+  adminUser: gpte-mgr
+  nonAdminUser: ocp1
+
+- guid: 5678
   type: ravello
-  guid: 2345
-    

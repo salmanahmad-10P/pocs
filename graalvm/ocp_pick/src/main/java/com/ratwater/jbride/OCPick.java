@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.events.Event;
+import org.yaml.snakeyaml.representer.Representer;
 
 public class OCPick {
     private static Logger log = LoggerFactory.getLogger("OCPick");
@@ -89,27 +91,25 @@ public class OCPick {
             throw new RuntimeException("readAndValidateYaml() the following file does not exist: " + yamlConfigPath);
 
         FileInputStream yamlReader = null;
-        Map<String, Map<String, Object>> yamlValues = null;
+        OCPENVs yamlValues = null;
         Object tempYaml;
         try {
             yamlReader = new FileInputStream(yamlFile);
             Yaml yamlObj = new Yaml();
-              tempYaml = yamlObj.loadAll(yamlReader);
-              if(! (tempYaml instanceof Map))
-                throw new RuntimeException("readAndValidateYaml() The following is not properly configured yaml: "+yamlConfigPath);
+              tempYaml = yamlObj.loadAs(yamlReader, OCPENVs.class);
+              if(! (tempYaml instanceof OCPENVs))
+                throw new RuntimeException("readAndValidateYaml() The following is not properly configured yaml: "+yamlConfigPath+". That yaml is of type: "+tempYaml.getClass());
 
-            yamlValues = (Map<String, Map<String, Object>>)tempYaml;
+            yamlValues = (OCPENVs)tempYaml;
         }catch(IOException x) {
           throw new RuntimeException(x);
         } finally {
-            try {
-                yamlReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            
         }
         StringBuilder sBuilder = new StringBuilder();
-        for( Entry<String, Map<String, Object>> yamlEntry : yamlValues.entrySet()) {
+        for( OCPENV yamlObj : yamlValues.getOcpEnvs()) {
+          log.info("yamlObj = "+yamlObj);
+          /*
           String yamlKey = yamlEntry.getKey();
           sBuilder.append("\n"+yamlKey);
           tempYaml = yamlEntry.getValue();
@@ -123,6 +123,7 @@ public class OCPick {
                  sBuilder.append("\n\t"+subVK+ " : "+ subVV);
               }
             }
+          */
           }
         log.info(sBuilder.toString());
         
