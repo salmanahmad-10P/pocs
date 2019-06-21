@@ -1,0 +1,5 @@
+. oc login https://master.dev39.openshift.opentlc.com
+. git clone https://github.com/jbride/pocs.git
+. cd pocs/ansible/hello_k8s
+. sudo pip install openshift
+. ansible-playbook -i "localhost," -c local -v hello_k8s.yml

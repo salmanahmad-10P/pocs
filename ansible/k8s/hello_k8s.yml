@@ -1,0 +1,4 @@
+- hosts: localhost
+
+  roles:
+    - hello_k8s
