@@ -24,7 +24,7 @@ RSYNC_PATH="/external"
 # RSYNC_DROID_PATH="$HOME/phone/"
 # LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/moto2017
 
-RSYNC_DROID_PATH=/run/media/jbride/9016-4EF8
+RSYNC_DROID_PATH=/external
 
 syncLocalFromBackup() {
     cd $HOME
