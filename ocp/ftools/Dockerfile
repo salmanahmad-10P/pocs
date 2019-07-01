@@ -1,22 +1,22 @@
-FROM fedora:27
+FROM fedora:30
 
 # Build:
-#   docker build --rm -t fedoratools:2.4 .
-#   docker tag fedoratools:2.4 docker.io/rhtgptetraining/fedoratools:2.4
+#   sudo podman build --rm -t fedoratools:2.5 .
+#   sudo podman tag fedoratools:2.5 quay.io/rhtgptetraining/fedoratools:2.5
 
-# Docker push (on F28):
+# Docker push (on F30):
 #   Make sure the following is the *first* entry in the docker daemon (by updating /etc/sysconfig/docker):  --add-registry docker.io
-#   docker login docker.io -u rhtgptetraining
-#   docker push docker.io/rhtgptetraining/fedoratools:2.4
+#   sudo podman login quay.io -u rhtgptetraining
+#   sudo podman push quay.io/rhtgptetraining/fedoratools:2.5
 
 # View details of the image in the remote docker registry
-# skopeo inspect docker://docker.io/rhtgptetraining/fedoratools:2.4
+# skopeo inspect docker://quay.io/rhtgptetraining/fedoratools:2.5
 
 # Execution: docker
-#   docker run --rm fedoratools:2.4
+#   sudo podman run --rm fedoratools:2.5
 
 # Execution: OpenShift
-#   oc run ftools --image=docker.io/rhtgptetraining/fedoratools:2.4         :   creates a DC
+#   oc run ftools --image=quay.io/rhtgptetraining/fedoratools:2.5           :   creates a DC
 #   oc create -f ftools-deploy.yml                                          :   creates a deployment
 
 # Execution: Istio enabled
@@ -24,7 +24,7 @@ FROM fedora:27
 #   oc create -f $HOME/lab/ftools-istio.yml
 
 # Executes a command in a new layer and creates a new image
-RUN dnf install -y iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git && dnf clean all
+RUN dnf install -y iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git swaks podman skopeo speedtest-cli jq tidy xmlstarlet && dnf clean all
 
 ADD loop.sh /usr/bin/loop.sh
 
