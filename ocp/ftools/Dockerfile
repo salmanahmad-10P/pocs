@@ -18,6 +18,9 @@ FROM fedora:30
 # Execution: OpenShift
 #   oc run ftools --image=quay.io/rhtgptetraining/fedoratools:2.5           :   creates a DC
 #   oc create -f ftools-deploy.yml                                          :   creates a deployment
+#   sidecar
+#       dc_name=rhpam-kieserver
+#       oc patch dc/$dc_name --type=json -p "[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/1\", \"value\": { \"name\": \"ftools\", \"image\": \"quay.io/rhtgptetraining/fedoratools:2.5\", \"imagePullPolicy\": \"Always\", \"resources\": { \"limits\": {\"cpu\": \"100m\",\"memory\": \"256Mi\"}} }}]"
 
 # Execution: Istio enabled
 #   istioctl kube-inject -f ftools-deploy.yml > $HOME/lab/ftools-istio.yml
