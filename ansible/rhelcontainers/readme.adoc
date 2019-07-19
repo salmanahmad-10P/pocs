@@ -1,0 +1,3 @@
+. git clone https://github.com/jbride/pocs.git
+. cd pocs/ansible/rhelcontainers
+. ansible-playbook -i "192.168.122.115," -v init.yml
