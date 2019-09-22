@@ -2,5 +2,5 @@
 
 - name: Install packages
   yum:
-    name: podman,buildah
+    name: git,podman,buildah
     state: present

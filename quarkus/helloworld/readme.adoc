@@ -3,25 +3,27 @@
 == procedure
 
 -----
-$ mvn help:describe -Dplugin=io.quarkus:quarkus-maven-plugin -Ddetail
 
 $ mvn io.quarkus:quarkus-maven-plugin:create \
       -DclassName="com.ratwater.jbride.HelloResource" \
       -Dpath=/hello \
-      -DprojectVersion=1.0-SNAPSHOT \
+      -DprojectVersion=1.0 \
       -DprojectGroupId=com.ratwater.jbride \
       -DprojectArtifactId=helloworld \
       -Dproject=helloworld 
 
-Edit pom.xml
+$ mvn help:describe -Dplugin=io.quarkus:quarkus-maven-plugin -Ddetail
+$ mvn io.quarkus:quarkus-maven-plugin:list-extensions
+$ mvn io.quarkus:quarkus-maven-plugin:add-extension -Dextensions=""
+
 
 $ mvn io.quarkus:quarkus-maven-plugin:build
 
-$ java -jar target/helloworld-1.0-SNAPSHOT-runner.jar
+$ java -jar target/helloworld-1.0-runner.jar
 
 $ curl localhost:8080/hello
 
-$ mvn io.quarkus:quarkus-maven-plugin:list-extensions
-$ mvn io.quarkus:quarkus-maven-plugin:add-extension -Dextensions=""
+$ mvn package -Pnative          (Need to use GraalVM)
+$ target/helloworld-1.0-runner
 
 -----

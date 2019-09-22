@@ -21,9 +21,7 @@ RSYNC_PATH="/external"
 
 # simple-mtpfs $HOME/phone
 # sudo umount $HOME/phone
-# RSYNC_DROID_PATH="$HOME/phone/"
-# LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/moto2017
-
+LOCAL_DROID_PHOTOS_PATH=$PHOTOS_HOME/androidone
 RSYNC_DROID_PATH=/external
 
 syncLocalFromBackup() {
@@ -75,7 +73,7 @@ syncAllBackupFromLocal() {
     syncBackupJbrideFromLocal
 
     mkdir -p $PHOTOS_HOME; cd $PHOTOS_HOME    
-    echo " ***** now synching in : $PHOTOS_HOME at :  $RSYNC_PATH"    
+    echo " ***** now synching from $PHOTOS_HOME to :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/photos    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -83,7 +81,7 @@ syncAllBackupFromLocal() {
     fi
     
     mkdir -p $AUDIO_HOME; cd $AUDIO_HOME    
-    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_PATH"    
+    echo " ***** now synching from : $AUDIO_HOME to :  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/audio    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -91,7 +89,7 @@ syncAllBackupFromLocal() {
     fi    
         
     mkdir -p $VIDEO_HOME; cd $VIDEO_HOME    
-    echo " ***** now synching in : $VIDEO_HOME at :  $RSYNC_PATH"    
+    echo " ***** now synching from $VIDEO_HOME to  $RSYNC_PATH"    
     rsync -trv . --exclude=.* $RSYNC_PATH/video    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -99,7 +97,7 @@ syncAllBackupFromLocal() {
     fi    
 
     mkdir -p $OLD_SOFTWARE_HOME; cd $OLD_SOFTWARE_HOME    
-    echo " ***** now synching in : $OLD_SOFTWARE_HOME at :  $RSYNC_PATH"    
+    echo " ***** now synching from $OLD_SOFTWARE_HOME to  $RSYNC_PATH"    
     rsync -trv --delete . --exclude=.* $RSYNC_PATH/oldSoftware    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -108,7 +106,7 @@ syncAllBackupFromLocal() {
    
 
     #mkdir -p $THUNDERBIRD_HOME; cd $THUNDERBIRD_HOME    
-    #echo " ***** now synching in : $THUNDERBIRD_HOME at :  $RSYNC_PATH"    
+    #echo " ***** now synching from $THUNDERBIRD_HOME to  $RSYNC_PATH"    
     #rsync -trv . --exclude=.* $RSYNC_PATH/thunderbird   
     #rsyncReturnCode=$?    
     #if [ $rsyncReturnCode -ne 0 ];then    
@@ -116,7 +114,7 @@ syncAllBackupFromLocal() {
     #fi    
 
     #mkdir -p $RECORDINGS; cd $RECORDINGS
-    #echo " ***** now synching in : $RECORDINGS at :  $RSYNC_PATH"    
+    #echo " ***** now synching from $RECORDINGS to  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* $RSYNC_PATH/recordings    
     #rsync -trv . --exclude=* $RSYNC_PATH/recordings    
     rsyncReturnCode=$?    
@@ -126,7 +124,7 @@ syncAllBackupFromLocal() {
    
 
     #mkdir -p $CUSTOMERS_HOME; cd $CUSTOMERS_HOME    
-    #echo " ***** now synching in : $CUSTOMERS_HOME at :  $RSYNC_PATH"    
+    #echo " ***** now synching from $CUSTOMERS_HOME to  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* --exclude=hp/sdm/jboss $RSYNC_PATH/customers    
     #rsyncReturnCode=$?    
     #if [ $rsyncReturnCode -ne 0 ];then    
@@ -135,7 +133,7 @@ syncAllBackupFromLocal() {
 
         
     #mkdir -p $DOWNLOADS_HOME; cd $DOWNLOADS_HOME    
-    #echo " ***** now synching in : $DOWNLOADS_HOME at :  $RSYNC_PATH"    
+    #echo " ***** now synching from $DOWNLOADS_HOME to  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* $RSYNC_PATH/downloads    
     #rsyncReturnCode=$?    
     #if [ $rsyncReturnCode -ne 0 ];then    
@@ -143,7 +141,7 @@ syncAllBackupFromLocal() {
     #fi    
 
     #mkidr -p $VIRTUAL_MACHINES; cd $VIRTUAL_MACHINES   
-    #echo " ***** now synching in : $VIRTUAL_MACHINES at :  $RSYNC_PATH"    
+    #echo " ***** now synching from $VIRTUAL_MACHINES to  $RSYNC_PATH"    
     #rsync -trv --delete . --exclude=.* --exclude=docker* $RSYNC_PATH/virtual_machines    
     #rsyncReturnCode=$?    
     #if [ $rsyncReturnCode -ne 0 ];then    
@@ -153,7 +151,7 @@ syncAllBackupFromLocal() {
 
 syncDroidFromLocal() {
     cd $AUDIO_HOME/default    
-    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/default"    
+    echo " ***** now synching from $AUDIO_HOME to  $RSYNC_DROID_PATH/audio/default"    
     rsync -trv --delete . $RSYNC_DROID_PATH/audio/default 
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -161,7 +159,7 @@ syncDroidFromLocal() {
     fi    
 
     cd $AUDIO_HOME/boomChakalaka    
-    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/boomChakalaka"    
+    echo " ***** now synching from $AUDIO_HOME to  $RSYNC_DROID_PATH/audio/boomChakalaka"    
     rsync -trv --delete . $RSYNC_DROID_PATH/audio/boomChakalaka 
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -169,7 +167,7 @@ syncDroidFromLocal() {
     fi    
 
     cd $AUDIO_HOME/christmas    
-    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/christmas"    
+    echo " ***** now synching from $AUDIO_HOME to  $RSYNC_DROID_PATH/audio/christmas"    
     rsync -trv --delete . $RSYNC_DROID_PATH/audio/christmas 
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -177,7 +175,7 @@ syncDroidFromLocal() {
     fi    
 
     cd $AUDIO_HOME/lounge    
-    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/lounge"    
+    echo " ***** now synching from $AUDIO_HOME to  $RSYNC_DROID_PATH/audio/lounge"    
     rsync -trv --delete . $RSYNC_DROID_PATH/audio/lounge
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -185,7 +183,7 @@ syncDroidFromLocal() {
     fi    
 
     cd $AUDIO_HOME/faith    
-    echo " ***** now synching in : $AUDIO_HOME at :  $RSYNC_DROID_PATH/audio/faith"    
+    echo " ***** now synching from $AUDIO_HOME to  $RSYNC_DROID_PATH/audio/faith"    
     rsync -trv --delete . $RSYNC_DROID_PATH/audio/faith
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
@@ -203,16 +201,16 @@ syncLocalFromDroid() {
         exit 1;
     fi
 
-    cd $RSYNC_DROID_PATH/SD\ card/DCIM
-    echo " ***** now synching in : $LOCAL_DROID_PHOTOS_PATH with $RSYNC_DROID_PATH/DCIM"
+    cd $RSYNC_DROID_PATH/DCIM
+    echo " ***** now synching from $RSYNC_DROID_PATH/DCIM to  $LOCAL_DROID_PHOTOS_PATH"
     rsync -trv . $LOCAL_DROID_PHOTOS_PATH/DCIM
     rsyncReturnCode=$?
     if [ $rsyncReturnCode -ne 0 ];then
         exit 1;
     fi
 
-    cd $RSYNC_DROID_PATH/SD\ card/Download
-    echo " ***** now synching in : $LOCAL_DROID_PHOTOS_PATH/download with $RSYNC_DROID_PATH/download"
+    cd $RSYNC_DROID_PATH/Download
+    echo " ***** now synching from $RSYNC_DROID_PATH/download  to $LOCAL_DROID_PHOTOS_PATH/download"
     rsync -trv . --include=*.jpeg $LOCAL_DROID_PHOTOS_PATH/download
     rsyncReturnCode=$?
     if [ $rsyncReturnCode -ne 0 ];then
