@@ -23,7 +23,9 @@ $ java -jar target/helloworld-1.0-runner.jar
 
 $ curl localhost:8080/hello
 
-$ mvn package -Pnative          (Need to use GraalVM)
+$ mvn package -Pnative -Dnative-image.container-runtime=podman          (Need to use GraalVM)
 $ target/helloworld-1.0-runner
 
+$ sudo podman build -f src/main/docker/Dockerfile.native -t jbride/hello-quarkus .
+$ sudo podman run -i --rm -p 8080:8080 jbride/hello-quarkus 
 -----
