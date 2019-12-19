@@ -1,0 +1,15 @@
+package orders;
+unit OrderRuleUnitData;
+
+import model.Order;
+
+rule "Accept Order"
+when
+    $o: Order ( price < 2000 ) from orders
+then
+    modify ($o) { setApproved(true); }
+end
+
+query "Orders"
+  $o : /orders
+end
