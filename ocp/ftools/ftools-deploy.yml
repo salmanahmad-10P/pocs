@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - env: 
-        image: docker.io/rhtgptetraining/fedoratools:2.4
+        image: docker.io/rhtgptetraining/fedoratools:2.9
         imagePullPolicy: IfNotPresent
         name: apicast-production
         resources:
