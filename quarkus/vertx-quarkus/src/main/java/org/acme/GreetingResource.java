@@ -15,11 +15,10 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Path("/greeting")
+public class GreetingResource {
 
-@Path("/")
-public class GreetingVerticle {
-
-    private final Logger logger = LoggerFactory.getLogger(GreetingVerticle.class);
+    private final Logger logger = LoggerFactory.getLogger(GreetingResource.class);
     private int delay = 10000; // in millis
 
     @Inject
@@ -29,32 +28,39 @@ public class GreetingVerticle {
     // Only one instance of this class is instantiated .... so its a Singleton
     @PostConstruct
     void init() {
-        logger.info("init() vertx = "+vertx);
+        logger.info("init() vertx = " + vertx);
 
-        // vert.x loop executes this in the background as:  vert.x-eventloop-thread-0
+        // vert.x loop executes this in the background as: vert.x-eventloop-thread-0
         vertx.setPeriodic(delay, id -> {
             logger.info("tick");
-          });
+        });
     }
 
+    /*
+     * Response of CompletionStage<T> indicates to the underlying JAX-RS (2.1)
+     * implementation that asynchronous processing is enabled
+     * 
+     * Usage: curl -v localhost:8080/greeting/quarkus
+     */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("{name}")
     public CompletionStage<String> greeting(@PathParam String name) {
-        
+
         // When complete, return the content to the client
         CompletableFuture<String> future = new CompletableFuture<>();
 
         long start = System.nanoTime();
 
-        // Delay
+        // Delay on a thread that increments with each request. ie;
+        // vert.x-eventloop-thread-9
         vertx.setTimer(delay, l -> {
             // Compute elapsed time in milliseconds
             long duration = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
 
             // Format message
             String message = String.format("Hello %s! (%d ms)%n", name, duration);
-            logger.info("greeting() message = "+message);
+            logger.info("greeting() message = " + message);
 
             // Complete
             future.complete(message);
@@ -62,6 +68,5 @@ public class GreetingVerticle {
 
         return future;
     }
-
 
 }
