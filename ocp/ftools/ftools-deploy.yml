@@ -32,7 +32,7 @@ spec:
       - env: 
         image: quay.io/rhtgptetraining/fedoratools:2.9
         imagePullPolicy: IfNotPresent
-        name: apicast-production
+        name: ftools
         resources:
           limits:
             cpu: 500m

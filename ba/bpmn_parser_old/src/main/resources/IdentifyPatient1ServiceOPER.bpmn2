@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<semantic:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.trisotech.com/definitions/_3239e78f-a43a-4ef9-8612-57ef2a817544" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:bpsim="http://www.bpsim.org/schemas/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns:drools="http://www.jboss.org/drools" xmlns:feel="http://www.omg.org/spec/FEEL/20140401" xmlns:openapi="https://openapis.org/omg/extension/1.0" xmlns:rss="http://purl.org/rss/2.0/" xmlns:semantic="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:triso="http://www.trisotech.com/2015/triso/modeling" xmlns:trisobpmn="http://www.trisotech.com/2014/triso/bpmn" xmlns:trisofeed="http://trisotech.com/feed" xsi:schemaLocation="http://www.omg.org/spec/DD/20100524/DC DC.xsd http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd http://www.bpsim.org/schemas/1.0 bpsim.xsd http://www.jboss.org/drools drools.xsd http://www.omg.org/spec/DD/20100524/DI DI.xsd" exporter="BPMN Modeler" exporterVersion="6.5.2" expressionLanguage="http://www.omg.org/spec/FEEL/20140401" id="_3239e78f-a43a-4ef9-8612-57ef2a817544" name="Operationalized aaaaaaaa" targetNamespace="http://www.trisotech.com/definitions/_3239e78f-a43a-4ef9-8612-57ef2a817544" typeLanguage="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" trisobpmn:logoChoice="Default">
+  <semantic:itemDefinition id="_triso-default-bpmnItemDefinition-string_id" triso:basicType="true" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="triso_string" isCollection="false" structureRef="feel:string"/>
+  <semantic:itemDefinition id="_87aafe88-b272-4d11-900a-5f79b310a8dc" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition Boolean" isCollection="false" structureRef="feel:boolean"/>
+  <semantic:itemDefinition id="_e1f29d1a-5940-48d8-b666-caf90d8f8872" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition Number" isCollection="false" structureRef="feel:number"/>
+  <semantic:itemDefinition id="_393bf33d-0104-428b-8b8f-e90e468218b6" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition Stages_of_CKD.tCKD_Stages" isCollection="false" structureRef="Stages_of_CKD.tCKD_Stages"/>
+  <semantic:itemDefinition id="_1b86d23c-b957-4fd5-8735-562d747b24cc" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition Text" isCollection="false" itemKind="Information" structureRef="feel:string"/>
+  <semantic:itemDefinition id="_b2663753-6390-48ee-a913-2f7c7a681b99" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition GFR_CKD_EPI_Levey.definitionsInput" isCollection="false" structureRef="GFR_CKD_EPI_Levey.definitionsInput"/>
+  <semantic:itemDefinition id="_de61dfa7-e98b-4222-ab13-bbd0efe73cc5" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition GFR_CKD_EPI_Levey.definitionsResult" isCollection="false" structureRef="GFR_CKD_EPI_Levey.definitionsResult"/>
+  <semantic:itemDefinition id="_e57e11db-b00f-4a47-ad47-c0de6663c79a" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition Boolean 2" isCollection="false" structureRef="feel:boolean"/>
+  <semantic:itemDefinition id="_7d05d219-7f0b-4597-afc3-5ac293693d27" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="History of Acute Kidney Injury" isCollection="false" structureRef="feel:boolean"/>
+  <semantic:itemDefinition id="_88903e4f-0765-4c53-b569-a192da7ca1b0" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="History of Congested Heart Failure" isCollection="false" structureRef="feel:boolean"/>
+  <semantic:itemDefinition id="_0977f2ec-45bd-4000-929a-ffa1470ff288" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="History of Diabetes" isCollection="false" structureRef="feel:boolean"/>
+  <semantic:itemDefinition id="_578db53b-42a1-42d8-9564-e97f5d72bbb2" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="History of HIV" isCollection="false" structureRef="feel:boolean"/>
+  <semantic:itemDefinition id="_d3cb6b0a-56d0-4e8c-8dec-02a8f28a328e" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="History of Hypertension" isCollection="false" structureRef="feel:boolean"/>
+  <semantic:itemDefinition id="_447bc67b-7ccc-4279-a882-7d45facc1b73" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="History of Systemic Lupus" isCollection="false" structureRef="feel:boolean"/>
+  <semantic:itemDefinition id="_35e1f167-f92a-45bc-8a87-a8b210255ca6" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition Number 2" isCollection="false" structureRef="feel:number"/>
+  <semantic:itemDefinition id="_53736abf-bc35-4085-b036-0481ceb62e71" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition tAgeinyears" isCollection="false" structureRef="tAgeinyears"/>
+  <semantic:itemDefinition id="_acae36e2-e3f9-45bb-85b0-d82b05056377" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition tRace" isCollection="false" structureRef="tRace"/>
+  <semantic:itemDefinition id="_3ae5ec96-47b6-4d25-ad79-cd3f88ad588d" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition tSex" isCollection="false" structureRef="tSex"/>
+  <semantic:itemDefinition id="_dc533341-e52b-46ea-b4c0-be15ee30e484" triso:basicType="false" triso:definitionType="http://www.trisotech.com/2015/triso/modeling/ItemDefinitionType" triso:name="Item Definition tSerumcreatinineinmgperdL" isCollection="false" structureRef="tSerumcreatinineinmgperdL"/>
+  <semantic:error id="_8f8542b2-9268-467a-bbdf-9f8054d2a454" openapi:produces="application/json" errorCode="500" name="Internal server error" structureRef="_1b86d23c-b957-4fd5-8735-562d747b24cc"/>
+  <semantic:message id="_97796020-cdcf-4de1-983d-db279553d429" itemRef="_1b86d23c-b957-4fd5-8735-562d747b24cc" name="MessageStart"/>
+  <semantic:process id="_ea2dbec8-aa77-46e5-9c5b-18ab3624a821" name="Operationalized Monitoring for Risk of CKD" isClosed="false">
+    <semantic:property id="patient" itemSubjectRef="_patientItem" name="patient"/>
+    <semantic:property id="targetURL" itemSubjectRef="_targetURLItem" name="targetURL"/>
+    <semantic:startEvent id="_081cc45e-e918-41aa-bbea-59a521e5dd82" name="Monitor Patient">
+      <semantic:outgoing>_8a09b960-8393-48d7-abbb-417d7466c22a</semantic:outgoing>
+    </semantic:startEvent>
+    <semantic:task id="_a1fbf168-5d4f-464b-bfa1-7c5602092404" name="Obtain initial clinical information" drools:taskName="MDMI">
+      <semantic:documentation textFormat="text/html">&lt;p>TABLE 1 At-Risk Population&lt;/p>
+&lt;ul>
+&lt;li>Diabetes, hypertension, other end organ disease (e.g.,CHF), or personal or family history of kidney disease&lt;/li>
+&lt;li>Systemic illness (e.g., human immunodeficiency virus (HIV), systemic lupus erythematous, multiple myeloma)&lt;/li>
+&lt;li>History of acute kidney injury (AKI) (e.g., acute tubular necrosis, urinary tract obstruction, interstitial nephritis)&lt;/li>
+&lt;li>Elderly patients&lt;/li>
+&lt;li>Races and ethnicities associated with increased risk (e.g., African Americans, Hispanics, Native Americans)&lt;/li>
+&lt;/ul></semantic:documentation>
+      <semantic:incoming>_8a09b960-8393-48d7-abbb-417d7466c22a</semantic:incoming>
+      <semantic:outgoing>_09a3c703-5d86-4199-9f90-d9e9fd87366e</semantic:outgoing>
+      <semantic:ioSpecification>
+        <semantic:dataOutput id="_f480bf7a-0ca7-4197-8fb6-b2222bb1e516" isCollection="false" itemSubjectRef="_53736abf-bc35-4085-b036-0481ceb62e71" name="Age"/>
+        <semantic:dataOutput id="_31630c2b-1147-4740-92ca-d5de75dc23b7" isCollection="false" itemSubjectRef="_acae36e2-e3f9-45bb-85b0-d82b05056377" name="Race"/>
+        <semantic:dataOutput id="_c82474e5-c3ff-4c9c-847b-ac864db01a10" isCollection="false" itemSubjectRef="_3ae5ec96-47b6-4d25-ad79-cd3f88ad588d" name="Gender"/>
+        <semantic:dataOutput id="_e84a955a-96c0-4ea2-8a68-1184e9c4942b" isCollection="false" itemSubjectRef="_dc533341-e52b-46ea-b4c0-be15ee30e484" name="Scr tt"/>
+        <semantic:inputSet/>
+        <semantic:outputSet id="_97bfd87c-f604-4454-a2ac-586b97efcc65">
+          <semantic:dataOutputRefs>_f480bf7a-0ca7-4197-8fb6-b2222bb1e516</semantic:dataOutputRefs>
+          <semantic:dataOutputRefs>_31630c2b-1147-4740-92ca-d5de75dc23b7</semantic:dataOutputRefs>
+          <semantic:dataOutputRefs>_c82474e5-c3ff-4c9c-847b-ac864db01a10</semantic:dataOutputRefs>
+          <semantic:dataOutputRefs>_e84a955a-96c0-4ea2-8a68-1184e9c4942b</semantic:dataOutputRefs>
+        </semantic:outputSet>
+      </semantic:ioSpecification>
+      <semantic:dataOutputAssociation id="_8c55c53d-f9f8-444e-9250-a100f4c78471">
+        <semantic:sourceRef>_f480bf7a-0ca7-4197-8fb6-b2222bb1e516</semantic:sourceRef>
+        <semantic:targetRef>_f7050f0f-271b-4fb7-b297-ac48d8c749dc</semantic:targetRef>
+      </semantic:dataOutputAssociation>
+      <semantic:dataOutputAssociation id="_8bd9e6be-8ca8-472d-9810-b315b20db373">
+        <semantic:sourceRef>_31630c2b-1147-4740-92ca-d5de75dc23b7</semantic:sourceRef>
+        <semantic:targetRef>_9d745e84-77af-4192-8d94-94744ddf05b1</semantic:targetRef>
+      </semantic:dataOutputAssociation>
+      <semantic:dataOutputAssociation id="_f00cbf11-014d-47ae-ad61-f66f0b864dc2">
+        <semantic:sourceRef>_c82474e5-c3ff-4c9c-847b-ac864db01a10</semantic:sourceRef>
+        <semantic:targetRef>_44eac3e9-be6f-4038-8a42-d177464c0d65</semantic:targetRef>
+      </semantic:dataOutputAssociation>
+      <semantic:dataOutputAssociation id="_062f1a24-696c-4ab7-bf6c-12ab15515c27">
+        <semantic:sourceRef>_e84a955a-96c0-4ea2-8a68-1184e9c4942b</semantic:sourceRef>
+        <semantic:targetRef>_c173da06-802f-429c-987f-86c62dc19b79</semantic:targetRef>
+      </semantic:dataOutputAssociation>
+    </semantic:task>
+    <semantic:endEvent id="_710d8a37-6aec-49e0-8fe1-560f62b7334d" name="Patient at risk for CKD">
+      <semantic:incoming>_50316ea9-8e43-4e51-ace4-f96b6db51f12</semantic:incoming>
+    </semantic:endEvent>
+    <semantic:exclusiveGateway id="_8b4c5d84-be92-49dc-9000-5acc811824d9" gatewayDirection="Diverging">
+      <semantic:incoming>_ae6b44c7-57bf-4bdc-8ed1-0b82f67c271f</semantic:incoming>
+      <semantic:outgoing>_9dedc1c4-542d-4aff-8397-370a64af76c7</semantic:outgoing>
+      <semantic:outgoing>_50316ea9-8e43-4e51-ace4-f96b6db51f12</semantic:outgoing>
+    </semantic:exclusiveGateway>
+    <semantic:endEvent id="_f7309534-4fcb-4041-8801-db58fd24d04d" name="Patient not at risk of CKD">
+      <semantic:incoming>_9dedc1c4-542d-4aff-8397-370a64af76c7</semantic:incoming>
+    </semantic:endEvent>
+    <semantic:dataObject id="_19a199b4-527f-4047-a622-8b2c3baded6f" name="eGFR Value" isCollection="false" itemSubjectRef="_35e1f167-f92a-45bc-8a87-a8b210255ca6"/>
+    <semantic:dataObject id="_97cd8046-5da4-414b-b573-9302c6db0c3c" name="Age" isCollection="false" itemSubjectRef="_53736abf-bc35-4085-b036-0481ceb62e71">
+      <semantic:extensionElements>
+</semantic:extensionElements>
+    </semantic:dataObject>
+    <semantic:dataObject id="_41bc568b-db35-4e05-88f0-f5ace598a432" name="Race" isCollection="false" itemSubjectRef="_acae36e2-e3f9-45bb-85b0-d82b05056377">
+      <semantic:extensionElements>
+				 
+			</semantic:extensionElements>
+    </semantic:dataObject>
+    <semantic:dataObject id="_9835fc9d-6c34-491f-88f7-a7b36050a290" name="Gender" isCollection="false" itemSubjectRef="_3ae5ec96-47b6-4d25-ad79-cd3f88ad588d">
+      <semantic:extensionElements>
+				 
+			</semantic:extensionElements>
+    </semantic:dataObject>
+    <semantic:dataObject id="_21b35558-cb7a-4c7f-b69b-debbad449a10" name="Scr tt" isCollection="false" itemSubjectRef="_dc533341-e52b-46ea-b4c0-be15ee30e484">
+      <semantic:extensionElements>
+				 
+			</semantic:extensionElements>
+    </semantic:dataObject>
+    <semantic:userTask id="_00d39217-b9d1-45b8-8618-725907c24248" name="Operationalized UserTask" implementation="##unspecified">
+      <semantic:incoming>_09a3c703-5d86-4199-9f90-d9e9fd87366e</semantic:incoming>
+      <semantic:outgoing>_ae6b44c7-57bf-4bdc-8ed1-0b82f67c271f</semantic:outgoing>
+      <semantic:ioSpecification>
+        <semantic:dataOutput id="_f980de14-e5b2-4201-a286-e060030be017" isCollection="false" itemSubjectRef="_35e1f167-f92a-45bc-8a87-a8b210255ca6" name="eGFR Value"/>
+        <semantic:inputSet/>
+        <semantic:outputSet id="_e76a134a-5833-44d5-af35-2bda2f505112">
+          <semantic:dataOutputRefs>_f980de14-e5b2-4201-a286-e060030be017</semantic:dataOutputRefs>
+        </semantic:outputSet>
+      </semantic:ioSpecification>
+      <semantic:dataOutputAssociation id="_4fe82711-57f2-4cd2-801b-ad6c93a751aa">
+        <semantic:sourceRef>_f980de14-e5b2-4201-a286-e060030be017</semantic:sourceRef>
+        <semantic:targetRef>_f8684428-0e3c-403d-931f-f9bf5eb5ac35</semantic:targetRef>
+        <semantic:transformation language="http://www.omg.org/spec/DMN/20180521/MODEL/">
+                    <![CDATA[<dmn:literalExpression xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" id="_f6f6d4be-4860-4e8e-a5d0-36436efb9695" expressionLanguage="http://www.omg.org/spec/FEEL/20140401"><dmn:text>Execution result.results.CKD EPI Formula GFR in mL per min per 1.73 sq m</dmn:text></dmn:literalExpression>]]>
+                </semantic:transformation>
+      </semantic:dataOutputAssociation>
+    </semantic:userTask>
+    <semantic:dataObjectReference id="_f8684428-0e3c-403d-931f-f9bf5eb5ac35" name="eGFR Value" dataObjectRef="_19a199b4-527f-4047-a622-8b2c3baded6f"/>
+    <semantic:dataObjectReference id="_f7050f0f-271b-4fb7-b297-ac48d8c749dc" name="Age" dataObjectRef="_97cd8046-5da4-414b-b573-9302c6db0c3c"/>
+    <semantic:dataObjectReference id="_9d745e84-77af-4192-8d94-94744ddf05b1" name="Race" dataObjectRef="_41bc568b-db35-4e05-88f0-f5ace598a432"/>
+    <semantic:dataObjectReference id="_44eac3e9-be6f-4038-8a42-d177464c0d65" name="Gender" dataObjectRef="_9835fc9d-6c34-491f-88f7-a7b36050a290"/>
+    <semantic:dataObjectReference id="_c173da06-802f-429c-987f-86c62dc19b79" name="Scr tt" dataObjectRef="_21b35558-cb7a-4c7f-b69b-debbad449a10"/>
+    <semantic:sequenceFlow id="_8a09b960-8393-48d7-abbb-417d7466c22a" sourceRef="_081cc45e-e918-41aa-bbea-59a521e5dd82" targetRef="_a1fbf168-5d4f-464b-bfa1-7c5602092404"/>
+    <semantic:sequenceFlow id="_ae6b44c7-57bf-4bdc-8ed1-0b82f67c271f" sourceRef="_00d39217-b9d1-45b8-8618-725907c24248" targetRef="_8b4c5d84-be92-49dc-9000-5acc811824d9"/>
+    <semantic:sequenceFlow id="_9dedc1c4-542d-4aff-8397-370a64af76c7" name="eGFR >= 90" sourceRef="_8b4c5d84-be92-49dc-9000-5acc811824d9" targetRef="_f7309534-4fcb-4041-8801-db58fd24d04d">
+      <semantic:conditionExpression xsi:type="semantic:tFormalExpression" triso:unparsed="false" language="http://www.omg.org/spec/FEEL/20140401">eGFR Value >= 90</semantic:conditionExpression>
+    </semantic:sequenceFlow>
+    <semantic:sequenceFlow id="_50316ea9-8e43-4e51-ace4-f96b6db51f12" name="eGFR &lt;90" sourceRef="_8b4c5d84-be92-49dc-9000-5acc811824d9" targetRef="_710d8a37-6aec-49e0-8fe1-560f62b7334d">
+      <semantic:conditionExpression xsi:type="semantic:tFormalExpression" triso:unparsed="false" language="http://www.omg.org/spec/FEEL/20140401">eGFR Value &lt; 90</semantic:conditionExpression>
+    </semantic:sequenceFlow>
+    <semantic:sequenceFlow id="_09a3c703-5d86-4199-9f90-d9e9fd87366e" sourceRef="_a1fbf168-5d4f-464b-bfa1-7c5602092404" targetRef="c29f6ced-8a70-48ec-98e0-7b7385c625d2"/>
+    <semantic:sequenceFlow id="f2b86d42-3e26-4cec-9925-6506a220c5d8" name="name of flow" sourceRef="c29f6ced-8a70-48ec-98e0-7b7385c625d2" targetRef="_00d39217-b9d1-45b8-8618-725907c24248"/>
+    <semantic:task id="c29f6ced-8a70-48ec-98e0-7b7385c625d2" name="Rest Service for Operationalized UserTask" drools:taskName="MDMI">
+      <semantic:extensionElements/>
+      <semantic:ioSpecification>
+        <semantic:dataInput id="b9fb596c-cf76-4bb3-b455-94c98c0eea6c" itemSubjectRef="f59eb6bf-a96c-46e6-b5f6-ad8c12686af6" name="Method"/>
+        <semantic:dataInput id="dc7e5a90-53c6-43a7-8a78-81f9fa49f380" itemSubjectRef="e9e536c3-a33d-4e4c-b26b-0b5ee2181440" name="ResultClass"/>
+        <semantic:dataInput id="a83ea414-16a4-4c5f-bca2-2a66a327c5e9" itemSubjectRef="b5054ca0-5a4f-4ab2-8955-a04ab6306461" name="source"/>
+        <semantic:dataInput id="ffc23f57-fc72-4a00-91a9-fd89a62abf2b" itemSubjectRef="dad0bc0f-bfee-4c6c-bee2-cf73ff5445d9" name="target"/>
+        <semantic:dataInput id="d8f5e6bb-3a42-466a-af51-bfbc9ba0b59d" itemSubjectRef="c39bba5b-97ae-42c3-b8bb-93d4e57d05b1" name="sourceInstance"/>
+        <semantic:dataInput id="f8eb33b0-65e1-4e4c-8876-e706abed335f" itemSubjectRef="dabad70b-0447-468d-80d6-56251c494fc6" name="Url"/>
+        <semantic:dataInput id="e945a3e0-e289-446e-a785-14ba6c9fdd36" itemSubjectRef="d88c154c-c552-4453-8fa0-481a65e5a5cc" name="ContentData"/>
+        <semantic:dataInput id="c9bdc3f9-c5a3-4f5d-b2d2-51f9142d6b89" itemSubjectRef="faf4b520-3a3f-41de-ab18-037a2f665970" name="ContentType"/>
+        <semantic:dataInput id="dea7073e-be24-4bfe-b203-696d8725f9b6" itemSubjectRef="f0c96ea9-3733-486b-8fff-7d07111a5bbe" name="TaskName"/>
+        <semantic:dataOutput id="d8ded9a4-e03f-406d-a6a1-792701ff3bf5" name="Result"/>
+        <semantic:dataOutput id="d3e33211-985e-42f6-93f0-08f204ec0d2a" name="Bundle"/>
+        <semantic:inputSet>
+          <semantic:dataInputRefs>b9fb596c-cf76-4bb3-b455-94c98c0eea6c</semantic:dataInputRefs>
+          <semantic:dataInputRefs>dc7e5a90-53c6-43a7-8a78-81f9fa49f380</semantic:dataInputRefs>
+          <semantic:dataInputRefs>a83ea414-16a4-4c5f-bca2-2a66a327c5e9</semantic:dataInputRefs>
+          <semantic:dataInputRefs>ffc23f57-fc72-4a00-91a9-fd89a62abf2b</semantic:dataInputRefs>
+          <semantic:dataInputRefs>d8f5e6bb-3a42-466a-af51-bfbc9ba0b59d</semantic:dataInputRefs>
+          <semantic:dataInputRefs>f8eb33b0-65e1-4e4c-8876-e706abed335f</semantic:dataInputRefs>
+          <semantic:dataInputRefs>e945a3e0-e289-446e-a785-14ba6c9fdd36</semantic:dataInputRefs>
+          <semantic:dataInputRefs>c9bdc3f9-c5a3-4f5d-b2d2-51f9142d6b89</semantic:dataInputRefs>
+          <semantic:dataInputRefs>dea7073e-be24-4bfe-b203-696d8725f9b6</semantic:dataInputRefs>
+        </semantic:inputSet>
+        <semantic:outputSet>
+          <semantic:dataOutputRefs>d8ded9a4-e03f-406d-a6a1-792701ff3bf5</semantic:dataOutputRefs>
+          <semantic:dataOutputRefs>d3e33211-985e-42f6-93f0-08f204ec0d2a</semantic:dataOutputRefs>
+        </semantic:outputSet>
+      </semantic:ioSpecification>
+      <semantic:dataInputAssociation id="de2b2176-637e-4393-8feb-e3449be7c8a4">
+        <semantic:targetRef>b9fb596c-cf76-4bb3-b455-94c98c0eea6c</semantic:targetRef>
+        <semantic:assignment id="ae0cf1dd-8d09-4e92-9b2a-d064effbc911">
+          <semantic:from xsi:type="semantic:tFormalExpression"><![CDATA[GET]]></semantic:from>
+          <semantic:to xsi:type="semantic:tFormalExpression">f59eb6bf-a96c-46e6-b5f6-ad8c12686af6</semantic:to>
+        </semantic:assignment>
+      </semantic:dataInputAssociation>
+      <semantic:dataInputAssociation id="e0aad53b-3bf4-47bd-aec2-bd53848e9e1a">
+        <semantic:targetRef>c9bdc3f9-c5a3-4f5d-b2d2-51f9142d6b89</semantic:targetRef>
+        <semantic:assignment id="d75a681b-b3de-47b4-b6be-5a6eea4f4ab2">
+          <semantic:from xsi:type="semantic:tFormalExpression"><![CDATA[application/json]]></semantic:from>
+          <semantic:to xsi:type="semantic:tFormalExpression">faf4b520-3a3f-41de-ab18-037a2f665970</semantic:to>
+        </semantic:assignment>
+      </semantic:dataInputAssociation>
+      <semantic:dataInputAssociation id="f9f1292d-8a41-4d40-9188-1b3036c05307">
+        <semantic:targetRef>dea7073e-be24-4bfe-b203-696d8725f9b6</semantic:targetRef>
+        <semantic:assignment id="f3966d3e-a355-4f04-ac3e-6ee1fed69e5c">
+          <semantic:from xsi:type="semantic:tFormalExpression"><![CDATA[MDMI]]></semantic:from>
+          <semantic:to xsi:type="semantic:tFormalExpression">f0c96ea9-3733-486b-8fff-7d07111a5bbe</semantic:to>
+        </semantic:assignment>
+      </semantic:dataInputAssociation>
+      <semantic:dataInputAssociation id="fc26c82b-310f-4d1e-b4bf-904d4c26a9a1">
+        <semantic:targetRef>dc7e5a90-53c6-43a7-8a78-81f9fa49f380</semantic:targetRef>
+        <semantic:assignment id="dee8a066-d49d-4d74-bc1a-acbc34c18458">
+          <semantic:from xsi:type="semantic:tFormalExpression"><![CDATA[com.Patient]]></semantic:from>
+          <semantic:to xsi:type="semantic:tFormalExpression">e9e536c3-a33d-4e4c-b26b-0b5ee2181440</semantic:to>
+        </semantic:assignment>
+      </semantic:dataInputAssociation>
+      <semantic:dataInputAssociation id="a1560822-700d-4d12-b463-c03fb7948932">
+        <semantic:targetRef>a83ea414-16a4-4c5f-bca2-2a66a327c5e9</semantic:targetRef>
+        <semantic:assignment id="bf64575f-c7ef-40d0-a9a0-1334765e5c8c">
+          <semantic:from xsi:type="semantic:tFormalExpression"><![CDATA[STU3JSON.Diabetes]]></semantic:from>
+          <semantic:to xsi:type="semantic:tFormalExpression">b5054ca0-5a4f-4ab2-8955-a04ab6306461</semantic:to>
+        </semantic:assignment>
+      </semantic:dataInputAssociation>
+      <semantic:dataInputAssociation id="c6cae227-cc8d-4f7d-a82f-0ea92fd42791">
+        <semantic:targetRef>ffc23f57-fc72-4a00-91a9-fd89a62abf2b</semantic:targetRef>
+        <semantic:assignment id="e8187ff7-63db-4b5c-bce7-1d1bb59048f4">
+          <semantic:from xsi:type="semantic:tFormalExpression"><![CDATA[bpmn.Diabetes]]></semantic:from>
+          <semantic:to xsi:type="semantic:tFormalExpression">dad0bc0f-bfee-4c6c-bee2-cf73ff5445d9</semantic:to>
+        </semantic:assignment>
+      </semantic:dataInputAssociation>
+      <semantic:dataInputAssociation id="b46d7145-054f-419f-97c4-c077c474a385">
+        <semantic:sourceRef>targetURL</semantic:sourceRef>
+        <semantic:targetRef>f8eb33b0-65e1-4e4c-8876-e706abed335f</semantic:targetRef>
+      </semantic:dataInputAssociation>
+      <semantic:dataInputAssociation id="f80acd12-80d0-4844-95a3-6db69b906734">
+        <semantic:sourceRef>patient</semantic:sourceRef>
+        <semantic:targetRef>d8f5e6bb-3a42-466a-af51-bfbc9ba0b59d</semantic:targetRef>
+      </semantic:dataInputAssociation>
+    </semantic:task>
+    <semantic:textAnnotation id="_d867bc66-97dc-4243-807b-6da4fa281266">
+      <semantic:text>based on a  DMN model (embedded)</semantic:text>
+    </semantic:textAnnotation>
+  </semantic:process>
+  <semantic:itemDefinition id="_patientItem" structureRef="com.Patient"/>
+  <semantic:itemDefinition id="_targetURLItem" structureRef="String"/>
+  <semantic:itemDefinition id="f59eb6bf-a96c-46e6-b5f6-ad8c12686af6" structureRef="String"/>
+  <semantic:itemDefinition id="e9e536c3-a33d-4e4c-b26b-0b5ee2181440" structureRef="String"/>
+  <semantic:itemDefinition id="b5054ca0-5a4f-4ab2-8955-a04ab6306461" structureRef="String"/>
+  <semantic:itemDefinition id="dad0bc0f-bfee-4c6c-bee2-cf73ff5445d9" structureRef="String"/>
+  <semantic:itemDefinition id="c39bba5b-97ae-42c3-b8bb-93d4e57d05b1" structureRef="String"/>
+  <semantic:itemDefinition id="dabad70b-0447-468d-80d6-56251c494fc6" structureRef="String"/>
+  <semantic:itemDefinition id="d88c154c-c552-4453-8fa0-481a65e5a5cc" structureRef="String"/>
+  <semantic:itemDefinition id="faf4b520-3a3f-41de-ab18-037a2f665970" structureRef="String"/>
+  <semantic:itemDefinition id="f0c96ea9-3733-486b-8fff-7d07111a5bbe" structureRef="String"/>
+  <bpmndi:BPMNDiagram id="_63e61957-351a-4724-aa79-be266b84cc4c" name="Monitoring for Risk of CKD">
+    <bpmndi:BPMNPlane id="_63e61957-351a-4724-aa79-be266b84cc4c_plane" trisobpmn:diagramWidth="1569" trisobpmn:diagramHeight="1198.0121945738792" bpmnElement="_ea2dbec8-aa77-46e5-9c5b-18ab3624a821">
+      <bpmndi:BPMNShape id="_d102ee10-5445-4400-ba53-daacfe975c95" triso:identificator="1" color:background-color="#ffffff" color:border-color="#000000" bpmnElement="_a1fbf168-5d4f-464b-bfa1-7c5602092404">
+        <dc:Bounds height="76.0" width="96.0" x="300.5" y="529.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="26.0" width="89.0" x="304.0" y="554.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_dd30c3eb-933d-4828-a09b-29aa10a6ff7c" color:background-color="#ffffff" color:border-color="#000000" bpmnElement="_081cc45e-e918-41aa-bbea-59a521e5dd82">
+        <dc:Bounds height="32.0" width="32.0" x="245.5" y="414.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.015625" width="74.9375" x="224.03125" y="456.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_2f751bb6-5f4f-4682-b476-6b80bb3aa8da" color:background-color="#ffffff" color:border-color="#000000" bpmnElement="_710d8a37-6aec-49e0-8fe1-560f62b7334d">
+        <dc:Bounds height="36.0" width="36.0" x="930.2867965698242" y="412.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.015625" width="108.890625" x="893.8414840698242" y="458.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_1b7987c8-b399-40ae-afa7-203b58263a6b" color:background-color="#ffffff" color:border-color="#000000" bpmnElement="_8b4c5d84-be92-49dc-9000-5acc811824d9" isMarkerVisible="true">
+        <dc:Bounds height="40.024389147758484" width="41.57359313964844" x="713.7132034301758" y="409.98780542612076"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_04525893-0da8-438f-b7d8-fdde6dca10c2" color:background-color="#ffffff" color:border-color="#000000" bpmnElement="_f7309534-4fcb-4041-8801-db58fd24d04d">
+        <dc:Bounds height="36.0" width="36.0" x="716.5" y="549.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="26.015625" width="98.171875" x="685.4140625" y="595.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_f8684428-0e3c-403d-931f-f9bf5eb5ac35_di" color:background-color="#CCFFCC" color:border-color="#000000" bpmnElement="_f8684428-0e3c-403d-931f-f9bf5eb5ac35">
+        <dc:Bounds height="40.0" width="34.0" x="660.5" y="287.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.015625" width="59.71875" x="647.640625" y="332.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_f7050f0f-271b-4fb7-b297-ac48d8c749dc_di" color:background-color="#CCFFCC" color:border-color="#000000" bpmnElement="_f7050f0f-271b-4fb7-b297-ac48d8c749dc">
+        <dc:Bounds height="40.0" width="34.0" x="459.5" y="75.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.015625" width="20.59375" x="466.203125" y="120.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_9d745e84-77af-4192-8d94-94744ddf05b1_di" color:background-color="#CCFFCC" color:border-color="#000000" bpmnElement="_9d745e84-77af-4192-8d94-94744ddf05b1">
+        <dc:Bounds height="40.0" width="34.0" x="459.5" y="141.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.015625" width="25.6875" x="463.65625" y="186.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_44eac3e9-be6f-4038-8a42-d177464c0d65_di" color:background-color="#CCFFCC" color:border-color="#000000" bpmnElement="_44eac3e9-be6f-4038-8a42-d177464c0d65">
+        <dc:Bounds height="40.0" width="34.0" x="459.5" y="209.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.015625" width="38.046875" x="457.4765625" y="254.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_c173da06-802f-429c-987f-86c62dc19b79_di" color:background-color="#CCFFCC" color:border-color="#000000" bpmnElement="_c173da06-802f-429c-987f-86c62dc19b79">
+        <dc:Bounds height="40.0" width="34.0" x="459.5" y="274.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.015625" width="26.625" x="463.1875" y="319.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_d0e1bdf3-c77d-4b56-9abd-06b5d9903801" color:background-color="#CCFFCC" color:border-color="#000000" bpmnElement="_d867bc66-97dc-4243-807b-6da4fa281266">
+        <dc:Bounds height="23.0" width="100.0" x="1191.5" y="1050.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="26.015625" width="94.0" x="1196.5" y="1058.0"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_bd8afdb4-0dae-447f-a615-6a8e7ead1901" color:background-color="#ffffff" color:border-color="#000000" bpmnElement="_00d39217-b9d1-45b8-8618-725907c24248">
+        <dc:Bounds height="76.0" width="96.0" x="506.0" y="392.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.296875" width="89.0" x="509.5" y="423.8515625"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="_081c7d6f-81b4-4c2d-b7bd-0e2ad5e173d3" color:border-color="#000000" bpmnElement="_8a09b960-8393-48d7-abbb-417d7466c22a">
+        <di:waypoint x="276.5" y="430.0"/>
+        <di:waypoint x="288.5" y="430.0"/>
+        <di:waypoint x="288.5" y="567.0"/>
+        <di:waypoint x="300.5" y="567.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" triso:labelPosition="midbottom" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_c3d11ce4-d60c-4717-adf8-121e5a98441b" color:border-color="#000000" bpmnElement="_ae6b44c7-57bf-4bdc-8ed1-0b82f67c271f">
+        <di:waypoint x="602.0" y="417.33000000000004"/>
+        <di:waypoint x="657.8566017150879" y="417.33000000000004"/>
+        <di:waypoint x="657.8566017150879" y="429.7943522438436"/>
+        <di:waypoint x="713.7132034301758" y="429.7943522438436"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_cb2ea9a3-2db2-40af-a35c-a4bf0a815244" color:border-color="#000000" bpmnElement="_9dedc1c4-542d-4aff-8397-370a64af76c7">
+        <di:waypoint x="734.7132034301758" y="450.01219457387924"/>
+        <di:waypoint x="735.5" y="549.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" triso:labelPosition="midbottom" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.296875" width="110.0" x="680.1066017150879" y="504.5060972869396"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_e1054529-2dbb-4e7a-8ae5-f2200f9288ad" color:border-color="#000000" bpmnElement="_50316ea9-8e43-4e51-ace4-f96b6db51f12">
+        <di:waypoint x="755.2867965698242" y="429.78679555654526"/>
+        <di:waypoint x="930.2868202696775" y="430.9931152963168"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:labelPosition="custom" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+          <dc:Bounds height="12.015625" width="110.0" x="734.9920085932628" y="408.3828119363051"/>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_5eb02f43-390c-4006-8718-637049b0dea1" color:border-color="#000000" bpmnElement="_4fe82711-57f2-4cd2-801b-ad6c93a751aa" sourceElement="_bd8afdb4-0dae-447f-a615-6a8e7ead1901">
+        <di:waypoint x="582.8" y="392.0"/>
+        <di:waypoint x="582.8" y="307.0"/>
+        <di:waypoint x="660.5" y="307.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_1fb91322-470c-4d94-9f6d-5aabedc3ca92" color:border-color="#000000" bpmnElement="_8c55c53d-f9f8-444e-9250-a100f4c78471" sourceElement="_d102ee10-5445-4400-ba53-daacfe975c95">
+        <di:waypoint x="319.70000000000005" y="529.0"/>
+        <di:waypoint x="319.70000000000005" y="95.0"/>
+        <di:waypoint x="459.5" y="95.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" triso:labelPosition="midbottom" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_e8458c33-fae1-43ac-8f90-e7a08dc6f4e6" color:border-color="#000000" bpmnElement="_8bd9e6be-8ca8-472d-9810-b315b20db373" sourceElement="_d102ee10-5445-4400-ba53-daacfe975c95">
+        <di:waypoint x="332.5" y="529.0"/>
+        <di:waypoint x="332.5" y="161.0"/>
+        <di:waypoint x="459.5" y="161.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" triso:labelPosition="midbottom" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_74e36dde-2c9d-4ff7-837d-b2608ad2eecc" color:border-color="#000000" bpmnElement="_f00cbf11-014d-47ae-ad61-f66f0b864dc2" sourceElement="_d102ee10-5445-4400-ba53-daacfe975c95">
+        <di:waypoint x="348.5" y="529.0"/>
+        <di:waypoint x="348.5" y="229.0"/>
+        <di:waypoint x="459.5" y="229.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" triso:labelPosition="midbottom" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_8185f3d2-afa0-4d1e-ae02-f9c6475f5fea" color:border-color="#000000" bpmnElement="_062f1a24-696c-4ab7-bf6c-12ab15515c27" sourceElement="_d102ee10-5445-4400-ba53-daacfe975c95">
+        <di:waypoint x="364.5" y="529.0"/>
+        <di:waypoint x="364.5" y="294.0"/>
+        <di:waypoint x="459.5" y="294.0"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" triso:labelPosition="midbottom" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="_cdced2b9-5a5b-4bc8-bee2-56904710e795" color:border-color="#000000" bpmnElement="_09a3c703-5d86-4199-9f90-d9e9fd87366e">
+        <di:waypoint x="396.5" y="567.0"/>
+        <di:waypoint x="451.25" y="567.0"/>
+        <di:waypoint x="451.25" y="442.65999999999997"/>
+        <di:waypoint x="506.0" y="442.65999999999997"/>
+        <bpmndi:BPMNLabel color:color="#000000" triso:defaultBounds="true" triso:labelPosition="midbottom" labelStyle="LS_63e61957-351a-4724-aa79-be266b84cc4c_0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+    <bpmndi:BPMNLabelStyle id="LS_63e61957-351a-4724-aa79-be266b84cc4c_0">
+      <dc:Font isBold="false" isItalic="false" isStrikeThrough="false" isUnderline="false" name="arial,helvetica,sans-serif" size="11.0"/>
+    </bpmndi:BPMNLabelStyle>
+  </bpmndi:BPMNDiagram>
+  <semantic:relationship type="trisoExtension">
+    <semantic:extensionElements>
+            <triso:ProjectCharter>
+                <triso:projectDescription>&lt;p>VA/DoD CLINICAL PRACTICE GUIDELINE&lt;/p></triso:projectDescription>
+                <triso:projectScope>&lt;p>Management of Chronic Kidney Disease in Primary Care&lt;/p></triso:projectScope>
+                <triso:projectGoals>
+                    <triso:goal text="Diagnostic criteria and identification of early disease." id="_910773fe-de18-4080-8288-ce5f1e33f820" done="false"/>
+                    <triso:goal text="Identification of susceptibility factors (adult patients at increased risk for developing CKD)." id="_7cfda5ec-b7d4-431c-ae0b-2548313a87e7" done="false"/>
+                    <triso:goal text="Identification of progression factors (adult patients at high risk for worsening kidney damage and subsequent loss of kidney function)." id="_f1f3c6fd-e7e3-4921-bc81-2fc48852eabd" done="false"/>
+                    <triso:goal text="Prevention of conditions that exacerbate chronic kidney disease" id="_1e279a12-145c-439c-8fa5-6d17354b446f" done="false"/>
+                    <triso:goal text="Evaluation of patients with kidney disease (estimate of GFR, blood pressure, and assessment of albuminuria as a marker of kidney damage)." id="_2e7fc060-2b8e-42d8-9df6-b6716221735d" done="false"/>
+                    <triso:goal text="Slowing the progression of CKD." id="_1b611413-eaae-4b98-b7c7-818a78025b9e" done="false"/>
+                    <triso:goal text="Management of comorbidities." id="_0569ae0f-1f4d-40ea-ac37-aa5ef4462cb7" done="false"/>
+                    <triso:goal text="Indication for consultation and referral to a nephrologist." id="_6154373b-a857-4cbc-9ab0-850830e57544" done="false"/>
+                    <triso:goal text="Outline of patient education and preparation for kidney replacement therapy." id="_ecf2fe9c-9b5e-4198-aab8-d6b7c8a1aaf0" done="false"/>
+                </triso:projectGoals>
+                <triso:projectChallenges/>
+                <triso:projectStakeholders>
+                    <triso:responsible/>
+                    <triso:accountable/>
+                    <triso:consulted/>
+                    <triso:informed/>
+                </triso:projectStakeholders>
+            </triso:ProjectCharter>
+            <triso:itemDefinitions>
+                <triso:itemDefinition name="Stages_of_CKD.tCKD_Stages" label="Stages of CKD.tCKD Stages" isCollection="false">
+                    <triso:typeRef>string</triso:typeRef>
+                    <triso:allowedValues triso:constraintsType="enumeration">
+                        <triso:text>&quot;G1&quot;,&quot;G2&quot;,&quot;G3a&quot;,&quot;G3b&quot;,&quot;G4&quot;,&quot;G5&quot;</triso:text>
+                    </triso:allowedValues>
+                </triso:itemDefinition>
+                <triso:itemDefinition name="GFR_CKD_EPI_Levey.definitionsInput" label="GFR CKD EPI Levey.definitionsInput" isCollection="false">
+                    <triso:itemComponent id="_af30fa26-492c-4ab5-9fc2-8ecbccdfa79f" name="Race" isCollection="false">
+                        <triso:typeRef>tRace</triso:typeRef>
+                        <triso:allowedValues triso:constraintsType="enumeration">
+                            <triso:text>&quot;Black&quot;,&quot;Other&quot;</triso:text>
+                        </triso:allowedValues>
+                    </triso:itemComponent>
+                    <triso:itemComponent id="_2966135d-4c4b-48f1-a6c3-71c3ad3c99b3" name="Serum creatinine in mg per dL" isCollection="false">
+                        <triso:typeRef>tSerumcreatinineinmgperdL</triso:typeRef>
+                        <triso:allowedValues triso:constraintsType="expression">
+                            <triso:text>&lt;=100</triso:text>
+                        </triso:allowedValues>
+                    </triso:itemComponent>
+                    <triso:itemComponent id="_44d1845e-b221-4548-bb8c-0d0961973f0b" name="Sex" isCollection="false">
+                        <triso:typeRef>tSex</triso:typeRef>
+                        <triso:allowedValues triso:constraintsType="enumeration">
+                            <triso:text>&quot;Male&quot;,&quot;Female&quot;</triso:text>
+                        </triso:allowedValues>
+                    </triso:itemComponent>
+                    <triso:itemComponent id="_39d81ef2-a66e-48a3-9dc3-0d378d9933dd" name="Age in years" isCollection="false">
+                        <triso:typeRef>tAgeinyears</triso:typeRef>
+                        <triso:allowedValues triso:constraintsType="expression">
+                            <triso:text>&lt;=125</triso:text>
+                        </triso:allowedValues>
+                    </triso:itemComponent>
+                </triso:itemDefinition>
+                <triso:itemDefinition name="GFR_CKD_EPI_Levey.definitionsResult" label="GFR CKD EPI Levey.definitionsResult" isCollection="false">
+                    <triso:itemComponent id="_3e83b4cb-0a69-4d45-9ea1-dc43873a7bef" name="results" isCollection="false">
+                        <triso:itemComponent id="_9d05b872-a6ef-4b39-a582-2fc9a69f336c" name="CKD EPI Formula GFR in mL per min per 1.73 sq m" isCollection="false">
+                            <triso:typeRef>number</triso:typeRef>
+                        </triso:itemComponent>
+                        <triso:itemComponent id="_ed5f2ca0-661a-4739-ae8c-3a5f65f7d3f8" name="Factor A" isCollection="false">
+                            <triso:typeRef>number</triso:typeRef>
+                        </triso:itemComponent>
+                        <triso:itemComponent id="_db7f6ba5-a0c1-46f7-883e-8ec236f18a94" name="Factor B" isCollection="false">
+                            <triso:typeRef>number</triso:typeRef>
+                        </triso:itemComponent>
+                        <triso:itemComponent id="_c012c966-0a68-4232-8d58-2a2e4d88f705" name="Factor C" isCollection="false">
+                            <triso:typeRef>number</triso:typeRef>
+                        </triso:itemComponent>
+                    </triso:itemComponent>
+                </triso:itemDefinition>
+                <triso:itemDefinition name="tRace" label="tRace" isCollection="false">
+                    <triso:typeRef>string</triso:typeRef>
+                    <triso:allowedValues triso:constraintsType="enumeration">
+                        <triso:text>&quot;Black&quot;,&quot;Other&quot;</triso:text>
+                    </triso:allowedValues>
+                </triso:itemDefinition>
+                <triso:itemDefinition name="tSerumcreatinineinmgperdL" label="tSerumcreatinineinmgperdL" isCollection="false">
+                    <triso:typeRef>number</triso:typeRef>
+                    <triso:allowedValues triso:constraintsType="expression">
+                        <triso:text>&lt;=100</triso:text>
+                    </triso:allowedValues>
+                </triso:itemDefinition>
+                <triso:itemDefinition name="tSex" label="tSex" isCollection="false">
+                    <triso:typeRef>string</triso:typeRef>
+                    <triso:allowedValues triso:constraintsType="enumeration">
+                        <triso:text>&quot;Male&quot;,&quot;Female&quot;</triso:text>
+                    </triso:allowedValues>
+                </triso:itemDefinition>
+                <triso:itemDefinition name="tAgeinyears" label="tAgeinyears" isCollection="false">
+                    <triso:typeRef>number</triso:typeRef>
+                    <triso:allowedValues triso:constraintsType="expression">
+                        <triso:text>&lt;=125</triso:text>
+                    </triso:allowedValues>
+                </triso:itemDefinition>
+            </triso:itemDefinitions>
+        </semantic:extensionElements>
+    <semantic:source>_3239e78f-a43a-4ef9-8612-57ef2a817544</semantic:source>
+    <semantic:target>_3239e78f-a43a-4ef9-8612-57ef2a817544</semantic:target>
+  </semantic:relationship>
+</semantic:definitions>
