@@ -1,7 +1,7 @@
 var autoRefreshCount = 0;
 var autoRefreshIntervalId = null;
 
-function refreshTimeTable() {
+function refreshSchoolSchedule() {
     $.getJSON("/schoolSchedule", function (timeTable) {
         refreshSolvingButtons(timeTable.solverStatus != null && timeTable.solverStatus !== "NOT_SOLVING");
         $("#score").text("Score: "+ (timeTable.score == null ? "?" : timeTable.score));
@@ -10,8 +10,8 @@ function refreshTimeTable() {
         timeTableByRoom.children().remove();
         const timeTableByTeacher = $("#timeTableByTeacher");
         timeTableByTeacher.children().remove();
-        const timeTableByStudentGroup = $("#timeTableByStudentGroup");
-        timeTableByStudentGroup.children().remove();
+        const timeTableByGradeLevel = $("#timeTableByGradeLevel");
+        timeTableByGradeLevel.children().remove();
         const unassignedLessons = $("#unassignedLessons");
         unassignedLessons.children().remove();
 
@@ -39,21 +39,21 @@ function refreshTimeTable() {
                 .append($("<span />").text(teacher))
             .append("</th>"));
         });
-        const theadByStudentGroup = $("<thead>").appendTo(timeTableByStudentGroup);
-        const headerRowByStudentGroup = $("<tr>").appendTo(theadByStudentGroup);
-        headerRowByStudentGroup.append($("<th>Timeslot</th>"));
-        const studentGroupList = [...new Set(timeTable.lessonList.map(lesson => lesson.studentGroup))];
-        $.each(studentGroupList, (index, studentGroup) => {
-            headerRowByStudentGroup
+        const theadByGradeLevel = $("<thead>").appendTo(timeTableByGradeLevel);
+        const headerRowByGradeLevel = $("<tr>").appendTo(theadByGradeLevel);
+        headerRowByGradeLevel.append($("<th>Timeslot</th>"));
+        const gradeLevelList = [...new Set(timeTable.lessonList.map(lesson => lesson.gradeLevel))];
+        $.each(gradeLevelList, (index, gradeLevel) => {
+            headerRowByGradeLevel
             .append($("<th>")
-                .append($("<span />").text(studentGroup))
+                .append($("<span />").text(gradeLevel))
             .append("</th>"));
         });
 
         const tbodyByRoom = $("<tbody>").appendTo(timeTableByRoom);
         const tbodyByTeacher = $("<tbody>").appendTo(timeTableByTeacher);
-        const tbodyByStudentGroup = $("<tbody>").appendTo(timeTableByStudentGroup);
-        $.each(timeTable.timeslotList, (index, timeslot) => {
+        const tbodyByGradeLevel = $("<tbody>").appendTo(timeTableByGradeLevel);
+        $.each(timeTable.timeSlotList, (index, timeslot) => {
             const rowByRoom = $("<tr>").appendTo(tbodyByRoom);
             rowByRoom
             .append($(`<th class="align-middle">`)
@@ -83,8 +83,8 @@ function refreshTimeTable() {
             $.each(timeTable.roomList, (index, room) => {
                 rowByRoom.append($("<td/>").prop("id", `timeslot${timeslot.id}room${room.id}`));
             });
-            const rowByStudentGroup = $("<tr>").appendTo(tbodyByStudentGroup);
-            rowByStudentGroup
+            const rowByGradeLevel = $("<tr>").appendTo(tbodyByGradeLevel);
+            rowByGradeLevel
             .append($(`<th class="align-middle">`)
                 .append($("<span/>").text(`
                     ${timeslot.dayOfWeek.charAt(0) + timeslot.dayOfWeek.slice(1).toLowerCase()}
@@ -98,8 +98,8 @@ function refreshTimeTable() {
                 rowByTeacher.append($("<td/>").prop("id", `timeslot${timeslot.id}teacher${convertToId(teacher)}`));
             });
 
-            $.each(studentGroupList, (index, studentGroup) => {
-                rowByStudentGroup.append($("<td/>").prop("id", `timeslot${timeslot.id}studentGroup${convertToId(studentGroup)}`));
+            $.each(gradeLevelList, (index, gradeLevel) => {
+                rowByGradeLevel.append($("<td/>").prop("id", `timeslot${timeslot.id}gradeLevel${convertToId(gradeLevel)}`));
             });
         });
 
@@ -111,7 +111,7 @@ function refreshTimeTable() {
                     .append($(`<h5 class="card-title mb-1" />`).text(lesson.subject))
                     .append($(`<p class="card-text text-muted ml-2 mb-1" />`).text(`by ${lesson.teacher}`))
                     .append($(`<small class="ml-2 mt-1 card-text text-muted align-bottom float-right" />`).text(lesson.id))
-                    .append($(`<p class="card-text ml-2" />`).text(lesson.studentGroup))
+                    .append($(`<p class="card-text ml-2" />`).text(lesson.gradeLevel))
                 .append("</div>"))
             .append(`</div>`);
             const lessonElement = lessonElementWithoutDelete.clone();
@@ -127,7 +127,7 @@ function refreshTimeTable() {
             } else {
                 $(`#timeslot${lesson.timeslot.id}room${lesson.room.id}`).append(lessonElement);
                 $(`#timeslot${lesson.timeslot.id}teacher${convertToId(lesson.teacher)}`).append(lessonElementWithoutDelete.clone());
-                $(`#timeslot${lesson.timeslot.id}studentGroup${convertToId(lesson.studentGroup)}`).append(lessonElementWithoutDelete.clone());
+                $(`#timeslot${lesson.timeslot.id}gradeLevel${convertToId(lesson.gradeLevel)}`).append(lessonElementWithoutDelete.clone());
             }
         });
     });
@@ -161,7 +161,7 @@ function refreshSolvingButtons(solving) {
 }
 
 function autoRefresh() {
-    refreshTimeTable();
+    refreshSchoolSchedule();
     autoRefreshCount--;
     if (autoRefreshCount <= 0) {
         clearInterval(autoRefreshIntervalId);
@@ -172,7 +172,7 @@ function autoRefresh() {
 function stopSolving() {
     $.post("/schoolScheduling/stopSolving", function () {
         refreshSolvingButtons(false);
-        refreshTimeTable();
+        refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
         showError("Stop solving failed.", xhr);
     });
@@ -183,9 +183,9 @@ function addLesson() {
     $.post("/lessons", JSON.stringify({
         "subject": subject,
         "teacher": $("#lesson_teacher").val().trim(),
-        "studentGroup": $("#lesson_studentGroup").val().trim()
+        "gradeLevel": $("#lesson_gradeLevel").val().trim()
     }), function () {
-        refreshTimeTable();
+        refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
         showError("Adding lesson (" + subject + ") failed.", xhr);
     });
@@ -194,7 +194,7 @@ function addLesson() {
 
 function deleteLesson(lesson) {
     $.delete("/lessons/" + lesson.id, function () {
-        refreshTimeTable();
+        refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
         showError("Deleting lesson (" + lesson.name + ") failed.", xhr);
     });
@@ -206,7 +206,7 @@ function addTimeslot() {
         "startTime": $("#timeslot_startTime").val().trim(),
         "endTime": $("#timeslot_endTime").val().trim()
     }), function () {
-        refreshTimeTable();
+        refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
         showError("Adding timeslot failed.", xhr);
     });
@@ -215,7 +215,7 @@ function addTimeslot() {
 
 function deleteTimeslot(timeslot) {
     $.delete("/timeslots/" + timeslot.id, function () {
-        refreshTimeTable();
+        refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
         showError("Deleting timeslot (" + timeslot.name + ") failed.", xhr);
     });
@@ -226,7 +226,7 @@ function addRoom() {
     $.post("/rooms", JSON.stringify({
         "name": name
     }), function () {
-        refreshTimeTable();
+        refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
         showError("Adding room (" + name + ") failed.", xhr);
     });
@@ -235,7 +235,7 @@ function addRoom() {
 
 function deleteRoom(room) {
     $.delete("/rooms/" + room.id, function () {
-        refreshTimeTable();
+        refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
         showError("Deleting room (" + room.name + ") failed.", xhr);
     });
@@ -292,7 +292,7 @@ $(document).ready( function() {
 
 
     $("#refreshButton").click(function() {
-        refreshTimeTable();
+        refreshSchoolSchedule();
     });
     $("#solveButton").click(function() {
         solve();
@@ -310,7 +310,7 @@ $(document).ready( function() {
         addRoom();
     });
 
-    refreshTimeTable();
+    refreshSchoolSchedule();
 });
 
 // ****************************************************************************

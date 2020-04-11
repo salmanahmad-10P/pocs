@@ -1,4 +1,4 @@
-package org.acme.utils;
+package org.acme.bootstrap;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,6 +19,7 @@ import org.acme.domain.Lesson;
 import org.acme.domain.Room;
 import org.acme.domain.Student;
 import org.acme.domain.TimeSlot;
+import org.acme.utils.Constants;
 import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;

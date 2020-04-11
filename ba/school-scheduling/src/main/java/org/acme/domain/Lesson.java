@@ -9,9 +9,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
 @Entity
 @PlanningEntity
-public class Lesson {
+public class Lesson extends PanacheEntity{
 
 
     @Id
