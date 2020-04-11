@@ -1,0 +1,13 @@
+= school-scheduling project
+
+-----
+podman run -it --rm -d \
+    --publish 5432:5432 \
+    --name schoolschedule \
+    -e POSTGRES_PASSWORD=naps \
+    -e POSTGRES_USER=naps \
+    -e POSTGRES_DB=studentschedule \
+    postgres:10.5
+-----
+
+
