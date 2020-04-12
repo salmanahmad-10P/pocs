@@ -88,11 +88,14 @@ public class StudentSchedulingResource {
     
     @Transactional
     protected void bestSolutionConsumer(SchoolSchedule sSchedule) {
-        for(Lesson lesson : sSchedule.getLessonList()){
-            logger.info("save() "+lesson.toString());
-            Lesson attachedLesson = Lesson.findById(lesson.getId());
-            attachedLesson.setTimeSlot(lesson.getTimeSlot());
-            attachedLesson.setRoom(lesson.getRoom());
+
+        List<Lesson> lessons = sSchedule.getLessonList();
+        logger.info("save() # of lessons = "+lessons.size());
+        for(Lesson solutionLesson : sSchedule.getLessonList()){
+            Lesson attachedLesson = Lesson.findById(solutionLesson.getId());
+            attachedLesson.setTimeSlot(solutionLesson.getTimeSlot());
+            attachedLesson.setRoom(solutionLesson.getRoom());
+            logger.info("save() solutionLesson = "+solutionLesson);
         }
     }
     

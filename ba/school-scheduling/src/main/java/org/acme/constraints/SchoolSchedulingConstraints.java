@@ -14,12 +14,13 @@ public class SchoolSchedulingConstraints implements ConstraintProvider{
 	@Override
 	public Constraint[] defineConstraints(ConstraintFactory constraintFactory) {
 		return new Constraint[] {
-            //roomConflict(constraintFactory)
+            roomConflict(constraintFactory)
 
         };
     }
     
     private Constraint roomConflict(ConstraintFactory constraintFactory) {
+        // A room can accommodate at most one lesson at the same time.
         return constraintFactory
             .from(Lesson.class) // evaluate based on all Lessons
             .join(Lesson.class, 
