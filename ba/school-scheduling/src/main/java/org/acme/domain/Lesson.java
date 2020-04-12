@@ -8,12 +8,13 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
 @PlanningEntity
-public class Lesson extends PanacheEntity{
+public class Lesson extends PanacheEntityBase {
 
 
     @Id
@@ -31,14 +32,24 @@ public class Lesson extends PanacheEntity{
     private String gradeLevel;
 
     // Changes during planner by Optaplanner
+    // Built-in Hard Constraint:  Optaplanner has no ability to assign two time slots to a lesson
     @ManyToOne
+    @PlanningVariable(valueRangeProviderRefs = "timeSlotRange")
     private TimeSlot timeSlot;
 
     // Changes during planner by Optaplanner
+    // Built-in Hard Constraint:  Optaplanner has no ability to assign two rooms to a lesson
     @ManyToOne
+    @PlanningVariable(valueRangeProviderRefs = "roomRange")
     private Room room;
 
     public Lesson(){}
+    public Lesson(Long id, String subject, String teacher, String gradeLevel) {
+        this.id = id;
+        this.subject = subject;
+        this.teacher = teacher;
+        this.gradeLevel = gradeLevel;
+    }
 
 	public Long getId() {
 		return id;
@@ -64,11 +75,6 @@ public class Lesson extends PanacheEntity{
 	public void setGradeLevel(String gradeLevel) {
 		this.gradeLevel = gradeLevel;
 	}
-	public Lesson(Long id, String subject, String teacher, String gradeLevel) {
-		this.subject = subject;
-		this.teacher = teacher;
-		this.gradeLevel = gradeLevel;
-	}
 	public TimeSlot getTimeSlot() {
 		return timeSlot;
 	}
@@ -80,6 +86,11 @@ public class Lesson extends PanacheEntity{
 	}
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+	@Override
+	public String toString() {
+		return "Lesson [gradeLevel=" + gradeLevel + ", id=" + id + ", room=" + room + ", subject=" + subject
+				+ ", teacher=" + teacher + ", timeSlot=" + timeSlot + "]";
 	}
 
 }

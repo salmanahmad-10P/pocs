@@ -7,10 +7,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 @Entity
-public class Room extends PanacheEntity {
+public class Room extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,12 +23,16 @@ public class Room extends PanacheEntity {
     public Room() {
     }
 
-    public Room(String name) {
+    public Room(Long id, String name) {
+        this.id = id;
         this.name = name.trim();
     }
 
     public Long getId() {
         return id;
+    }
+    public void setId(Long x) {
+        this.id = x;
     }
 
     public String getName() {
@@ -38,10 +42,10 @@ public class Room extends PanacheEntity {
         this.name = x;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
+	@Override
+	public String toString() {
+		return "Room [id=" + id + ", name=" + name + "]";
+	}
 
 
 }

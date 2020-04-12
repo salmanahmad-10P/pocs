@@ -20,7 +20,6 @@ import org.acme.domain.Room;
 import org.acme.domain.Student;
 import org.acme.domain.TimeSlot;
 import org.acme.utils.Constants;
-import org.apache.camel.builder.RouteBuilder;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,7 @@ import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 
 @ApplicationScoped
-public class ParseCSV extends RouteBuilder {
+public class ParseCSV {
 
     private static final Logger logger = LoggerFactory.getLogger(ParseCSV.class);
     
@@ -57,15 +56,15 @@ public class ParseCSV extends RouteBuilder {
     private String csvFileNameLessons;
 
     @Transactional
-    void start(@Observes StartupEvent ev)  throws Exception {
-
+    void start(@Observes StartupEvent ev)  throws IOException, ParseException {
+        logger.info("onStart() starting ...");
         persistRoom();
         persistTimeSlot();
         persistLesson();
         persistStudents();
     }
 
-    private void persistRoom() throws IOException, ParseException {
+    private void persistRoom() throws IOException {
 
         BufferedReader fReader = null;
         try {
@@ -90,7 +89,7 @@ public class ParseCSV extends RouteBuilder {
         }
     }
 
-    private void persistTimeSlot() throws IOException, ParseException {
+    private void persistTimeSlot() throws IOException {
         BufferedReader fReader = null;
         try {
             String filePath = csvPath + csvFileNameTimeSlots;
@@ -116,7 +115,7 @@ public class ParseCSV extends RouteBuilder {
         }
     }
 
-    private void persistLesson() throws IOException, ParseException {
+    private void persistLesson() throws IOException {
         BufferedReader fReader = null;
         try {
             String filePath = csvPath + csvFileNameLessons;
@@ -143,7 +142,7 @@ public class ParseCSV extends RouteBuilder {
     }
 
    
-    private void persistStudents() throws IOException, ParseException{
+    private void persistStudents() throws IOException, ParseException {
 
         BufferedReader fReader = null;
         try {
@@ -169,21 +168,6 @@ public class ParseCSV extends RouteBuilder {
             if(fReader != null)
               fReader.close();
         }
-    }
-
-    @Override
-    public void configure() throws Exception {
-
-        /*
-        StringBuilder sBuilder = new StringBuilder("file:"+csvPath+"?fileName="+csvFileNameStudents+"&noop=false");
-        logger.info("configure() csv file path = "+sBuilder.toString());
-
-        from(sBuilder.toString())
-            .log(sBuilder.toString())
-            .unmarshal().csv()
-            .log("configure() body = ${body}");
-        */
-
     }
 
     void end(@Observes ShutdownEvent ev) {

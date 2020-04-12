@@ -2,23 +2,23 @@ var autoRefreshCount = 0;
 var autoRefreshIntervalId = null;
 
 function refreshSchoolSchedule() {
-    $.getJSON("/schoolSchedule", function (timeTable) {
-        refreshSolvingButtons(timeTable.solverStatus != null && timeTable.solverStatus !== "NOT_SOLVING");
-        $("#score").text("Score: "+ (timeTable.score == null ? "?" : timeTable.score));
+    $.getJSON("/schoolSchedule", function (schoolSchedule) {
+        refreshSolvingButtons(schoolSchedule.solverStatus != null && schoolSchedule.solverStatus !== "NOT_SOLVING");
+        $("#score").text("Score: "+ (schoolSchedule.score == null ? "?" : schoolSchedule.score));
 
-        const timeTableByRoom = $("#timeTableByRoom");
-        timeTableByRoom.children().remove();
-        const timeTableByTeacher = $("#timeTableByTeacher");
-        timeTableByTeacher.children().remove();
-        const timeTableByGradeLevel = $("#timeTableByGradeLevel");
-        timeTableByGradeLevel.children().remove();
+        const schoolScheduleByRoom = $("#schoolScheduleByRoom");
+        schoolScheduleByRoom.children().remove();
+        const schoolScheduleByTeacher = $("#schoolScheduleByTeacher");
+        schoolScheduleByTeacher.children().remove();
+        const schoolScheduleByGradeLevel = $("#schoolScheduleByGradeLevel");
+        schoolScheduleByGradeLevel.children().remove();
         const unassignedLessons = $("#unassignedLessons");
         unassignedLessons.children().remove();
 
-        const theadByRoom = $("<thead>").appendTo(timeTableByRoom);
+        const theadByRoom = $("<thead>").appendTo(schoolScheduleByRoom);
         const headerRowByRoom = $("<tr>").appendTo(theadByRoom);
         headerRowByRoom.append($("<th>Timeslot</th>"));
-        $.each(timeTable.roomList, (index, room) => {
+        $.each(schoolSchedule.roomList, (index, room) => {
             headerRowByRoom
             .append($("<th>")
                 .append($("<span/>").text(room.name))
@@ -29,20 +29,20 @@ function refreshSchoolSchedule() {
                 ).click(() => deleteRoom(room)))
             .append("</th>"));
         });
-        const theadByTeacher = $("<thead>").appendTo(timeTableByTeacher);
+        const theadByTeacher = $("<thead>").appendTo(schoolScheduleByTeacher);
         const headerRowByTeacher = $("<tr>").appendTo(theadByTeacher);
         headerRowByTeacher.append($("<th>Timeslot</th>"));
-        const teacherList = [...new Set(timeTable.lessonList.map(lesson => lesson.teacher))];
+        const teacherList = [...new Set(schoolSchedule.lessonList.map(lesson => lesson.teacher))];
         $.each(teacherList, (index, teacher) => {
             headerRowByTeacher
             .append($("<th>")
                 .append($("<span />").text(teacher))
             .append("</th>"));
         });
-        const theadByGradeLevel = $("<thead>").appendTo(timeTableByGradeLevel);
+        const theadByGradeLevel = $("<thead>").appendTo(schoolScheduleByGradeLevel);
         const headerRowByGradeLevel = $("<tr>").appendTo(theadByGradeLevel);
         headerRowByGradeLevel.append($("<th>Timeslot</th>"));
-        const gradeLevelList = [...new Set(timeTable.lessonList.map(lesson => lesson.gradeLevel))];
+        const gradeLevelList = [...new Set(schoolSchedule.lessonList.map(lesson => lesson.gradeLevel))];
         $.each(gradeLevelList, (index, gradeLevel) => {
             headerRowByGradeLevel
             .append($("<th>")
@@ -50,60 +50,60 @@ function refreshSchoolSchedule() {
             .append("</th>"));
         });
 
-        const tbodyByRoom = $("<tbody>").appendTo(timeTableByRoom);
-        const tbodyByTeacher = $("<tbody>").appendTo(timeTableByTeacher);
-        const tbodyByGradeLevel = $("<tbody>").appendTo(timeTableByGradeLevel);
-        $.each(timeTable.timeSlotList, (index, timeslot) => {
+        const tbodyByRoom = $("<tbody>").appendTo(schoolScheduleByRoom);
+        const tbodyByTeacher = $("<tbody>").appendTo(schoolScheduleByTeacher);
+        const tbodyByGradeLevel = $("<tbody>").appendTo(schoolScheduleByGradeLevel);
+        $.each(schoolSchedule.timeSlotList, (index, timeSlot) => {
             const rowByRoom = $("<tr>").appendTo(tbodyByRoom);
             rowByRoom
             .append($(`<th class="align-middle">`)
                 .append($("<span/>").text(`
-                    ${timeslot.dayOfWeek.charAt(0) + timeslot.dayOfWeek.slice(1).toLowerCase()}
-                    ${moment(timeslot.startTime, "HH:mm:ss").format("HH:mm")}
+                    ${timeSlot.dayOfWeek.charAt(0) + timeSlot.dayOfWeek.slice(1).toLowerCase()}
+                    ${moment(timeSlot.startTime, "HH:mm:ss").format("HH:mm")}
                     -
-                    ${moment(timeslot.endTime, "HH:mm:ss").format("HH:mm")}
+                    ${moment(timeSlot.endTime, "HH:mm:ss").format("HH:mm")}
                 `)
                 .append($(`
                     <button type="button" class="ml-2 mb-1 btn btn-light btn-sm p-1">
                         <small class="fas fa-trash"></small>
                     </button>
-                `).click(() => deleteTimeslot(timeslot)))
+                `).click(() => deleteTimeslot(timeSlot)))
             .append("</th>")));
 
             const rowByTeacher = $("<tr>").appendTo(tbodyByTeacher);
             rowByTeacher
             .append($(`<th class="align-middle">`)
                 .append($("<span/>").text(`
-                    ${timeslot.dayOfWeek.charAt(0) + timeslot.dayOfWeek.slice(1).toLowerCase()}
-                    ${moment(timeslot.startTime, "HH:mm:ss").format("HH:mm")}
+                    ${timeSlot.dayOfWeek.charAt(0) + timeSlot.dayOfWeek.slice(1).toLowerCase()}
+                    ${moment(timeSlot.startTime, "HH:mm:ss").format("HH:mm")}
                     -
-                    ${moment(timeslot.endTime, "HH:mm:ss").format("HH:mm")}
+                    ${moment(timeSlot.endTime, "HH:mm:ss").format("HH:mm")}
                 `)
             .append("</th>")));
-            $.each(timeTable.roomList, (index, room) => {
-                rowByRoom.append($("<td/>").prop("id", `timeslot${timeslot.id}room${room.id}`));
+            $.each(schoolSchedule.roomList, (index, room) => {
+                rowByRoom.append($("<td/>").prop("id", `timeSlot${timeSlot.id}room${room.id}`));
             });
             const rowByGradeLevel = $("<tr>").appendTo(tbodyByGradeLevel);
             rowByGradeLevel
             .append($(`<th class="align-middle">`)
                 .append($("<span/>").text(`
-                    ${timeslot.dayOfWeek.charAt(0) + timeslot.dayOfWeek.slice(1).toLowerCase()}
-                    ${moment(timeslot.startTime, "HH:mm:ss").format("HH:mm")}
+                    ${timeSlot.dayOfWeek.charAt(0) + timeSlot.dayOfWeek.slice(1).toLowerCase()}
+                    ${moment(timeSlot.startTime, "HH:mm:ss").format("HH:mm")}
                     -
-                    ${moment(timeslot.endTime, "HH:mm:ss").format("HH:mm")}
+                    ${moment(timeSlot.endTime, "HH:mm:ss").format("HH:mm")}
                 `))
             .append("</th>"));
 
             $.each(teacherList, (index, teacher) => {
-                rowByTeacher.append($("<td/>").prop("id", `timeslot${timeslot.id}teacher${convertToId(teacher)}`));
+                rowByTeacher.append($("<td/>").prop("id", `timeSlot${timeSlot.id}teacher${convertToId(teacher)}`));
             });
 
             $.each(gradeLevelList, (index, gradeLevel) => {
-                rowByGradeLevel.append($("<td/>").prop("id", `timeslot${timeslot.id}gradeLevel${convertToId(gradeLevel)}`));
+                rowByGradeLevel.append($("<td/>").prop("id", `timeSlot${timeSlot.id}gradeLevel${convertToId(gradeLevel)}`));
             });
         });
 
-        $.each(timeTable.lessonList, (index, lesson) => {
+        $.each(schoolSchedule.lessonList, (index, lesson) => {
             const color = pickColor(lesson.subject);
             const lessonElementWithoutDelete = $(
             `<div class="card lesson" style="background-color: ${color}">`)
@@ -122,12 +122,12 @@ function refreshSchoolSchedule() {
                     </button>
                 `).click(() => deleteLesson(lesson))
             );
-            if (lesson.timeslot == null || lesson.room == null) {
+            if (lesson.timeSlot == null || lesson.room == null) {
                 unassignedLessons.append(lessonElement);
             } else {
-                $(`#timeslot${lesson.timeslot.id}room${lesson.room.id}`).append(lessonElement);
-                $(`#timeslot${lesson.timeslot.id}teacher${convertToId(lesson.teacher)}`).append(lessonElementWithoutDelete.clone());
-                $(`#timeslot${lesson.timeslot.id}gradeLevel${convertToId(lesson.gradeLevel)}`).append(lessonElementWithoutDelete.clone());
+                $(`#timeSlot${lesson.timeSlot.id}room${lesson.room.id}`).append(lessonElement);
+                $(`#timeSlot${lesson.timeSlot.id}teacher${convertToId(lesson.teacher)}`).append(lessonElementWithoutDelete.clone());
+                $(`#timeSlot${lesson.timeSlot.id}gradeLevel${convertToId(lesson.gradeLevel)}`).append(lessonElementWithoutDelete.clone());
             }
         });
     });
@@ -139,7 +139,7 @@ function convertToId(str) {
 }
 
 function solve() {
-    $.post("/schoolScheduling/solve", function () {
+    $.post("/schoolSchedule/solve", function () {
         refreshSolvingButtons(true);
         autoRefreshCount = 16;
         if (autoRefreshIntervalId == null) {
@@ -170,7 +170,7 @@ function autoRefresh() {
 }
 
 function stopSolving() {
-    $.post("/schoolScheduling/stopSolving", function () {
+    $.post("/schoolSchedule/stopSolving", function () {
         refreshSolvingButtons(false);
         refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
@@ -201,23 +201,23 @@ function deleteLesson(lesson) {
 }
 
 function addTimeslot() {
-    $.post("/timeslots", JSON.stringify({
-        "dayOfWeek": $("#timeslot_dayOfWeek").val().trim().toUpperCase(),
-        "startTime": $("#timeslot_startTime").val().trim(),
-        "endTime": $("#timeslot_endTime").val().trim()
+    $.post("/timeSlots", JSON.stringify({
+        "dayOfWeek": $("#timeSlot_dayOfWeek").val().trim().toUpperCase(),
+        "startTime": $("#timeSlot_startTime").val().trim(),
+        "endTime": $("#timeSlot_endTime").val().trim()
     }), function () {
         refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
-        showError("Adding timeslot failed.", xhr);
+        showError("Adding timeSlot failed.", xhr);
     });
-    $('#timeslotDialog').modal('toggle');
+    $('#timeSlotDialog').modal('toggle');
 }
 
-function deleteTimeslot(timeslot) {
-    $.delete("/timeslots/" + timeslot.id, function () {
+function deleteTimeslot(timeSlot) {
+    $.delete("/timeSlots/" + timeSlot.id, function () {
         refreshSchoolSchedule();
     }).fail(function(xhr, ajaxOptions, thrownError) {
-        showError("Deleting timeslot (" + timeslot.name + ") failed.", xhr);
+        showError("Deleting timeSlot (" + timeSlot.name + ") failed.", xhr);
     });
 }
 

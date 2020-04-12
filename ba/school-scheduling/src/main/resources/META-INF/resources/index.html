@@ -48,17 +48,17 @@
     </div>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="byRoomPanel" role="tabpanel" aria-labelledby="byRoomTab">
-            <table class="table table-borderless table-striped timeTableSolution" id="timeTableByRoom">
+            <table class="table table-borderless table-striped schoolScheduleSolution" id="schoolScheduleByRoom">
                 <!-- Filled in by app.js -->
             </table>
         </div>
         <div class="tab-pane fade" id="byTeacher" role="tabpanel" aria-labelledby="byTeacherTab">
-            <table class="table table-borderless table-striped timeTableSolution" id="timeTableByTeacher">
+            <table class="table table-borderless table-striped schoolScheduleSolution" id="schoolScheduleByTeacher">
                 <!-- Filled in by app.js -->
             </table>
         </div>
         <div class="tab-pane fade" id="byGradeLevel" role="tabpanel" aria-labelledby="byGradeLevelTab">
-            <table class="table table-borderless table-striped timeTableSolution" id="timeTablebyGradeLevel">
+            <table class="table table-borderless table-striped schoolScheduleSolution" id="schoolSchedulebyGradeLevel">
                 <!-- Filled in by app.js -->
             </table>
         </div>
@@ -67,8 +67,8 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lessonDialog">
             <span class="fas fa-plus"></span> Add lesson
         </button>
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#timeslotDialog">
-            <span class="fas fa-plus"></span> Add timeslot
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#timeSlotDialog">
+            <span class="fas fa-plus"></span> Add timeSlot
         </button>
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#roomDialog">
             <span class="fas fa-plus"></span> Add room
@@ -99,8 +99,8 @@
                     <input type="text" class="form-control" id="lesson_teacher" required value="B. May">
                 </div>
                 <div class="form-group">
-                    <label for="lesson_studentGroup">Student group</label>
-                    <input type="text" class="form-control" id="lesson_studentGroup" required value="11th grade">
+                    <label for="lesson_gradeLevel">Grade Level</label>
+                    <input type="text" class="form-control" id="lesson_gradeLevel" required value="11th grade">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -110,31 +110,31 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="timeslotDialog" tabindex="-1" role="dialog">
+<div class="modal fade" id="timeSlotDialog" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Add a timeslot</h4>
+                <h4>Add a timeSlot</h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="timeslot_dayOfWeek">Day of week</label>
-                    <input type="text" class="form-control" id="timeslot_dayOfWeek" required value="WEDNESDAY">
+                    <label for="timeSlot_dayOfWeek">Day of week</label>
+                    <input type="text" class="form-control" id="timeSlot_dayOfWeek" required value="WEDNESDAY">
                 </div>
                 <div class="form-group">
-                    <label for="timeslot_startTime">Start time</label>
-                    <input type="text" class="form-control" id="timeslot_startTime" required value="08:30">
+                    <label for="timeSlot_startTime">Start time</label>
+                    <input type="text" class="form-control" id="timeSlot_startTime" required value="08:30">
                 </div>
                 <div class="form-group">
-                    <label for="timeslot_endTime">End time</label>
-                    <input type="text" class="form-control" id="timeslot_endTime" required value="09:30">
+                    <label for="timeSlot_endTime">End time</label>
+                    <input type="text" class="form-control" id="timeSlot_endTime" required value="09:30">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="addTimeslotSubmitButton">Submit new timeslot</button>
+                    <button type="button" class="btn btn-primary" id="addtimeSlotSubmitButton">Submit new timeSlot</button>
                 </div>
             </div>
         </div>

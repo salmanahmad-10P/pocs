@@ -30,6 +30,13 @@ public class TimeSlot extends PanacheEntityBase {
 
     public TimeSlot() {}
     
+    public TimeSlot(Long id, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
+        this.id = id;
+        this.dayOfWeek = dayOfWeek;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+    
 	public Long getId() {
 		return id;
 	}
@@ -55,11 +62,10 @@ public class TimeSlot extends PanacheEntityBase {
 		this.endTime = endTime;
     }
 
-	public TimeSlot(Long id, DayOfWeek dayOfWeek, LocalTime startTime, LocalTime endTime) {
-		this.id = id;
-		this.dayOfWeek = dayOfWeek;
-		this.startTime = startTime;
-		this.endTime = endTime;
+	@Override
+	public String toString() {
+		return "TimeSlot [dayOfWeek=" + dayOfWeek + ", endTime=" + endTime + ", id=" + id + ", startTime=" + startTime
+				+ "]";
 	}
 
 }
