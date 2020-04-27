@@ -18,6 +18,7 @@ function add_nexus3_repo() {
   local _NEXUS_PWD=$4
   local _NEXUS_URL=$5
 
+# NOTE: This sets  "version policy" fixed to: Release    (not Snapshot nor Mixed)
   read -r -d '' _REPO_JSON << EOM
 {
   "name": "$_REPO_ID",
