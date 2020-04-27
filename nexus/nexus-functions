@@ -66,6 +66,8 @@ function add_nexus3_redhat_repos() {
 
 
   add_nexus3_repo redhat-ga                             https://maven.repository.redhat.com/ga/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
+
+  # NOTE:  For SNAPSHOTS, you will need to manually re-create this maven proxy with  version policy" set to: Mixed 
   add_nexus3_repo jboss-public-repository-group         https://repository.jboss.org/nexus/content/repositories/public/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 
   add_nexus3_repo redhat-ea                             https://maven.repository.redhat.com/earlyaccess/all/ $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
