@@ -1,0 +1,10 @@
+apiVersion: app.kiegroup.org/v1alpha1
+kind: KogitoApp 
+metadata:
+  name: kogito-tagency
+spec:
+  build:
+    gitSource:
+      uri: 'https://github.com/kiegroup/kogito-examples'
+      contextDir: process-quarkus-example
+    mavenMirrorURL: http://192.168.130.1:8085/repository/maven-rht/
