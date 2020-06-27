@@ -10,11 +10,27 @@
   <name>test-bpmn-kjar</name>
 
   <properties>
-    <version.org.kie>7.30.0.Final-redhat-00003</version.org.kie>
+    <version.org.kie>7.33.0.Final-redhat-00003</version.org.kie>
+    <version.org.kie.bom>7.7.1.redhat-00002</version.org.kie.bom>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <dependencyManagement>
+      <dependencies>
+
+        <!-- https://maven.repository.redhat.com/ga/com/redhat/ba/ba-platform-bom/ -->
+
+        <dependency>
+            <groupId>com.redhat.ba</groupId>
+            <artifactId>ba-platform-bom</artifactId>
+            <version>${version.org.kie.bom}</version>
+            <type>pom</type>
+            <scope>import</scope>
+          </dependency>
+      </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>
