@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Assumptions:
+## Existing disk mounts :   /u0A, /u0B and /u0C
+
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 echo -en "\nSCRIPT_DIR = $SCRIPT_DIR\n\n"
 
