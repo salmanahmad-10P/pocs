@@ -27,8 +27,10 @@ function create() {
       name=pvu0$lowercase$MINOR_DISK
       echo -en "\nname = $name\n"
       path=$DIR_NAME
+
+      # https://docs.openshift.com/container-platform/4.4/storage/persistent_storage/persistent-storage-nfs.html
       cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{path}/$path/g" | oc create -f -
-      #cat $SCRIPT_DIR/pv.yaml
+
     done
     chmod -R 777 /u0$MAJOR_DISK/
 }
