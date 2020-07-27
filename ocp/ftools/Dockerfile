@@ -16,8 +16,8 @@ FROM fedora:31
 #   sudo podman run --rm fedoratools:2.9
 
 # Execution: OpenShift
-#   oc run ftools --image=quay.io/rhtgptetraining/fedoratools:2.9           :   creates a DC
-#   oc create -f ftools-deploy.yml                                          :   creates a deployment
+#   oc run ftools --image=quay.io/rhtgptetraining/fedoratools:2.9                                                                           :   creates a DC
+#   oc create -f https://raw.githubusercontent.com/jbride/pocs/master/ocp/ftools/ftools-deploy.yml                                          :   creates a deployment
 #   sidecar
 #       dc_name=rhpam-kieserver
 #       oc patch dc/$dc_name --type=json -p "[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/1\", \"value\": { \"name\": \"ftools\", \"image\": \"quay.io/rhtgptetraining/fedoratools:2.9\", \"imagePullPolicy\": \"Always\", \"resources\": { \"limits\": {\"cpu\": \"100m\",\"memory\": \"256Mi\"}} }}]"
