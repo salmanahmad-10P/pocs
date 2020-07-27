@@ -13,6 +13,9 @@ metadata:
   labels:
     app: ftools
 spec:
+  selector:
+    matchLabels:
+      deployment: ftools
   paused: true
   replicas: 1
   strategy:
