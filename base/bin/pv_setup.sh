@@ -57,12 +57,14 @@ function refresh() {
       name=pvu0$lowercase$MINOR_DISK
       path=$DIR_NAME
       status=$(oc get pv $name -o template --template {{.status.phase}})
-      echo -en "\nrefresh: $name $status\n"
-      if [ "Released" = $status ]; then
-        echo -en "\nAbout to refresh: $name\n"
-        oc delete pv $name
-        rm -rf /u0$MAJOR_DISK/$DIR_NAME/*
-        cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{path}/$path/g" | oc create -f -
+      if [ $? -eq 0 ];then
+          echo -en "\nrefresh: $name $status\n"
+          if [ "Released" = $status ]; then
+            echo -en "\nAbout to refresh: $name\n"
+            oc delete pv $name
+            rm -rf /u0$MAJOR_DISK/$DIR_NAME/*
+            cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{path}/$path/g" | oc create -f -
+          fi
       fi
     done
 
