@@ -10,6 +10,8 @@ MAX_PV_ID=20
 
 SLEEP_TIME=1
 
+NFS_HOST=192.168.122.1
+
 
 function cleanMount() {
         echo -en "\ncleanMount: /u0$MAJOR_DISK/$DIR_NAME\n"
@@ -25,8 +27,7 @@ function cleanAll() {
     done
 
     oc delete pv --all
-    echo "$MOUNT_TARGET_DIR_ROOT               192.168.122.0/24(rw,sync,no_subtree_check,crossmnt,fsid=0)" > /etc/exports
-    echo "/u0$MAJOR_DISK        192.168.122.0/24(rw,sync,no_subtree_check)" >> /etc/exports
+    echo "" > /etc/exports
     exportfs -ra
 
 }
@@ -36,14 +37,14 @@ function create() {
       # Create NFS mounts
       DIR_NAME=u0$MAJOR_DISK$MINOR_DISK
       mkdir -p /u0$MAJOR_DISK/$DIR_NAME
-      chown -R nfsnobody:nfsnobody /u0$MAJOR_DISK/$DIR_NAME
+      chown -R rpcuser:rpcuser /u0$MAJOR_DISK/$DIR_NAME
 
       # Create corresponding PV
       lowercase="${MAJOR_DISK,,}"
-      name=pvu0$lowercase$MINOR_DISK
+      PV_NAME=pvu0$lowercase$MINOR_DISK
 
       # https://docs.openshift.com/container-platform/4.4/storage/persistent_storage/persistent-storage-nfs.html
-      cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{DIR_NAME}/$DIR_NAME/g" | oc create -f -
+      cat $SCRIPT_DIR/pv.yaml | sed "s/{PV_NAME}/$PV_NAME/g" | sed "s/{NFS_HOST}/$NFS_HOST/g" | sed "s/{MAJOR_DISK}/$MAJOR_DISK/g" | sed "s/{DIR_NAME}/$DIR_NAME/g"| oc create -f -
       chmod -R 777 /u0$MAJOR_DISK/$DIR_NAME
 }
 
@@ -57,7 +58,7 @@ function refreshAvailable() {
       else
         echo "/u0$MAJOR_DISK    192.168.122.0/24(rw,sync,no_subtree_check)" >> /etc/exports
         exportfs -ra
-        chown -R nfsnobody:nfsnobody /u0$MAJOR_DISK
+        chown -R rpcuser:rpcuser /u0$MAJOR_DISK
       fi
 
       for ((MINOR_DISK=10;MINOR_DISK<=$MAX_PV_ID;MINOR_DISK++)); do 
