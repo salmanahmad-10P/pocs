@@ -8,6 +8,6 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs: 
-    path: /u0{MAJOR_DISK}/{MINOR_DISK}
+    path: /u0{MAJOR_DISK}/{DIR_NAME}
     server: {NFS_HOST}
   persistentVolumeReclaimPolicy: Retain
