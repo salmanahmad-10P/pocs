@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {name}
+  name: {PV_NAME}
 spec:
   capacity:
     storage: 10Gi 
   accessModes:
   - ReadWriteOnce
   nfs: 
-    path: /{path}
-    server: 192.168.122.1
+    path: /u0{MAJOR_DISK}/{MINOR_DISK}
+    server: {NFS_HOST}
   persistentVolumeReclaimPolicy: Retain
