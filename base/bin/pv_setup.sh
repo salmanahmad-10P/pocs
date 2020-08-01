@@ -24,10 +24,9 @@ function create() {
       # Create corresponding PV
       lowercase="${MAJOR_DISK,,}"
       name=pvu0$lowercase$MINOR_DISK
-      path=$DIR_NAME
 
       # https://docs.openshift.com/container-platform/4.4/storage/persistent_storage/persistent-storage-nfs.html
-      cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{path}/$path/g" | oc create -f -
+      cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{DIR_NAME}/$DIR_NAME/g" | oc create -f -
       chmod -R 777 /u0$MAJOR_DISK/$DIR_NAME
 }
 
@@ -60,16 +59,17 @@ function cleanAll() {
 function refresh() {
     for ((MINOR_DISK=10;MINOR_DISK<=$MAX_PV_ID;MINOR_DISK++)); do 
       # Create corresponding PV
+      DIR_NAME=u0$MAJOR_DISK$MINOR_DISK
       lowercase="${MAJOR_DISK,,}"
       name=pvu0$lowercase$MINOR_DISK
-      path=$DIR_NAME
       status=$(oc get pv $name -o template --template {{.status.phase}})
       if [ $? -eq 0 ];then
           if [ "Released" = $status ]; then
 	    echo -en "\n\nrefresh() About to refresh: $name\n"
             oc delete pv $name
-            rm -rf /u0$MAJOR_DISK/$MINOR_DISK/*
-            cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{path}/$path/g" | oc create -f -
+            absolute_path=/u0$MAJOR_DISK/$DIR_NAME
+            rm -rf $absolute_path/*
+            cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{DIR_NAME}/$DIR_NAME/g" | oc create -f -
           fi
       else
 	  create
@@ -77,6 +77,17 @@ function refresh() {
       fi
     done
 }
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+if ! command -v oc &> /dev/null
+then
+    echo "oc utility could not be found on PATH = $PATH"
+    exit
+fi
 
 echo "$MOUNT_TARGET_DIR_ROOT               192.168.122.0/24(rw,sync,no_subtree_check,crossmnt,fsid=0)" > /etc/exports
 for MAJOR_DISK in A B C; do

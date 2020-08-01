@@ -8,6 +8,6 @@ spec:
   accessModes:
   - ReadWriteOnce
   nfs: 
-    path: /{path}
+    path: /srv/nfs4/{DIR_NAME}/
     server: 192.168.122.1
   persistentVolumeReclaimPolicy: Retain
