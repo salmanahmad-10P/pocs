@@ -48,14 +48,15 @@ function create() {
       chmod -R 777 /u0$MAJOR_DISK/$DIR_NAME
 }
 
-function refreshAvailable() {
+function refreshReleased() {
 
     for MAJOR_DISK in A B C; do
 
-      if grep -Fxq "u0$MAJOR_DISK" /etc/exports
-      then
-        echo -en "u0$MAJOR_DISK already exists in /etc/exports.  No need to export NFS mount"
-      else
+      # verify by executing the following on the NFS host:  mount -l
+
+      grep "u0$MAJOR_DISK" /etc/exports
+      if [ $? -eq 1 ]; then
+        echo -en "u0$MAJOR_DISK does not exist in /etc/exports.  Need to add\n"
         echo "/u0$MAJOR_DISK    192.168.122.0/24(rw,sync,no_subtree_check)" >> /etc/exports
         exportfs -ra
         chown -R rpcuser:rpcuser /u0$MAJOR_DISK
@@ -66,19 +67,19 @@ function refreshAvailable() {
         # Create PV
         DIR_NAME=u0$MAJOR_DISK$MINOR_DISK
         lowercase="${MAJOR_DISK,,}"
-        name=pvu0$lowercase$MINOR_DISK
-        status=$(oc get pv $name -o template --template {{.status.phase}})
+        PV_NAME=pvu0$lowercase$MINOR_DISK
+        status=$(oc get pv $PV_NAME -o template --template {{.status.phase}})
         if [ $? -eq 0 ];then
             if [ "Released" = $status ]; then
-	      echo -en "\n\nrefresh() About to refresh the following PV and underlying filesytem: $name\n"
-              oc delete pv $name
+	      echo -en "\n\nrefresh() About to refresh the following PV and underlying filesytem: $PV_NAME\n"
+              oc delete pv $PV_NAME
               absolute_path=/u0$MAJOR_DISK/$DIR_NAME
               rm -rf $absolute_path/*
-              cat $SCRIPT_DIR/pv.yaml | sed "s/{name}/$name/g" | sed "s/{DIR_NAME}/$DIR_NAME/g" | oc create -f -
+              cat $SCRIPT_DIR/pv.yaml | sed "s/{PV_NAME}/$PV_NAME/g" | sed "s/{NFS_HOST}/$NFS_HOST/g" | sed "s/{MAJOR_DISK}/$MAJOR_DISK/g" | sed "s/{DIR_NAME}/$DIR_NAME/g"| oc create -f -
             fi
         else
 	    create
-            echo -en "refresh() the following PV is now created: $name  .\n\n"
+            echo -en "refresh() the following PV is now created: $PV_NAME  .\n\n"
         fi
       done
     done
@@ -96,11 +97,11 @@ then
 fi
 
 case "$1" in
-    refreshAvailable|cleanAll)
+    refreshReleased|cleanAll)
         $1
         ;;
     *)
-    echo 1>&2 $"Usage: $0 {refreshAvailable|cleanAll}"
+    echo 1>&2 $"Usage: $0 {refreshReleased|cleanAll}"
     exit 1
 esac
 
