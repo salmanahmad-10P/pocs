@@ -83,8 +83,8 @@ function add_nexus3_redhat_repos() {
   add_nexus3_group_repo redhat-ga,jboss-public-repository-group,redhat-ea,redhat-techpreview,jboss,public-jboss,ea-jboss,fuse-releases,fuse-public,brew-root,maven2,maven-central,maven-releases,maven-snapshots maven-rht $_NEXUS_USER $_NEXUS_PWD $_NEXUS_URL
 }
 
-# source /tmp/nexus-functions; add_nexus3_docker_repo docker 5000 admin admin123 http://localhost:8081
-function add_nexus3_docker_repo() {
+# source /tmp/nexus-functions; add_nexus3_container_images_repo containerimages 5000 admin admin123 http://localhost:8081
+function add_nexus3_container_images_repo() {
   local _REPO_ID=$1
   local _REPO_PORT=$2
   local _NEXUS_USER=$3
