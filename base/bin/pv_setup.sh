@@ -6,7 +6,7 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 echo -en "\nSCRIPT_DIR = $SCRIPT_DIR\n\n"
 
-MAX_PV_ID=20
+MAX_PV_ID=30
 
 SLEEP_TIME=1
 
@@ -26,9 +26,9 @@ function cleanAll() {
         done
     done
 
-    oc delete pv --all
     echo "" > /etc/exports
     exportfs -ra
+    oc delete pv --all
 
 }
 
@@ -48,7 +48,7 @@ function create() {
       chmod -R 777 /u0$MAJOR_DISK/$DIR_NAME
 }
 
-function refreshReleased() {
+function refresh() {
 
     for MAJOR_DISK in A B C; do
 
@@ -97,11 +97,11 @@ then
 fi
 
 case "$1" in
-    refreshReleased|cleanAll)
+    refresh|cleanAll)
         $1
         ;;
     *)
-    echo 1>&2 $"Usage: $0 {refreshReleased|cleanAll}"
+    echo 1>&2 $"Usage: $0 {refresh|cleanAll}"
     exit 1
 esac
 

@@ -3,7 +3,7 @@ CLUSTER_NAME=ratwater
 START_DELAY=45
 
 function shutdown() {
-    virsh stop $CLUSTER_NAME-lb
+    virsh destroy $CLUSTER_NAME-lb
 
     for OCP_TYPE in worker master; do
         for VM_NUM in 1 2 3; do
