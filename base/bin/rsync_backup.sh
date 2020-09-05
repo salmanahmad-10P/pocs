@@ -82,7 +82,7 @@ syncAllBackupFromLocal() {
     
     mkdir -p $AUDIO_HOME; cd $AUDIO_HOME    
     echo " ***** now synching from : $AUDIO_HOME to :  $RSYNC_PATH"    
-    rsync -trv . --exclude=.* $RSYNC_PATH/audio    
+    rsync -trv . --delete --exclude=.* $RSYNC_PATH/audio    
     rsyncReturnCode=$?    
     if [ $rsyncReturnCode -ne 0 ];then    
         exit 1;    
