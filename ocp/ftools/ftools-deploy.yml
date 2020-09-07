@@ -16,7 +16,7 @@ spec:
   selector:
     matchLabels:
       deployment: ftools
-  paused: true
+  paused: false
   replicas: 1
   strategy:
     rollingParams:
@@ -38,7 +38,7 @@ spec:
         name: ftools
         resources:
           limits:
-            cpu: 500m
+            cpu: 2000m
             memory: 512Mi
           requests:
             cpu: 300m
