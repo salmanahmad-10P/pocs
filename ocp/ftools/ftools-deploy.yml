@@ -33,13 +33,13 @@ spec:
     spec:
       containers:
       - env: 
-        image: quay.io/rhtgptetraining/fedoratools:2.13
+        image: quay.io/rhtgptetraining/fedoratools:2.14
         imagePullPolicy: IfNotPresent
         name: ftools
         resources:
           limits:
-            cpu: 2000m
-            memory: 512Mi
+            cpu: 3000m
+            memory: 1024Mi
           requests:
             cpu: 300m
             memory: 64Mi
