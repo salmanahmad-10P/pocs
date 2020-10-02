@@ -1,7 +1,7 @@
 FROM fedora:32
 
 # Build:
-#   podman build --rm -t quay.io/rhtgptetraining/fedoratools:2.15 .
+#   podman build --rm -t quay.io/rhtgptetraining/fedoratools:2.16 .
 
 # Docker push (on F31):
 #   Make sure the following is the *first* entry in the docker daemon (by updating /etc/sysconfig/docker):  --add-registry docker.io
@@ -28,8 +28,8 @@ FROM fedora:32
 
 ENV JAVA_HOME /etc/alternatives/java_sdk
 
-# ENV: M2_MIRROR_URL http:\/\/nexus.user1-tools-erd:8081\/content\/groups\/public
-ENV M2_MIRROR_URL http:\/\/localhost:8085\/repository\/maven-rht'
+ENV M2_MIRROR_URL http:\/\/nexus.user1-tools-erd:8081\/content\/groups\/public
+#ENV M2_MIRROR_URL http:\/\/localhost:8085\/repository\/maven-rht'
 
 # Executes a command in a new layer and creates a new image
 RUN dnf install -y which iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git swaks podman skopeo speedtest-cli jq tidy xmlstarlet postgresql community-mysql iptables procps-ng util-linux siege java-latest-openjdk-devel findutils npm && dnf clean all
@@ -49,9 +49,9 @@ EXPOSE 8080 9000 5005
 
 # Sets the directory and file permissions to allow users in the root group to access them in the built image
 # Because the container user is always a member of the root group, the container user can read and write these files
-RUN chgrp -R 0 /opt && \
-    chmod -R g=u /opt
-VOLUME /opt
+RUN mkdir /build && chgrp -R 0 /build && \
+    chmod -R g=u /build
+VOLUME /build
 
 # ENTRYPOINT command and parameters are not ignored when Docker container runs with command line parameters.
 # Exec form of ENTRYPOINT allows for setting of commands and parameters and then use either form of CMD to set additional params that are more likely to be changed.
