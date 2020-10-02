@@ -5,41 +5,71 @@
 #   oc patch deploy/ftools --patch '{"spec":{"template":{"spec":{"initContainers":[{"name":"istio-init", "resources": {   "limits":{"cpu": "500m","memory": "128Mi"},"requests":{"cpu":"50m","memory":"32Mi"}   }}]}}}}'
 #   oc rollout resume deploy ftools
 
+kind: List
+apiVersion: v1
+items:
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ftools
-  labels:
-    app: ftools
-spec:
-  selector:
-    matchLabels:
-      deployment: ftools
-  paused: false
-  replicas: 1
-  strategy:
-    rollingParams:
-      intervalSeconds: 1
-      maxSurge: 25%
-      maxUnavailable: 25%
-      timeoutSeconds: 1800
-      updatePeriodSeconds: 1
-    type: RollingUpdate
-  template:
-    metadata:
-      labels:
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: ftools-data
+    labels:
+      app: ftools-data
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    name: ftools
+    labels:
+      app: ftools
+  spec:
+    selector:
+      matchLabels:
         deployment: ftools
-    spec:
-      containers:
-      - env: 
-        image: quay.io/rhtgptetraining/fedoratools:2.14
-        imagePullPolicy: IfNotPresent
-        name: ftools
-        resources:
-          limits:
-            cpu: 3000m
-            memory: 1024Mi
-          requests:
-            cpu: 300m
-            memory: 64Mi
+    paused: false
+    replicas: 1
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          name: ftools
+      spec:
+        containers:
+        - env: 
+          imagePullPolicy: IfNotPresent
+          name: ftools
+          volumeMounts:
+          - name: ftools-data
+            mountPath: "/opt"
+          resources:
+            limits:
+              cpu: 3000m
+              memory: 1024Mi
+            requests:
+              cpu: 300m
+              memory: 64Mi
+        volumes:
+        - name: "ftools-data"
+          persistentVolumeClaim:
+            claimName: "ftools-data"
+    selector:
+      name: ftools
+    triggers:
+      - type: ConfigChange
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+            - ftools
+          from:
+            kind: ImageStreamTag
+            name: "ftools:2.15"
+            namespace: user1-er-demo
+        type: ImageChange
+

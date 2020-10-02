@@ -1,26 +1,26 @@
 FROM fedora:32
 
 # Build:
-#   podman build --rm -t quay.io/rhtgptetraining/fedoratools:2.14 .
+#   podman build --rm -t quay.io/rhtgptetraining/fedoratools:2.15 .
 
 # Docker push (on F31):
 #   Make sure the following is the *first* entry in the docker daemon (by updating /etc/sysconfig/docker):  --add-registry docker.io
 #   podman login quay.io -u rhtgptetraining
-#   podman push quay.io/rhtgptetraining/fedoratools:2.14
+#   podman push quay.io/rhtgptetraining/fedoratools:2.15
 
 # View details of the image in the remote docker registry
-# skopeo inspect docker://quay.io/rhtgptetraining/fedoratools:2.14
+# skopeo inspect docker://quay.io/rhtgptetraining/fedoratools:2.15
 
 # Execution: podman
-#   podman run --rm -d --name=ftools quay.io/rhtgptetraining/fedoratools:2.14
+#   podman run --rm -d --name=ftools quay.io/rhtgptetraining/fedoratools:2.15
 #   podman exec -it ftools /bin/bash
 
 # Execution: OpenShift
-#   oc new-app --image-stream=fedoratools:2.14 --name=ftools --env=M2_MIRROR_URL='http://nexus.user1-tools-erd:8081/content/groups/public'  :   create a deployment
+#   oc new-app --image-stream=fedoratools:2.15 --name=ftools --env=M2_MIRROR_URL='http://nexus.user1-tools-erd:8081/content/groups/public'  :   create a deployment
 #   oc create -f https://raw.githubusercontent.com/jbride/pocs/master/ocp/ftools/ftools-deploy.yml                                          :   creates a deployment
 #   sidecar
 #       dc_name=rhpam-kieserver
-#       oc patch dc/$dc_name --type=json -p "[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/1\", \"value\": { \"name\": \"ftools\", \"image\": \"quay.io/rhtgptetraining/fedoratools:2.14\", \"imagePullPolicy\": \"Always\", \"resources\": { \"limits\": {\"cpu\": \"100m\",\"memory\": \"256Mi\"}} }}]"
+#       oc patch dc/$dc_name --type=json -p "[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/1\", \"value\": { \"name\": \"ftools\", \"image\": \"quay.io/rhtgptetraining/fedoratools:2.15\", \"imagePullPolicy\": \"Always\", \"resources\": { \"limits\": {\"cpu\": \"100m\",\"memory\": \"256Mi\"}} }}]"
 
 # Execution: Istio enabled
 #   istioctl kube-inject -f ftools-deploy.yml > $HOME/lab/ftools-istio.yml
@@ -32,7 +32,7 @@ ENV JAVA_HOME /etc/alternatives/java_sdk
 ENV M2_MIRROR_URL http:\/\/localhost:8085\/repository\/maven-rht'
 
 # Executes a command in a new layer and creates a new image
-RUN dnf install -y which iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git swaks podman skopeo speedtest-cli jq tidy xmlstarlet postgresql community-mysql iptables procps-ng util-linux siege java-latest-openjdk-devel findutils && dnf clean all
+RUN dnf install -y which iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git swaks podman skopeo speedtest-cli jq tidy xmlstarlet postgresql community-mysql iptables procps-ng util-linux siege java-latest-openjdk-devel findutils npm && dnf clean all
 
 ADD loop.sh /usr/bin/loop.sh
 
@@ -45,7 +45,13 @@ RUN wget http://mirror.metrocast.net/apache/maven/maven-3/$MVN_VERSION/binaries/
     && tar -zxvf /tmp/apache-maven-$MVN_VERSION-bin.tar.gz -C /opt \
     && ln -s $MAVEN_HOME/bin/mvn /usr/local/bin/mvn
 
-EXPOSE 8080
+EXPOSE 8080 9000 5005
+
+# Sets the directory and file permissions to allow users in the root group to access them in the built image
+# Because the container user is always a member of the root group, the container user can read and write these files
+RUN chgrp -R 0 /opt && \
+    chmod -R g=u /opt
+VOLUME /opt
 
 # ENTRYPOINT command and parameters are not ignored when Docker container runs with command line parameters.
 # Exec form of ENTRYPOINT allows for setting of commands and parameters and then use either form of CMD to set additional params that are more likely to be changed.
