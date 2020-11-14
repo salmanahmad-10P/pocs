@@ -1,26 +1,26 @@
-FROM fedora:32
+FROM fedora:33
 
 # Build:
-#   podman build --rm -t quay.io/rhtgptetraining/fedoratools:2.15 .
+#   podman build --rm -t quay.io/rhtgptetraining/fedoratools:2.16 .
 
-# Docker push (on F31):
+# Docker push (on F33):
 #   Make sure the following is the *first* entry in the docker daemon (by updating /etc/sysconfig/docker):  --add-registry docker.io
 #   podman login quay.io -u rhtgptetraining
-#   podman push quay.io/rhtgptetraining/fedoratools:2.15
+#   podman push quay.io/rhtgptetraining/fedoratools:2.16
 
 # View details of the image in the remote docker registry
-# skopeo inspect docker://quay.io/rhtgptetraining/fedoratools:2.15
+# skopeo inspect docker://quay.io/rhtgptetraining/fedoratools:2.16
 
 # Execution: podman
-#   podman run --rm -d --name=ftools quay.io/rhtgptetraining/fedoratools:2.15
+#   podman run --rm -d --name=ftools quay.io/rhtgptetraining/fedoratools:2.16
 #   podman exec -it ftools /bin/bash
 
 # Execution: OpenShift
-#   oc new-app --image-stream=fedoratools:2.15 --name=ftools --env=M2_MIRROR_URL='http://nexus.user1-tools-erd:8081/content/groups/public'  :   create a deployment
+#   oc new-app --image-stream=fedoratools:2.16 --name=ftools --env=M2_MIRROR_URL='http://nexus.user1-tools-erd:8081/content/groups/public'  :   create a deployment
 #   oc create -f https://raw.githubusercontent.com/jbride/pocs/master/ocp/ftools/ftools-deploy.yml                                          :   creates a deployment
 #   sidecar
 #       dc_name=rhpam-kieserver
-#       oc patch dc/$dc_name --type=json -p "[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/1\", \"value\": { \"name\": \"ftools\", \"image\": \"quay.io/rhtgptetraining/fedoratools:2.15\", \"imagePullPolicy\": \"Always\", \"resources\": { \"limits\": {\"cpu\": \"100m\",\"memory\": \"256Mi\"}} }}]"
+#       oc patch dc/$dc_name --type=json -p "[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/1\", \"value\": { \"name\": \"ftools\", \"image\": \"quay.io/rhtgptetraining/fedoratools:2.16\", \"imagePullPolicy\": \"Always\", \"resources\": { \"limits\": {\"cpu\": \"100m\",\"memory\": \"256Mi\"}} }}]"
 
 # Execution: Istio enabled
 #   istioctl kube-inject -f ftools-deploy.yml > $HOME/lab/ftools-istio.yml
@@ -32,7 +32,7 @@ ENV JAVA_HOME /etc/alternatives/java_sdk
 ENV M2_MIRROR_URL http:\/\/localhost:8085\/repository\/maven-rht'
 
 # Executes a command in a new layer and creates a new image
-RUN dnf install -y which iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git swaks podman skopeo speedtest-cli jq tidy xmlstarlet postgresql community-mysql iptables procps-ng util-linux siege java-latest-openjdk-devel findutils npm && dnf clean all
+RUN dnf install -y httpie mycli python3-pip which iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git swaks podman skopeo speedtest-cli jq tidy xmlstarlet postgresql community-mysql iptables procps-ng util-linux siege java-latest-openjdk-devel findutils npm && dnf clean all
 
 ADD loop.sh /usr/bin/loop.sh
 

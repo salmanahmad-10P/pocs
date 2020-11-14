@@ -15,9 +15,9 @@ RECORDINGS=/u02/redhat/recordings
 THUNDERBIRD_HOME=/u02/thunderbird
 
 REMOTE_USER=jbride
-REMOTE_IP=localhost
-#RSYNC_PATH="/run/media/jbride/_u03"
-RSYNC_PATH="/external"
+REMOTE_IP=poweredge
+#RSYNC_PATH="/external"
+RSYNC_PATH="jbride@$REMOTE_IP:/u02/backup"
 
 # simple-mtpfs $HOME/phone
 # sudo umount $HOME/phone
@@ -39,7 +39,6 @@ syncLocalFromBackup() {
 syncBackupJbrideFromLocal() {
     cd $HOME    
     echo " ***** now synching in : $RSYNC_PATH with $HOME"    
-#    rsync -trv . \
     rsync -trv --delete . \
                --include=./My\ Kindle\ Content \
                --include=.ssh \
