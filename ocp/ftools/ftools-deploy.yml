@@ -9,6 +9,23 @@ kind: List
 apiVersion: v1
 items:
 
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: responder-service
+    labels:
+      app: ftools
+  spec:
+    ports:
+      - name: http
+        port: 8080
+        protocol: TCP
+        targetPort: 8080
+    selector:
+      name: ftools
+    sessionAffinity: None
+    type: ClusterIP
+
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
@@ -42,19 +59,31 @@ items:
           name: ftools
       spec:
         containers:
-        - env: 
-          imagePullPolicy: IfNotPresent
-          name: ftools
-          volumeMounts:
-          - name: ftools-data
-            mountPath: "/opt"
-          resources:
-            limits:
-              cpu: 3000m
-              memory: 1024Mi
-            requests:
-              cpu: 300m
-              memory: 64Mi
+          - env: 
+            - name: JAVA_OPTIONS
+              value: >
+                -Dvertx.metrics.options.enabled=true -Dvertx.metrics.options.registryName=prometheus -Dquarkus.kubernetes-config.enabled=true -Dquarkus.kubernetes-config.config-maps=responder-service
+            ports:
+              - containerPort: 8080
+                name: http
+                protocol: TCP
+              - containerPort: 5005
+                name: debug
+                protocol: TCP
+            imagePullPolicy: IfNotPresent
+            name: ftools
+            volumeMounts:
+            - name: ftools-data
+              mountPath: "/build"
+            resources:
+              limits:
+                cpu: 3000m
+                memory: 1024Mi
+              requests:
+                cpu: 300m
+                memory: 64Mi
+        serviceAccount: responder-service
+        serviceAccountName: responder-service
         volumes:
         - name: "ftools-data"
           persistentVolumeClaim:
@@ -69,7 +98,7 @@ items:
             - ftools
           from:
             kind: ImageStreamTag
-            name: "ftools:2.15"
+            name: "fedoratools:2.16"
             namespace: user1-er-demo
         type: ImageChange
 
