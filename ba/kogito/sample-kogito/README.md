@@ -1,4 +1,4 @@
-# org.kie.kogito.kogito-quarkus-archetype - 0.10.1 #
+# org.kie.kogito.kogito-quarkus-archetype - 0.17.0 #
 
 # Running
 

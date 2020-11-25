@@ -3,14 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.acme</groupId>
   <artifactId>sample-kogito</artifactId>
-  <version>1.0</version>
+  <version>0.0.1</version>
 
   <description>Generated project sample-kogito</description>
 
   <properties>
-    <quarkus.version>1.4.1.Final</quarkus.version>
-    <kogito.version>0.10.1</kogito.version>
-    <surefire.version>2.22.1</surefire.version>
+    <quarkus.version>1.8.0.Final</quarkus.version>
+    <kogito.version>0.17.0</kogito.version>
+    <surefire.version>2.22.2</surefire.version>
     <compiler.version>3.8.1</compiler.version>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -81,7 +81,7 @@
       <plugin>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
-        <version>1.4.1.Final</version>
+        <version>${quarkus.version}</version>
         <executions>
           <execution>
             <goals>
