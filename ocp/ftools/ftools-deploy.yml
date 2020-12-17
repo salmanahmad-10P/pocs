@@ -12,7 +12,7 @@ items:
 - apiVersion: v1
   kind: Service
   metadata:
-    name: responder-service
+    name: ftools-service
     labels:
       app: ftools
   spec:
@@ -62,7 +62,7 @@ items:
           - env: 
             - name: JAVA_OPTIONS
               value: >
-                -Dvertx.metrics.options.enabled=true -Dvertx.metrics.options.registryName=prometheus -Dquarkus.kubernetes-config.enabled=true -Dquarkus.kubernetes-config.config-maps=responder-service
+                -Dvertx.metrics.options.enabled=true -Dvertx.metrics.options.registryName=prometheus -Dquarkus.kubernetes-config.enabled=true -Dquarkus.kubernetes-config.config-maps=emergency-console-config
             ports:
               - containerPort: 8080
                 name: http
@@ -82,8 +82,8 @@ items:
               requests:
                 cpu: 300m
                 memory: 64Mi
-        serviceAccount: responder-service
-        serviceAccountName: responder-service
+        serviceAccount: ftools-service
+        serviceAccountName: ftools-service
         volumes:
         - name: "ftools-data"
           persistentVolumeClaim:
