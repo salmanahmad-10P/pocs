@@ -60,9 +60,11 @@ items:
       spec:
         containers:
           - env: 
+            - name: M2_MIRROR_URL
+              value: {{ m2_mirror_url }}
             - name: JAVA_OPTIONS
               value: >
-                -Dvertx.metrics.options.enabled=true -Dvertx.metrics.options.registryName=prometheus -Dquarkus.kubernetes-config.enabled=true -Dquarkus.kubernetes-config.config-maps=emergency-console-config
+                -Dvertx.metrics.options.enabled=true -Dvertx.metrics.options.registryName=prometheus -Dquarkus.kubernetes-config.enabled=true -Dquarkus.kubernetes-config.config-maps={{ configmap_name }}
             ports:
               - containerPort: 8080
                 name: http
@@ -82,8 +84,8 @@ items:
               requests:
                 cpu: 300m
                 memory: 64Mi
-        serviceAccount: ftools-service
-        serviceAccountName: ftools-service
+        serviceAccount: {{ sa_name }}
+        serviceAccountName: {{ sa_name }}
         volumes:
         - name: "ftools-data"
           persistentVolumeClaim:
