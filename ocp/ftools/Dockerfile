@@ -5,6 +5,9 @@ ENV JAVA_HOME /etc/alternatives/java_sdk
 ENV M2_MIRROR_URL http:\/\/nexus.user1-tools-erd:8081\/content\/groups\/public
 #ENV M2_MIRROR_URL http:\/\/localhost:8085\/repository\/maven-rht'
 
+# Set location of local npm cache to a directory with write permissions when working in OpenShift
+ENV npm_config_cache=/build/.npm-global
+
 # Executes a command in a new layer and creates a new image
 RUN dnf install -y httpie mycli python3-pip which iproute iputils telnet net-tools lsof bind-utils nmap-ncat curl wget git swaks podman skopeo speedtest-cli jq tidy xmlstarlet postgresql community-mysql iptables procps-ng util-linux siege java-latest-openjdk-devel findutils npm && dnf clean all
 

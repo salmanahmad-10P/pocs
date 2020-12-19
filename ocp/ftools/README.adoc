@@ -1,30 +1,24 @@
-== Build and Push:
+= Fedora Container Tools Dev Env
 
------
-$ podman build --rm -t quay.io/rhtgptetraining/fedoratools:2.16 .
------
+== Purpose
+Create a linux container with all needed tools for Java and Javascript testing and troubleshooting.
 
------
-$ podman login quay.io -u rhtgptetraining
-$ podman push quay.io/rhtgptetraining/fedoratools:2.16
+In an OpenShift environment, the following directory is writable: /build
 
-$ skopeo inspect docker://quay.io/rhtgptetraining/fedoratools:2.16            # View details of the image in the remote docker registry
------
+== Deployment
 
-== Execution:
-
-. podman
+. Option 1: podman
 +
 -----
-$ podman run --rm -d --name=ftools quay.io/rhtgptetraining/fedoratools:2.16
+$ podman run --rm -d --name=ftools quay.io/rhtgptetraining/fedoratools:2.17
 $ podman exec -it ftools /bin/bash
 -----
 
-. OpenShift
+. Option 2: OpenShift
 +
 
 -----
-$ oc tag --source=docker quay.io/rhtgptetraining/fedoratools:2.16 fedoratools:2.16                                                        :   create image stream
+$ oc tag --source=docker quay.io/rhtgptetraining/fedoratools:2.17 fedoratools:2.17                                                        :   create image stream
 $ cm_name=emergency-console-config \
       && sa_name=emergency-console \
       && M2_MIRROR_URL='http:\/\/nexus.er-tools:8081\/content\/groups\/public' \
@@ -33,27 +27,54 @@ $ cm_name=emergency-console-config \
       | sed -e "s/{{ configmap_name }}/$cm_name/g" \
       | sed -e "s/{{ sa_name }}/$sa_name/g" \
       | oc create -f -                                                                                                                    :   createa a deployment, service and pvc
+
+$ oc rsh <pod id>                                                                                                                         :     rsh into pod
 -----
 
 == Utilize
 
-. rsh into pod
+. change directories into /build directory 
 +
 -----
+$ cd /build 
 -----
 
-. change directories into /build directory and build a maven project
+. Clone and build a maven based java project
 +
 -----
-$ cd /build && git clone test.git && cd test
-$ mvn -s /settings clean package -DskipTests
+$ git clone test_maven.git && cd test_maven
+$ mvn -s /settings clean package -DskipTests                                # Notice the use of /settings.xml (which defines the following:  <localRepository>/build/maven</localRepository>)
+-----
+
+. Clone and build a javascript project
++
+-----
+$ git clone test_node.git && cd test_node
+$ echo $npm_config_cache/
+
+  /build/.npm-global/                                                       # Notice that $npm_config_cach env var is set to dictate location of locally installed node packages
+
+$ npm install                                                               
+-----
+
+== Container Development
+
+-----
+$ podman build --rm -t quay.io/rhtgptetraining/fedoratools:2.17 .
+-----
+
+-----
+$ podman login quay.io -u rhtgptetraining
+$ podman push quay.io/rhtgptetraining/fedoratools:2.17
+
+$ skopeo inspect docker://quay.io/rhtgptetraining/fedoratools:2.17            # View details of the image in the remote docker registry
 -----
 
 == Other
 
 #   sidecar
 #       dc_name=rhpam-kieserver
-#       oc patch dc/$dc_name --type=json -p "[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/1\", \"value\": { \"name\": \"ftools\", \"image\": \"quay.io/rhtgptetraining/fedoratools:2.16\", \"imagePullPolicy\": \"Always\", \"resources\": { \"limits\": {\"cpu\": \"100m\",\"memory\": \"256Mi\"}} }}]"
+#       oc patch dc/$dc_name --type=json -p "[{\"op\": \"add\", \"path\": \"/spec/template/spec/containers/1\", \"value\": { \"name\": \"ftools\", \"image\": \"quay.io/rhtgptetraining/fedoratools:2.17\", \"imagePullPolicy\": \"Always\", \"resources\": { \"limits\": {\"cpu\": \"100m\",\"memory\": \"256Mi\"}} }}]"
 
 . Execution: Istio enabled
 +
