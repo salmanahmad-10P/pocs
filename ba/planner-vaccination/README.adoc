@@ -1,0 +1,10 @@
+-----
+$ oc tag --source=docker quay.io/jbride/optaplanner-quarkus-vaccination-scheduler-quickstart p-vaccination:jbride-1.0.0
+-----
+
+-----
+$ sa_name=default \
+      && cat planner-vaccination-deploy.yml \
+      | sed -e "s/{{ sa_name }}/$sa_name/g" \
+      | oc create -f -
+-----

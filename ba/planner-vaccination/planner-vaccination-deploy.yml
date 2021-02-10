@@ -1,0 +1,76 @@
+kind: List
+apiVersion: v1
+items:
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: p-vaccination-service
+    labels:
+      app: p-vaccination
+  spec:
+    ports:
+      - name: http
+        port: 8080
+        protocol: TCP
+        targetPort: 8080
+    selector:
+      name: p-vaccination
+    sessionAffinity: None
+    type: ClusterIP
+
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    name: p-vaccination
+    labels:
+      app: p-vaccination
+  spec:
+    selector:
+      matchLabels:
+        deployment: p-vaccination
+    paused: false
+    replicas: 1
+    strategy:
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          name: p-vaccination
+      spec:
+        containers:
+          - env: 
+            - name: JAVA_OPTIONS
+              value: >
+                -Dvertx.metrics.options.enabled=true -Dvertx.metrics.options.registryName=prometheus
+            ports:
+              - containerPort: 8080
+                name: http
+                protocol: TCP
+              - containerPort: 5005
+                name: debug
+                protocol: TCP
+            imagePullPolicy: IfNotPresent
+            name: p-vaccination
+            resources:
+              limits:
+                cpu: 2000m
+                memory: 2048Mi
+              requests:
+                cpu: 300m
+                memory: 64Mi
+        serviceAccount: {{ sa_name }}
+        serviceAccountName: {{ sa_name }}
+    selector:
+      name: p-vaccination
+    triggers:
+      - type: ConfigChange
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+            - p-vaccination
+          from:
+            kind: ImageStreamTag
+            name: "p-vaccination:jbride-1.0.0"
+        type: ImageChange
+
