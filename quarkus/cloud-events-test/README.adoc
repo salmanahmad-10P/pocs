@@ -1,0 +1,4 @@
+1. Start kafka (using community strimzi containers)
+   `````
+   $ podman-compose -f etc/docker-compose.yaml up -d
+   `````

@@ -181,13 +181,13 @@ syncDroidFromLocal() {
         exit 1;    
     fi    
 
-    cd $AUDIO_HOME/faith    
-    echo " ***** now synching from $AUDIO_HOME to  $RSYNC_DROID_PATH/audio/faith"    
-    rsync -trv --delete . $RSYNC_DROID_PATH/audio/faith
-    rsyncReturnCode=$?    
-    if [ $rsyncReturnCode -ne 0 ];then    
-        exit 1;    
-    fi    
+#    cd $AUDIO_HOME/faith    
+#    echo " ***** now synching from $AUDIO_HOME to  $RSYNC_DROID_PATH/audio/faith"    
+#    rsync -trv --delete . $RSYNC_DROID_PATH/audio/faith
+#    rsyncReturnCode=$?    
+#    if [ $rsyncReturnCode -ne 0 ];then    
+#        exit 1;    
+#    fi    
 }
 
 syncLocalFromDroid() {

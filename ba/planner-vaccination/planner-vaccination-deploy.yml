@@ -71,6 +71,6 @@ items:
             - p-vaccination
           from:
             kind: ImageStreamTag
-            name: "p-vaccination:jbride-1.0.0"
+            name: "p-vaccination:{{ tag_name }}"
         type: ImageChange
 
