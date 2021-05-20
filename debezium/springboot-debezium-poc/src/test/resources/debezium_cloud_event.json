@@ -1,0 +1,213 @@
+{
+  "id": "name:fhir;lsn:25152424;txId:738",
+  "source": "/debezium/postgresql/fhir",
+  "specversion": "1.0",
+  "type": "io.debezium.postgresql.datachangeevent",
+  "time": "2021-05-20T02:37:38.693Z",
+  "datacontenttype": "application/json",
+  "iodebeziumop": "c",
+  "iodebeziumversion": "1.5.0.Final",
+  "iodebeziumconnector": "postgresql",
+  "iodebeziumname": "fhir",
+  "iodebeziumtsms": "1621478258693",
+  "iodebeziumsnapshot": "false",
+  "iodebeziumdb": "fhir",
+  "iodebeziumsequence": "[null,\"25150984\"]",
+  "iodebeziumschema": "public",
+  "iodebeziumtable": "hfj_res_ver",
+  "iodebeziumtxId": "738",
+  "iodebeziumlsn": "25152424",
+  "iodebeziumxmin": null,
+  "iodebeziumtxid": null,
+  "iodebeziumtxtotalorder": null,
+  "iodebeziumtxdatacollectionorder": null,
+  "data": {
+    "schema": {
+      "type": "struct",
+      "fields": [
+        {
+          "type": "struct",
+          "fields": [
+            {
+              "type": "int64",
+              "optional": false,
+              "field": "pid"
+            },
+            {
+              "type": "int32",
+              "optional": true,
+              "name": "io.debezium.time.Date",
+              "version": 1,
+              "field": "partition_date"
+            },
+            {
+              "type": "int32",
+              "optional": true,
+              "field": "partition_id"
+            },
+            {
+              "type": "int64",
+              "optional": true,
+              "name": "io.debezium.time.MicroTimestamp",
+              "version": 1,
+              "field": "res_deleted_at"
+            },
+            {
+              "type": "string",
+              "optional": true,
+              "field": "res_version"
+            },
+            {
+              "type": "boolean",
+              "optional": false,
+              "field": "has_tags"
+            },
+            {
+              "type": "int64",
+              "optional": false,
+              "name": "io.debezium.time.MicroTimestamp",
+              "version": 1,
+              "field": "res_published"
+            },
+            {
+              "type": "int64",
+              "optional": false,
+              "name": "io.debezium.time.MicroTimestamp",
+              "version": 1,
+              "field": "res_updated"
+            },
+            {
+              "type": "string",
+              "optional": false,
+              "field": "res_encoding"
+            },
+            {
+              "type": "bytes",
+              "optional": true,
+              "field": "res_text"
+            },
+            {
+              "type": "int64",
+              "optional": false,
+              "field": "res_id"
+            },
+            {
+              "type": "string",
+              "optional": false,
+              "field": "res_type"
+            },
+            {
+              "type": "int64",
+              "optional": false,
+              "field": "res_ver"
+            }
+          ],
+          "optional": true,
+          "name": "fhir.public.hfj_res_ver.Value",
+          "field": "before"
+        },
+        {
+          "type": "struct",
+          "fields": [
+            {
+              "type": "int64",
+              "optional": false,
+              "field": "pid"
+            },
+            {
+              "type": "int32",
+              "optional": true,
+              "name": "io.debezium.time.Date",
+              "version": 1,
+              "field": "partition_date"
+            },
+            {
+              "type": "int32",
+              "optional": true,
+              "field": "partition_id"
+            },
+            {
+              "type": "int64",
+              "optional": true,
+              "name": "io.debezium.time.MicroTimestamp",
+              "version": 1,
+              "field": "res_deleted_at"
+            },
+            {
+              "type": "string",
+              "optional": true,
+              "field": "res_version"
+            },
+            {
+              "type": "boolean",
+              "optional": false,
+              "field": "has_tags"
+            },
+            {
+              "type": "int64",
+              "optional": false,
+              "name": "io.debezium.time.MicroTimestamp",
+              "version": 1,
+              "field": "res_published"
+            },
+            {
+              "type": "int64",
+              "optional": false,
+              "name": "io.debezium.time.MicroTimestamp",
+              "version": 1,
+              "field": "res_updated"
+            },
+            {
+              "type": "string",
+              "optional": false,
+              "field": "res_encoding"
+            },
+            {
+              "type": "bytes",
+              "optional": true,
+              "field": "res_text"
+            },
+            {
+              "type": "int64",
+              "optional": false,
+              "field": "res_id"
+            },
+            {
+              "type": "string",
+              "optional": false,
+              "field": "res_type"
+            },
+            {
+              "type": "int64",
+              "optional": false,
+              "field": "res_ver"
+            }
+          ],
+          "optional": true,
+          "name": "fhir.public.hfj_res_ver.Value",
+          "field": "after"
+        }
+      ],
+      "optional": false,
+      "name": "io.debezium.connector.mysql.Data"
+    },
+    "payload": {
+      "before": null,
+      "after": {
+        "pid": 1,
+        "partition_date": null,
+        "partition_id": null,
+        "res_deleted_at": null,
+        "res_version": "R4",
+        "has_tags": false,
+        "res_published": 1621478258509000,
+        "res_updated": 1621478258509000,
+        "res_encoding": "JSONC",
+        "res_text": "H4sIAAAAAAAAAGWNMQ+CQAyF/0tdWWBkc8DN6OBmGMpZkjPQI70eCSH33y0mGoPb63vfe11BKIYkjm7LRFDDpYskM6oPDAW4wIqe6QH1fd2jV6OI1TBvOZQmGEd6oz2OfljMPR3PkNtc/LUbdiGxknz6lYmoqCnagSJ+tre5/TEnocGPnlGWjU3dk5xCvU33JMRu2z2UkAug7/o+riDnF1wLQbn2AAAA",
+        "res_id": 1,
+        "res_type": "Observation",
+        "res_ver": 1
+      }
+    }
+  }
+}

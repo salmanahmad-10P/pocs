@@ -1,0 +1,33 @@
+= kafka-connect-debezium-postgresql
+
+== Purpose
+There is already a Debezium connector image (docker.io/debezium/connect) with the ability for Change Data Capture of a PostgreSQL database.
+However, this connector is not _strimzi_ enabled.
+
+When leveraging AMQ Streams, a Debezium enabled Strimzi image is needed.
+
+This image derived from `registry.redhat.io/amq7/amq-streams-kafka-26-rhel7:1.7.0` and augmented with Debezium PostgreSQL connector bits.
+
+== Usage
+Execute the following to build this image
+
+. Download the `1.5.0.Final` version of the debezium PostgreSQL connector.
++
+-----
+$ wget https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/1.5.0.Final/debezium-connector-postgres-1.5.0.Final-plugin.tar.gz 
+-----
+
+. Extract contents into the `contrib` directory.
+
+. Build the image:
++
+-----
+$ buildah bud -f Dockerfile -t quay.io/redhat_naps_da/strimzi-debezium-postgresql:1.7.0-1.5.0.Final .
+-----
+
+. Push the image:
++
+-----
+$ podman push quay.io/redhat_naps_da/strimzi-debezium-postgresql:1.7.0-1.5.0.Final
+-----
+
