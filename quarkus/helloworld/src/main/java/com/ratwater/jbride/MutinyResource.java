@@ -12,8 +12,8 @@ import io.smallrye.mutiny.Multi;
 
 // https://smallrye.io/smallrye-mutiny/
 
-@Path("/hello")
-public class HelloResource {
+@Path("/mutinyTest")
+public class MutinyResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -28,15 +28,13 @@ public class HelloResource {
         Multi                                                                             // a Multi is an object that emits events (aka in Reactive lingo:  Publisher)
             .createFrom()
             .items(new House("\nwazee"), new House("\nben moore"), new House("\ncomo"))   // emit three items
-            .onItem()                                                                     // process the item events from upstream
-            .apply(house -> house.getName())                                              // invoke function on each item
-            .subscribe().with(onItem -> System.out.println(onItem));              // items published to final consume: subscriber
+            .subscribe().with(onItem -> System.out.println(onItem.getName()));            // items published to final consumer: subscriber
 
         Multi
             .createFrom()
             .items("\n\njeff", "\njessica")
             .subscribe().with(System.out::print);
-        return "hello";
+        return "hello Mutiny";
     }
 }
 
@@ -47,11 +45,11 @@ class House {
         name = x;
     }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 }
