@@ -1,0 +1,95 @@
+# podman-compose -f etc/docker-compose.yaml up -p erdemo-infra -d 
+
+
+version: '3.7'
+
+services:
+
+  zookeeper:
+    image: quay.io/strimzi/kafka:latest-kafka-2.6.0
+    command: [
+      "sh", "-c",
+      "bin/zookeeper-server-start.sh config/zookeeper.properties"
+    ]
+    ports:
+      - "2181:2181"
+    environment:
+      LOG_DIR: /tmp/logs
+
+# https://github.com/pubnub/kafka-bridge/blob/master/kafka/plain/docker-compose.yaml
+#   Allows for kafka client that is external to the container network (ie: on the host) to connect to Kafka and consume messages
+#   NOTE: via this configuration, kafka is available to external clients on port: 9094
+  kafka:
+    image: quay.io/strimzi/kafka:latest-kafka-2.6.0
+    command: [
+      "sh", "-c",
+      "bin/kafka-server-start.sh config/server.properties --override listeners=INSIDE://:9092,OUTSIDE://:9094 --override listener.security.protocol.map=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT --override advertised.listeners=INSIDE://:9092,OUTSIDE://localhost:9094 --override zookeeper.connect=zookeeper:2181 --override inter.broker.listener.name=INSIDE"
+    ]
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9094:9094"
+    environment:
+      LOG_DIR: "/tmp/logs"
+
+  kafka_connect:
+    image: docker.io/debezium/connect:1.5
+    depends_on:
+      - zookeeper
+    ports:
+      - "8083:8083"
+    environment:
+      BOOTSTRAP_SERVERS: localhost:9092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      STATUS_STORAGE_TOPIC: my_connect_statuses
+
+  kafdrop:
+    image: docker.io/obsidiandynamics/kafdrop:3.27.0
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "localhost:9092"
+      JVM_OPTS: "-Xms32M -Xmx64M"
+      SERVER_SERVLET_CONTEXTPATH: "/"
+    depends_on:
+      - kafka
+
+  psql_fhir:
+    image: registry.redhat.io/rhel8/postgresql-12
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRESQL_USER: fhir
+      POSTGRESQL_PASSWORD: fhir
+      POSTGRESQL_DATABASE: fhir
+      POSTGRESQL_MAX_PREPARED_TRANSACTIONS: 10
+    volumes:
+      # https://github.com/sclorg/postgresql-container/tree/generated/12
+      - type: bind
+        source: ./hapi-fhir/hapi-psql-wal.conf
+        target: /opt/app-root/src/postgresql-cfg/hapi-psql-wal.conf
+      - type: bind
+        source: ./hapi-fhir/hapi-psql-wal.sh
+        target: /opt/app-root/src/postgresql-start/hapi-psql-wal.sh
+
+  hapi_fhir:
+    image: quay.io/redhat_naps_da/hapi-fhir-jpaserver-starter-ocp:v5.3.0-psql-bytea-1
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      JAVA_MAX_MEM_RATIO: '60'
+      JAVA_INITIAL_MEM_RATIO: '0'
+      GC_MAX_METASPACE_SIZE: '500'
+      SPRING_CONFIG_LOCATION: "file:///deployments/config/application.yaml"
+    volumes:
+      - type: bind
+        source: ./hapi-fhir/application.yaml
+        target: /deployments/config/application.yaml
+    depends_on:
+      - psql_fhir
