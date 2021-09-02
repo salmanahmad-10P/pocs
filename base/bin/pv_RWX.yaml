@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {PV_NAME}
+spec:
+  capacity:
+    storage: 10Gi 
+  accessModes:
+  - ReadWriteMany
+  nfs: 
+    path: /u0{MAJOR_DISK}/{DIR_NAME}
+    server: {NFS_HOST}
+  persistentVolumeReclaimPolicy: Retain

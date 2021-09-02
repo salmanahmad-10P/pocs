@@ -44,7 +44,7 @@ function create() {
       PV_NAME=pvu0$lowercase$MINOR_DISK
 
       # https://docs.openshift.com/container-platform/4.4/storage/persistent_storage/persistent-storage-nfs.html
-      cat $SCRIPT_DIR/pv.yaml | sed "s/{PV_NAME}/$PV_NAME/g" | sed "s/{NFS_HOST}/$NFS_HOST/g" | sed "s/{MAJOR_DISK}/$MAJOR_DISK/g" | sed "s/{DIR_NAME}/$DIR_NAME/g"| oc create -f -
+      cat $SCRIPT_DIR/$1 | sed "s/{PV_NAME}/$PV_NAME/g" | sed "s/{NFS_HOST}/$NFS_HOST/g" | sed "s/{MAJOR_DISK}/$MAJOR_DISK/g" | sed "s/{DIR_NAME}/$DIR_NAME/g"| oc create -f -
       chmod -R 777 /u0$MAJOR_DISK/$DIR_NAME
 }
 
@@ -64,6 +64,13 @@ function refresh() {
 
       for ((MINOR_DISK=10;MINOR_DISK<=$MAX_PV_ID;MINOR_DISK++)); do 
 
+        # The last partition of each disk will be RWX (all others will be RWO )
+        pv_file=pv_RWO.yaml
+        if [ $MINOR_DISK -eq $MAX_PV_ID ]
+        then
+          pv_file=pv_RWX.yaml
+        fi
+
         # Create PV
         DIR_NAME=u0$MAJOR_DISK$MINOR_DISK
         lowercase="${MAJOR_DISK,,}"
@@ -75,10 +82,10 @@ function refresh() {
               oc delete pv $PV_NAME
               absolute_path=/u0$MAJOR_DISK/$DIR_NAME
               rm -rf $absolute_path/*
-              cat $SCRIPT_DIR/pv.yaml | sed "s/{PV_NAME}/$PV_NAME/g" | sed "s/{NFS_HOST}/$NFS_HOST/g" | sed "s/{MAJOR_DISK}/$MAJOR_DISK/g" | sed "s/{DIR_NAME}/$DIR_NAME/g"| oc create -f -
+              cat $SCRIPT_DIR/$pv_file | sed "s/{PV_NAME}/$PV_NAME/g" | sed "s/{NFS_HOST}/$NFS_HOST/g" | sed "s/{MAJOR_DISK}/$MAJOR_DISK/g" | sed "s/{DIR_NAME}/$DIR_NAME/g"| oc create -f -
             fi
         else
-	    create
+	    create $pv_file
             echo -en "refresh() the following PV is now created: $PV_NAME  .\n\n"
         fi
       done
